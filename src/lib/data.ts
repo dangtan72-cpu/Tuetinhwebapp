@@ -5,6 +5,7 @@ export type Program = {
   duration: string;
   summary: string;
   highlights: string[];
+  image: string;
 };
 
 export type NewsItem = {
@@ -13,6 +14,7 @@ export type NewsItem = {
   date: string;
   category: string;
   excerpt: string;
+  image: string;
 };
 
 export type ScheduleItem = {
@@ -51,6 +53,11 @@ export const school = {
   address: "Hà Nội, Việt Nam",
   facebook: "https://www.facebook.com/YDuocTueTinhHaNoi",
   youtube: "http://www.youtube.com/@yduoctuetinhhanoi",
+  logo: "/brand/logo.webp",
+  logoIcon: "/brand/logo-icon.png",
+  heroImage: "/gallery/campus-1.webp",
+  aboutImage: "/gallery/campus-2.webp",
+  admissionsImage: "/gallery/admissions-banner.webp",
 };
 
 export const programs: Program[] = [
@@ -62,6 +69,7 @@ export const programs: Program[] = [
     summary:
       "Đào tạo y sĩ YHCT với nền tảng lý luận, chẩn trị và thực hành lâm sàng Đông y.",
     highlights: ["Châm cứu", "Bào chế đông dược", "Thực tập cơ sở"],
+    image: "/gallery/career-yhct.webp",
   },
   {
     slug: "dieu-duong",
@@ -71,6 +79,7 @@ export const programs: Program[] = [
     summary:
       "Chương trình điều dưỡng gắn với chăm sóc toàn diện và kỹ năng thực hành lâm sàng.",
     highlights: ["Chăm sóc lâm sàng", "Đạo đức nghề", "Thực tập bệnh viện"],
+    image: "/gallery/program-me-be.webp",
   },
   {
     slug: "ky-thuat-cham-cuu",
@@ -80,6 +89,7 @@ export const programs: Program[] = [
     summary:
       "Tập trung kỹ thuật châm cứu, an toàn thực hành và ứng dụng điều trị thường gặp.",
     highlights: ["Thực hành huyệt", "An toàn kỹ thuật", "Ca lâm sàng"],
+    image: "/gallery/activity-cham-cuu.webp",
   },
   {
     slug: "xoa-bop-bam-huyet",
@@ -89,6 +99,7 @@ export const programs: Program[] = [
     summary:
       "Phương pháp trị liệu bằng tay, phục hồi chức năng và chăm sóc sức khỏe cộng đồng.",
     highlights: ["Kỹ thuật bấm huyệt", "PHCN", "Hướng nghiệp"],
+    image: "/gallery/program-xoa-bop.webp",
   },
   {
     slug: "bao-che-dong-duoc",
@@ -98,6 +109,7 @@ export const programs: Program[] = [
     summary:
       "Nhận diện dược liệu, bào chế và bảo quản thuốc YHCT theo quy trình chuẩn.",
     highlights: ["Dược liệu", "Bào chế", "Thực tế vườn thuốc"],
+    image: "/gallery/activity-dong-duoc.webp",
   },
   {
     slug: "ky-thuat-vltl-phcn",
@@ -107,6 +119,7 @@ export const programs: Program[] = [
     summary:
       "Vật lý trị liệu và phục hồi chức năng kết hợp kiến thức YHCT ứng dụng.",
     highlights: ["VLTL", "PHCN", "Thực hành lâm sàng"],
+    image: "/gallery/picture4.webp",
   },
 ];
 
@@ -118,6 +131,7 @@ export const news: NewsItem[] = [
     category: "Hoạt động",
     excerpt:
       "Không gian ấm cúng tại trường ghi lại khoảnh khắc gắn kết giữa thầy cô và sinh viên.",
+    image: "/gallery/news-1.webp",
   },
   {
     slug: "ngay-hoi-viec-lam-nguoi-cao-tuoi",
@@ -126,6 +140,7 @@ export const news: NewsItem[] = [
     category: "Cộng đồng",
     excerpt:
       "Nhà trường đồng hành tư vấn sức khỏe và hướng nghiệp cho người cao tuổi tại Hà Nội.",
+    image: "/gallery/campus-extra-7348.webp",
   },
   {
     slug: "lop-k36a1-thao-duoc",
@@ -134,6 +149,7 @@ export const news: NewsItem[] = [
     category: "Đào tạo",
     excerpt:
       "Sinh viên trải nghiệm nhận diện và sử dụng thảo dược qua buổi học thực tế.",
+    image: "/gallery/activity-thao-duoc.webp",
   },
   {
     slug: "thong-bao-tuyen-sinh-2026-2027",
@@ -142,6 +158,26 @@ export const news: NewsItem[] = [
     category: "Tuyển sinh",
     excerpt:
       "Mở đăng ký các mã ngành dài hạn và ngắn hạn cho năm học mới.",
+    image: "/gallery/admissions-banner.webp",
+  },
+];
+
+export const galleryHighlights = [
+  {
+    src: "/gallery/campus-1.webp",
+    alt: "Không gian Trường Trung cấp Y Dược Tuệ Tĩnh Hà Nội",
+  },
+  {
+    src: "/gallery/activity-dong-duoc.webp",
+    alt: "Sinh viên thực tế môn Đông dược – bào chế",
+  },
+  {
+    src: "/gallery/activity-thao-duoc.webp",
+    alt: "Trải nghiệm thực tế tại cơ sở dưỡng sinh và vườn thuốc nam",
+  },
+  {
+    src: "/gallery/campus-extra-7343.webp",
+    alt: "Hoạt động đào tạo tại trường",
   },
 ];
 

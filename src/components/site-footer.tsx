@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { school } from "@/lib/data";
 
@@ -33,7 +34,16 @@ export function SiteFooter() {
     <footer className="mt-auto border-t border-line bg-brand-deep text-white">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
         <div>
-          <p className="font-display text-2xl font-semibold">{school.shortName}</p>
+          <Image
+            src={school.logo}
+            alt={`Logo ${school.shortName}`}
+            width={160}
+            height={120}
+            className="h-14 w-auto rounded-md bg-white/95 object-contain p-1.5"
+          />
+          <p className="font-display mt-4 text-2xl font-semibold">
+            {school.shortName}
+          </p>
           <p className="mt-2 max-w-sm text-[15px] text-white/75">{school.name}</p>
           <p className="mt-4 text-sm text-white/65">{school.tagline}</p>
           <div className="mt-5 space-y-1 text-sm text-white/80">

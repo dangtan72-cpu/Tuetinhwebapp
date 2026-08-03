@@ -1,5 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
-import { news, programs } from "@/lib/data";
+import { news, programs, school } from "@/lib/data";
 
 export const metadata = { title: "Tuyển sinh" };
 
@@ -8,6 +9,23 @@ export default function AdmissionsPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
+      <div className="relative mb-10 h-48 overflow-hidden rounded-2xl sm:h-64">
+        <Image
+          src={school.admissionsImage}
+          alt="Tuyển sinh Tuệ Tĩnh Hà Nội"
+          fill
+          className="object-cover"
+          sizes="100vw"
+          priority
+        />
+        <div className="absolute inset-0 bg-brand-deep/45" />
+        <div className="absolute inset-0 flex items-end p-6">
+          <p className="font-display text-2xl font-semibold text-white sm:text-3xl">
+            Tuyển sinh năm học 2026–2027
+          </p>
+        </div>
+      </div>
+
       <div className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr]">
         <div>
           <p className="text-sm font-medium uppercase tracking-[0.16em] text-accent">

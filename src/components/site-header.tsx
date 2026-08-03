@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { school } from "@/lib/data";
 
@@ -15,9 +16,14 @@ export function SiteHeader() {
     <header className="sticky top-0 z-50 border-b border-line/80 bg-surface/90 backdrop-blur-md">
       <div className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-4 px-4 sm:h-16 sm:px-6">
         <Link href="/" className="group flex min-w-0 items-center gap-3">
-          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand text-sm font-bold text-white shadow-sm transition group-hover:bg-brand-deep">
-            TT
-          </span>
+          <Image
+            src={school.logo}
+            alt={`Logo ${school.shortName}`}
+            width={48}
+            height={36}
+            className="h-9 w-auto object-contain sm:h-10"
+            priority
+          />
           <span className="min-w-0">
             <span className="font-display block truncate text-base font-semibold leading-tight text-brand-deep sm:text-lg">
               {school.shortName}

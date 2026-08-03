@@ -23,6 +23,10 @@ export const metadata: Metadata = {
   },
   description:
     "Cổng thông tin Trường Trung cấp Y Dược Tuệ Tĩnh Hà Nội: tuyển sinh, ngành đào tạo, lịch học và tra cứu văn bằng.",
+  icons: {
+    icon: "/favicon.png",
+    apple: "/brand/logo-icon.png",
+  },
 };
 
 export default function RootLayout({
