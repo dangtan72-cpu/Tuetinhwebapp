@@ -26,8 +26,8 @@ export default async function LoginPage({
           Đăng nhập cổng học vụ
         </h1>
         <p className="mt-3 max-w-md text-muted">
-          Học sinh: lịch học, lớp online, điểm danh. Giảng viên: mở lớp và phòng
-          học Jitsi.
+          Học sinh: lịch học, lớp online, bảng trắng, điểm danh. Giảng viên: mở
+          lớp và phòng LiveKit/Jitsi.
         </p>
         <div className="mt-8 space-y-4 rounded-xl border border-line bg-surface p-5 text-sm text-muted">
           <div>

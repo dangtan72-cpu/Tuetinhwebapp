@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { AttendanceButton } from "@/components/attendance-button";
-import { JitsiRoom } from "@/components/jitsi-room";
+import { ClassroomWhiteboard } from "@/components/classroom-whiteboard";
+import { LiveClassroom } from "@/components/live-classroom";
 import { formatSessionTime, sessionState } from "@/lib/classroom";
 import {
   getClass,
@@ -9,6 +10,7 @@ import {
   hasCheckedIn,
   listAttendance,
 } from "@/lib/classroom-store";
+import { isLiveKitConfigured } from "@/lib/livekit";
 import { getSessionUser } from "@/lib/session";
 
 export default async function SessionRoomPage({
@@ -31,14 +33,26 @@ export default async function SessionRoomPage({
     redirect("/portal/lop-hoc");
   }
 
+  if (
+    user.role === "teacher" &&
+    onlineClass.teacherId !== user.id
+  ) {
+    redirect("/portal/giang-day");
+  }
+
   const state = sessionState(session);
   const checked = await hasCheckedIn(sessionId, user.id);
   const attendance = await listAttendance(sessionId);
+  const livekitEnabled = isLiveKitConfigured();
 
   return (
     <div>
       <Link
-        href={`/portal/lop-hoc/${classId}`}
+        href={
+          user.role === "teacher"
+            ? `/portal/giang-day/${classId}`
+            : `/portal/lop-hoc/${classId}`
+        }
         className="text-sm font-medium text-brand"
       >
         ← Về lớp
@@ -65,11 +79,27 @@ export default async function SessionRoomPage({
 
       <div className="mt-6">
         {state === "ended" ? (
-          <div className="rounded-xl border border-line bg-paper p-5 text-sm text-muted">
-            Buổi học đã kết thúc. Bạn vẫn có thể xem lại tài liệu bên dưới.
+          <div className="space-y-4">
+            <div className="rounded-xl border border-line bg-paper p-5 text-sm text-muted">
+              Buổi học đã kết thúc. Bạn vẫn có thể xem lại bảng trắng và tài liệu.
+            </div>
+            <ClassroomWhiteboard
+              sessionId={sessionId}
+              userId={user.id}
+              userName={user.fullName}
+              canClear={false}
+            />
           </div>
         ) : (
-          <JitsiRoom roomName={session.roomSlug} displayName={user.fullName} />
+          <LiveClassroom
+            roomName={session.roomSlug}
+            displayName={user.fullName}
+            sessionId={sessionId}
+            userId={user.id}
+            userName={user.fullName}
+            canClearBoard={user.role === "teacher"}
+            livekitEnabled={livekitEnabled}
+          />
         )}
       </div>
 
@@ -126,8 +156,9 @@ export default async function SessionRoomPage({
           <section className="rounded-xl border border-line bg-brand-soft/50 p-5 text-sm text-muted">
             <p className="font-medium text-brand-deep">Hướng dẫn</p>
             <ul className="mt-2 list-disc space-y-1 pl-5">
-              <li>Bấm điểm danh khi vào lớp (lưu DB)</li>
-              <li>Cho phép camera/mic để vào phòng Jitsi</li>
+              <li>Bấm điểm danh khi vào lớp</li>
+              <li>Cho phép camera/mic để vào phòng học</li>
+              <li>Dùng bảng trắng để ghi chú / theo bài giảng</li>
             </ul>
           </section>
         )}

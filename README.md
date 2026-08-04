@@ -32,21 +32,30 @@ Mở [http://localhost:3000](http://localhost:3000).
 
 - Marketing / tuyển sinh / tra cứu văn bằng
 - Cổng học sinh & giảng viên
-- **Lớp học online** (Jitsi + điểm danh + tài liệu) — lưu DB
+- **Lớp học online** (LiveKit hoặc Jitsi + bảng trắng + điểm danh + tài liệu)
 - **Hồ sơ tuyển sinh** lưu PostgreSQL
 - **CMS nội dung** (`/portal/cms`): cài đặt trường (logo/ảnh/tagline) + CRUD tin tức
 
+## Phòng học LiveKit + bảng trắng
+
+1. (Tuỳ chọn) Tạo project tại [LiveKit Cloud](https://cloud.livekit.io), điền vào `.env`:
+   - `LIVEKIT_URL` (ví dụ `wss://xxx.livekit.cloud`)
+   - `LIVEKIT_API_KEY` / `LIVEKIT_API_SECRET`
+2. Nếu chưa cấu hình LiveKit → tự dùng **Jitsi** cho video.
+3. **Bảng trắng** luôn bật: nét vẽ đồng bộ qua PostgreSQL (poll ~2s). Giảng viên có nút xóa bảng.
+4. Trong buổi học: chuyển layout **Video + bảng / Chỉ video / Chỉ bảng**.
+
 ## Database (Prisma + PostgreSQL)
 
-Bảng chính: `User`, `OnlineClass`, `Enrollment`, `ClassSession`, `SessionMaterial`, `Attendance`, `AdmissionApplication`, `SiteSettings`, `NewsArticle`
+Bảng chính: `User`, `OnlineClass`, `Enrollment`, `ClassSession` (+ `whiteboardData`), `SessionMaterial`, `Attendance`, `AdmissionApplication`, `SiteSettings`, `NewsArticle`
 
 ## Lộ trình tiếp
 
 1. ~~Database thật~~ ✅
 2. ~~Admin CMS nội dung / ảnh~~ ✅
-3. Phòng học LiveKit/Agora + bảng trắng
+3. ~~Phòng học LiveKit + bảng trắng~~ ✅
 4. Bài tập / nộp bài
 
 ## Stack
 
-Next.js 16 · Prisma 7 · PostgreSQL · Tailwind CSS v4 · Jitsi
+Next.js 16 · Prisma 7 · PostgreSQL · Tailwind CSS v4 · LiveKit · Jitsi
