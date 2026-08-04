@@ -15,11 +15,18 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Thiếu sessionId" }, { status: 400 });
   }
 
-  const record = markAttendance({
+  const record = await markAttendance({
     sessionId: body.sessionId,
     userId: user.id,
     fullName: user.fullName,
   });
 
-  return NextResponse.json({ ok: true, record });
+  return NextResponse.json({
+    ok: true,
+    record: {
+      sessionId: record.sessionId,
+      userId: record.userId,
+      checkedAt: record.checkedAt,
+    },
+  });
 }

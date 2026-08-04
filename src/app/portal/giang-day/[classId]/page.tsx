@@ -14,10 +14,10 @@ export default async function TeacherClassDetailPage({
   if (user.role !== "teacher") redirect("/portal/lop-hoc");
 
   const { classId } = await params;
-  const onlineClass = getClass(classId);
+  const onlineClass = await getClass(classId);
   if (!onlineClass || onlineClass.teacherId !== user.id) notFound();
 
-  const sessions = listSessions(classId);
+  const sessions = await listSessions(classId);
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
   const defaultDate = tomorrow.toISOString().slice(0, 10);

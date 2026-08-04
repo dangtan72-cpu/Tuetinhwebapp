@@ -12,10 +12,15 @@ export async function POST(request: Request) {
   const action = String(form.get("action") ?? "");
 
   if (action === "create-class") {
-    const onlineClass = createClass({
-      name: String(form.get("name") ?? "").trim(),
-      code: String(form.get("code") ?? "").trim(),
-      program: String(form.get("program") ?? "").trim(),
+    const code = String(form.get("code") ?? "").trim();
+    const name = String(form.get("name") ?? "").trim();
+    if (!code || !name) {
+      return NextResponse.redirect(new URL("/portal/giang-day?error=missing", request.url), 303);
+    }
+    const onlineClass = await createClass({
+      name,
+      code,
+      program: String(form.get("program") ?? "").trim() || "Y học cổ truyền",
       description: String(form.get("description") ?? "").trim(),
       teacherId: user.id,
       teacherName: user.fullName,
@@ -34,7 +39,7 @@ export async function POST(request: Request) {
     const endTime = String(form.get("endTime") ?? "09:30");
     const startsAt = new Date(`${date}T${startTime}:00`).toISOString();
     const endsAt = new Date(`${date}T${endTime}:00`).toISOString();
-    createSession({ classId, title, startsAt, endsAt });
+    await createSession({ classId, title, startsAt, endsAt });
     return NextResponse.redirect(
       new URL(`/portal/giang-day/${classId}`, request.url),
       303,

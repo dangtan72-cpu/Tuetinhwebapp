@@ -16,13 +16,16 @@ export default async function PortalHomePage() {
   if (!user) redirect("/dang-nhap");
 
   if (user.role === "teacher") {
-    const classes = listClassesForTeacher(user.id);
+    const classes = await listClassesForTeacher(user.id);
+    const sessionCounts = await Promise.all(
+      classes.map(async (c) => (await listSessions(c.id)).length),
+    );
     return (
       <div>
         <h1 className="font-display text-2xl font-semibold text-brand-deep sm:text-3xl">
           Xin chào, {user.fullName}
         </h1>
-        <p className="mt-1 text-muted">Cổng giảng viên · Lớp học online MVP</p>
+        <p className="mt-1 text-muted">Cổng giảng viên · Dữ liệu PostgreSQL</p>
 
         <div className="mt-8 grid gap-4 sm:grid-cols-2">
           <div className="rounded-xl border border-line bg-brand-soft/50 p-4">
@@ -38,7 +41,7 @@ export default async function PortalHomePage() {
               Tổng buổi học
             </p>
             <p className="mt-1 text-3xl font-semibold text-ink">
-              {classes.reduce((n, c) => n + listSessions(c.id).length, 0)}
+              {sessionCounts.reduce((a, b) => a + b, 0)}
             </p>
           </div>
         </div>
@@ -55,12 +58,17 @@ export default async function PortalHomePage() {
     );
   }
 
-  const classes = listClassesForStudent(user.id);
-  const liveSessions = classes.flatMap((c) =>
-    listSessions(c.id)
-      .filter((s) => sessionState(s) === "live")
-      .map((s) => ({ class: c, session: s })),
-  );
+  const classes = await listClassesForStudent(user.id);
+  const liveSessions = (
+    await Promise.all(
+      classes.map(async (c) => {
+        const sessions = await listSessions(c.id);
+        return sessions
+          .filter((s) => sessionState(s) === "live")
+          .map((s) => ({ class: c, session: s }));
+      }),
+    )
+  ).flat();
 
   const today = demoSchedule.slice(0, 3);
   const gpa =

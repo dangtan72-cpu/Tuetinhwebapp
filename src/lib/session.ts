@@ -1,10 +1,6 @@
 import { cookies } from "next/headers";
-import {
-  AUTH_COOKIE,
-  decodeSession,
-  getUserById,
-  type DemoUser,
-} from "@/lib/auth";
+import { AUTH_COOKIE, decodeSession, type DemoUser } from "@/lib/auth";
+import { getUserById } from "@/lib/users";
 
 export async function getSessionUser(): Promise<DemoUser | null> {
   const jar = await cookies();
@@ -12,5 +8,5 @@ export async function getSessionUser(): Promise<DemoUser | null> {
   if (!token) return null;
   const session = decodeSession(token);
   if (!session) return null;
-  return getUserById(session.userId) ?? null;
+  return getUserById(session.userId);
 }

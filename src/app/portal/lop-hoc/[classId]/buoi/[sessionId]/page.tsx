@@ -20,8 +20,8 @@ export default async function SessionRoomPage({
   if (!user) redirect("/dang-nhap");
 
   const { classId, sessionId } = await params;
-  const onlineClass = getClass(classId);
-  const session = getSession(sessionId);
+  const onlineClass = await getClass(classId);
+  const session = await getSession(sessionId);
   if (!onlineClass || !session || session.classId !== classId) notFound();
 
   if (
@@ -32,8 +32,8 @@ export default async function SessionRoomPage({
   }
 
   const state = sessionState(session);
-  const checked = hasCheckedIn(sessionId, user.id);
-  const attendance = listAttendance(sessionId);
+  const checked = await hasCheckedIn(sessionId, user.id);
+  const attendance = await listAttendance(sessionId);
 
   return (
     <div>
@@ -124,11 +124,10 @@ export default async function SessionRoomPage({
           </section>
         ) : (
           <section className="rounded-xl border border-line bg-brand-soft/50 p-5 text-sm text-muted">
-            <p className="font-medium text-brand-deep">Hướng dẫn MVP</p>
+            <p className="font-medium text-brand-deep">Hướng dẫn</p>
             <ul className="mt-2 list-disc space-y-1 pl-5">
-              <li>Bấm điểm danh khi vào lớp</li>
-              <li>Cho phép camera/mic trên trình duyệt để vào phòng Jitsi</li>
-              <li>Giai đoạn sau: bảng trắng, chia nhóm, bài tập như ClassIn</li>
+              <li>Bấm điểm danh khi vào lớp (lưu DB)</li>
+              <li>Cho phép camera/mic để vào phòng Jitsi</li>
             </ul>
           </section>
         )}

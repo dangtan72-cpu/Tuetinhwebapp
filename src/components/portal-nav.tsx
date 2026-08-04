@@ -13,6 +13,7 @@ export function PortalNav({
       ? [
           { href: "/portal", label: "Tổng quan" },
           { href: "/portal/giang-day", label: "Lớp giảng dạy" },
+          { href: "/portal/ho-so-tuyen-sinh", label: "Hồ sơ tuyển sinh" },
           { href: "/portal/ho-so", label: "Hồ sơ" },
         ]
       : [

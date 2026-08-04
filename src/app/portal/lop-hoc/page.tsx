@@ -14,7 +14,7 @@ export default async function StudentClassesPage() {
   if (!user) redirect("/dang-nhap");
   if (user.role === "teacher") redirect("/portal/giang-day");
 
-  const classes = listClassesForStudent(user.id);
+  const classes = await listClassesForStudent(user.id);
 
   return (
     <div>
@@ -22,7 +22,7 @@ export default async function StudentClassesPage() {
         Lớp học online
       </h1>
       <p className="mt-1 text-muted">
-        MVP lớp ôn online: vào phòng học, điểm danh và xem tài liệu buổi học.
+        Lớp ôn online lưu trên database: vào phòng học, điểm danh và tài liệu.
       </p>
 
       {classes.length === 0 ? (
@@ -31,42 +31,44 @@ export default async function StudentClassesPage() {
         </p>
       ) : (
         <div className="mt-8 space-y-5">
-          {classes.map((c) => {
-            const sessions = listSessions(c.id);
-            const next = sessions.find((s) => sessionState(s) !== "ended");
-            return (
-              <article
-                key={c.id}
-                className="rounded-xl border border-line bg-paper p-5"
-              >
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-                  <div>
-                    <p className="text-xs font-medium uppercase tracking-wide text-accent">
-                      {c.code}
-                    </p>
-                    <h2 className="mt-1 text-lg font-semibold text-ink">
-                      {c.name}
-                    </h2>
-                    <p className="mt-1 text-sm text-muted">
-                      GV: {c.teacherName}
-                    </p>
-                    {next ? (
-                      <p className="mt-2 text-sm text-brand-deep">
-                        Buổi tiếp: {next.title} ·{" "}
-                        {formatSessionTime(next.startsAt)}
+          {await Promise.all(
+            classes.map(async (c) => {
+              const sessions = await listSessions(c.id);
+              const next = sessions.find((s) => sessionState(s) !== "ended");
+              return (
+                <article
+                  key={c.id}
+                  className="rounded-xl border border-line bg-paper p-5"
+                >
+                  <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                    <div>
+                      <p className="text-xs font-medium uppercase tracking-wide text-accent">
+                        {c.code}
                       </p>
-                    ) : null}
+                      <h2 className="mt-1 text-lg font-semibold text-ink">
+                        {c.name}
+                      </h2>
+                      <p className="mt-1 text-sm text-muted">
+                        GV: {c.teacherName}
+                      </p>
+                      {next ? (
+                        <p className="mt-2 text-sm text-brand-deep">
+                          Buổi tiếp: {next.title} ·{" "}
+                          {formatSessionTime(next.startsAt)}
+                        </p>
+                      ) : null}
+                    </div>
+                    <Link
+                      href={`/portal/lop-hoc/${c.id}`}
+                      className="shrink-0 rounded-md bg-brand px-4 py-2 text-sm font-medium text-white hover:bg-brand-deep"
+                    >
+                      Vào lớp
+                    </Link>
                   </div>
-                  <Link
-                    href={`/portal/lop-hoc/${c.id}`}
-                    className="shrink-0 rounded-md bg-brand px-4 py-2 text-sm font-medium text-white hover:bg-brand-deep"
-                  >
-                    Vào lớp
-                  </Link>
-                </div>
-              </article>
-            );
-          })}
+                </article>
+              );
+            }),
+          )}
         </div>
       )}
     </div>

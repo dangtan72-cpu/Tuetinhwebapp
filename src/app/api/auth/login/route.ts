@@ -1,10 +1,6 @@
 import { NextResponse } from "next/server";
-import {
-  AUTH_COOKIE,
-  DEMO_PASSWORD,
-  encodeSession,
-  findUserByLogin,
-} from "@/lib/auth";
+import { AUTH_COOKIE, encodeSession } from "@/lib/auth";
+import { authenticateUser } from "@/lib/users";
 
 export async function POST(request: Request) {
   const form = await request.formData();
@@ -12,8 +8,8 @@ export async function POST(request: Request) {
   const password = String(form.get("password") ?? "");
   const nextPath = String(form.get("next") ?? "/portal");
 
-  const user = findUserByLogin(login);
-  if (!user || password !== DEMO_PASSWORD) {
+  const user = await authenticateUser(login, password);
+  if (!user) {
     const url = new URL("/dang-nhap", request.url);
     url.searchParams.set("error", "Sai tài khoản hoặc mật khẩu.");
     if (nextPath) url.searchParams.set("next", nextPath);

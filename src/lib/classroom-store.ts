@@ -1,129 +1,230 @@
-import {
-  seedClasses,
-  seedSessions,
-  type ClassSession,
-  type OnlineClass,
+import type {
+  ClassSessionView,
+  OnlineClassView,
 } from "@/lib/classroom";
+import { prisma } from "@/lib/db";
 
-type AttendanceRecord = {
-  sessionId: string;
-  userId: string;
-  fullName: string;
-  checkedAt: string;
-};
-
-type Store = {
-  classes: OnlineClass[];
-  sessions: ClassSession[];
-  attendance: AttendanceRecord[];
-};
-
-declare global {
-  var __tuetinhClassroomStore: Store | undefined;
-}
-
-function getStore(): Store {
-  if (!globalThis.__tuetinhClassroomStore) {
-    globalThis.__tuetinhClassroomStore = {
-      classes: structuredClone(seedClasses),
-      sessions: structuredClone(seedSessions),
-      attendance: [],
-    };
-  }
-  return globalThis.__tuetinhClassroomStore;
-}
-
-export function listClassesForStudent(userId: string): OnlineClass[] {
-  return getStore().classes.filter((c) => c.studentIds.includes(userId));
-}
-
-export function listClassesForTeacher(teacherId: string): OnlineClass[] {
-  return getStore().classes.filter((c) => c.teacherId === teacherId);
-}
-
-export function getClass(classId: string): OnlineClass | undefined {
-  return getStore().classes.find((c) => c.id === classId);
-}
-
-export function listSessions(classId: string): ClassSession[] {
-  return getStore()
-    .sessions.filter((s) => s.classId === classId)
-    .sort((a, b) => a.startsAt.localeCompare(b.startsAt));
-}
-
-export function getSession(sessionId: string): ClassSession | undefined {
-  return getStore().sessions.find((s) => s.id === sessionId);
-}
-
-export function markAttendance(input: {
-  sessionId: string;
-  userId: string;
-  fullName: string;
-}): AttendanceRecord {
-  const store = getStore();
-  const existing = store.attendance.find(
-    (a) => a.sessionId === input.sessionId && a.userId === input.userId,
-  );
-  if (existing) return existing;
-
-  const record: AttendanceRecord = {
-    ...input,
-    checkedAt: new Date().toISOString(),
+function mapClass(c: {
+  id: string;
+  code: string;
+  name: string;
+  program: string;
+  description: string;
+  teacherId: string;
+  teacher: { fullName: string };
+  enrollments: { userId: string }[];
+}): OnlineClassView {
+  return {
+    id: c.id,
+    code: c.code,
+    name: c.name,
+    program: c.program,
+    description: c.description,
+    teacherId: c.teacherId,
+    teacherName: c.teacher.fullName,
+    studentIds: c.enrollments.map((e) => e.userId),
   };
-  store.attendance.push(record);
-  return record;
 }
 
-export function listAttendance(sessionId: string): AttendanceRecord[] {
-  return getStore().attendance.filter((a) => a.sessionId === sessionId);
+function mapSession(s: {
+  id: string;
+  classId: string;
+  title: string;
+  startsAt: Date;
+  endsAt: Date;
+  status: "scheduled" | "live" | "ended";
+  roomSlug: string;
+  note: string | null;
+  materials: {
+    id: string;
+    title: string;
+    type: "pdf" | "link" | "video";
+    url: string;
+  }[];
+}): ClassSessionView {
+  return {
+    id: s.id,
+    classId: s.classId,
+    title: s.title,
+    startsAt: s.startsAt.toISOString(),
+    endsAt: s.endsAt.toISOString(),
+    status: s.status,
+    roomSlug: s.roomSlug,
+    note: s.note,
+    materials: s.materials,
+  };
 }
 
-export function hasCheckedIn(sessionId: string, userId: string): boolean {
-  return getStore().attendance.some(
-    (a) => a.sessionId === sessionId && a.userId === userId,
-  );
+export async function listClassesForStudent(
+  userId: string,
+): Promise<OnlineClassView[]> {
+  const rows = await prisma.onlineClass.findMany({
+    where: { enrollments: { some: { userId } } },
+    include: { teacher: true, enrollments: true },
+    orderBy: { createdAt: "desc" },
+  });
+  return rows.map(mapClass);
 }
 
-export function createClass(input: {
+export async function listClassesForTeacher(
+  teacherId: string,
+): Promise<OnlineClassView[]> {
+  const rows = await prisma.onlineClass.findMany({
+    where: { teacherId },
+    include: { teacher: true, enrollments: true },
+    orderBy: { createdAt: "desc" },
+  });
+  return rows.map(mapClass);
+}
+
+export async function getClass(
+  classId: string,
+): Promise<OnlineClassView | null> {
+  const row = await prisma.onlineClass.findUnique({
+    where: { id: classId },
+    include: { teacher: true, enrollments: true },
+  });
+  return row ? mapClass(row) : null;
+}
+
+export async function listSessions(
+  classId: string,
+): Promise<ClassSessionView[]> {
+  const rows = await prisma.classSession.findMany({
+    where: { classId },
+    include: { materials: true },
+    orderBy: { startsAt: "asc" },
+  });
+  return rows.map(mapSession);
+}
+
+export async function getSession(
+  sessionId: string,
+): Promise<ClassSessionView | null> {
+  const row = await prisma.classSession.findUnique({
+    where: { id: sessionId },
+    include: { materials: true },
+  });
+  return row ? mapSession(row) : null;
+}
+
+export async function markAttendance(input: {
+  sessionId: string;
+  userId: string;
+  fullName: string;
+}) {
+  return prisma.attendance.upsert({
+    where: {
+      sessionId_userId: {
+        sessionId: input.sessionId,
+        userId: input.userId,
+      },
+    },
+    create: {
+      sessionId: input.sessionId,
+      userId: input.userId,
+    },
+    update: {},
+    include: { user: true },
+  });
+}
+
+export async function listAttendance(sessionId: string) {
+  const rows = await prisma.attendance.findMany({
+    where: { sessionId },
+    include: { user: true },
+    orderBy: { checkedAt: "asc" },
+  });
+  return rows.map((a) => ({
+    sessionId: a.sessionId,
+    userId: a.userId,
+    fullName: a.user.fullName,
+    checkedAt: a.checkedAt.toISOString(),
+  }));
+}
+
+export async function hasCheckedIn(
+  sessionId: string,
+  userId: string,
+): Promise<boolean> {
+  const row = await prisma.attendance.findUnique({
+    where: { sessionId_userId: { sessionId, userId } },
+  });
+  return Boolean(row);
+}
+
+export async function createClass(input: {
   name: string;
   code: string;
   program: string;
   teacherId: string;
   teacherName: string;
   description: string;
-}): OnlineClass {
-  const store = getStore();
-  const onlineClass: OnlineClass = {
-    id: `c${Date.now()}`,
-    code: input.code,
-    name: input.name,
-    program: input.program,
-    teacherId: input.teacherId,
-    teacherName: input.teacherName,
-    studentIds: ["1"],
-    description: input.description,
-  };
-  store.classes.unshift(onlineClass);
-  return onlineClass;
+}): Promise<OnlineClassView> {
+  // Auto-enroll first student demo if exists (for quick testing)
+  const demoStudent = await prisma.user.findFirst({
+    where: { email: "sv001@tuetinh.edu" },
+  });
+
+  const row = await prisma.onlineClass.create({
+    data: {
+      name: input.name,
+      code: input.code,
+      program: input.program,
+      description: input.description,
+      teacherId: input.teacherId,
+      enrollments: demoStudent
+        ? { create: [{ userId: demoStudent.id }] }
+        : undefined,
+    },
+    include: { teacher: true, enrollments: true },
+  });
+  return mapClass(row);
 }
 
-export function createSession(input: {
+export async function createSession(input: {
   classId: string;
   title: string;
   startsAt: string;
   endsAt: string;
-}): ClassSession {
-  const store = getStore();
-  const session: ClassSession = {
-    id: `s${Date.now()}`,
-    classId: input.classId,
-    title: input.title,
-    startsAt: input.startsAt,
-    endsAt: input.endsAt,
-    status: "scheduled",
-    roomSlug: `TueTinh-${input.classId}-${Date.now()}`,
-    materials: [],
-  };
-  store.sessions.push(session);
-  return session;
+}): Promise<ClassSessionView> {
+  const row = await prisma.classSession.create({
+    data: {
+      classId: input.classId,
+      title: input.title,
+      startsAt: new Date(input.startsAt),
+      endsAt: new Date(input.endsAt),
+      status: "scheduled",
+      roomSlug: `TueTinh-${input.classId.slice(-6)}-${Date.now()}`,
+    },
+    include: { materials: true },
+  });
+  return mapSession(row);
+}
+
+export async function createAdmissionApplication(input: {
+  fullName: string;
+  idNumber: string;
+  phone: string;
+  email: string;
+  education: string;
+  level: string;
+  program: string;
+}) {
+  const refCode = `TT-DK-${new Date().getFullYear()}-${Math.floor(
+    1000 + Math.random() * 9000,
+  )}`;
+  return prisma.admissionApplication.create({
+    data: {
+      refCode,
+      ...input,
+    },
+  });
+}
+
+export async function listAdmissionApplications() {
+  return prisma.admissionApplication.findMany({
+    orderBy: { createdAt: "desc" },
+    take: 50,
+  });
 }

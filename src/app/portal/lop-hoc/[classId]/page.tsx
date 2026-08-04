@@ -13,7 +13,7 @@ export default async function ClassDetailPage({
   if (!user) redirect("/dang-nhap");
 
   const { classId } = await params;
-  const onlineClass = getClass(classId);
+  const onlineClass = await getClass(classId);
   if (!onlineClass) notFound();
   if (
     user.role === "student" &&
@@ -22,7 +22,7 @@ export default async function ClassDetailPage({
     redirect("/portal/lop-hoc");
   }
 
-  const sessions = listSessions(classId);
+  const sessions = await listSessions(classId);
 
   return (
     <div>

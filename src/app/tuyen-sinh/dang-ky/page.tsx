@@ -9,14 +9,39 @@ const educations = ["Tốt nghiệp THPT", "Trung cấp", "CĐ/ĐH", "Khác"];
 export default function ApplyPage() {
   const [submitted, setSubmitted] = useState(false);
   const [refCode, setRefCode] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  function onSubmit(e: FormEvent<HTMLFormElement>) {
+  async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const code = `TT-DK-${new Date().getFullYear()}-${Math.floor(
-      1000 + Math.random() * 9000,
-    )}`;
-    setRefCode(code);
-    setSubmitted(true);
+    setLoading(true);
+    setError("");
+    const form = new FormData(e.currentTarget);
+    try {
+      const res = await fetch("/api/admissions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fullName: form.get("fullName"),
+          idNumber: form.get("idNumber"),
+          phone: form.get("phone"),
+          email: form.get("email"),
+          education: form.get("education"),
+          level: form.get("level"),
+          program: form.get("program"),
+        }),
+      });
+      const data = (await res.json()) as { refCode?: string; error?: string };
+      if (!res.ok || !data.refCode) {
+        throw new Error(data.error || "Không gửi được hồ sơ");
+      }
+      setRefCode(data.refCode);
+      setSubmitted(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Lỗi gửi hồ sơ");
+    } finally {
+      setLoading(false);
+    }
   }
 
   if (submitted) {
@@ -33,8 +58,7 @@ export default function ApplyPage() {
           <span className="font-semibold text-brand-deep">{refCode}</span>
         </p>
         <p className="mt-2 text-sm text-muted">
-          (Demo) Hồ sơ lưu tạm trên trình duyệt. Bước tiếp theo sẽ kết nối
-          database & email xác nhận.
+          Hồ sơ đã lưu vào database. Nhà trường sẽ liên hệ xác nhận.
         </p>
         <a
           href="/tuyen-sinh"
@@ -62,6 +86,11 @@ export default function ApplyPage() {
         onSubmit={onSubmit}
         className="mt-8 space-y-6 rounded-2xl border border-line bg-surface p-6 sm:p-8"
       >
+        {error ? (
+          <p className="rounded-md bg-accent-soft px-3 py-2 text-sm text-accent">
+            {error}
+          </p>
+        ) : null}
         <fieldset className="space-y-4">
           <legend className="text-sm font-semibold uppercase tracking-wide text-muted">
             Thông tin cá nhân
@@ -147,9 +176,10 @@ export default function ApplyPage() {
 
         <button
           type="submit"
-          className="w-full rounded-md bg-accent px-4 py-3 text-sm font-semibold text-white hover:brightness-95 sm:w-auto sm:px-8"
+          disabled={loading}
+          className="w-full rounded-md bg-accent px-4 py-3 text-sm font-semibold text-white hover:brightness-95 disabled:opacity-60 sm:w-auto sm:px-8"
         >
-          Gửi hồ sơ đăng ký
+          {loading ? "Đang gửi…" : "Gửi hồ sơ đăng ký"}
         </button>
       </form>
     </div>

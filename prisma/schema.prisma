@@ -1,0 +1,130 @@
+// Prisma schema — Tuệ Tĩnh webapp
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  student
+  teacher
+}
+
+enum SessionStatus {
+  scheduled
+  live
+  ended
+}
+
+enum MaterialType {
+  pdf
+  link
+  video
+}
+
+enum AdmissionStatus {
+  pending
+  contacted
+  accepted
+  rejected
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  studentId    String   @unique
+  passwordHash String
+  fullName     String
+  program      String
+  className    String
+  cohort       String
+  role         Role     @default(student)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  teachingClasses OnlineClass[] @relation("TeacherClasses")
+  enrollments     Enrollment[]
+  attendance      Attendance[]
+}
+
+model OnlineClass {
+  id          String   @id @default(cuid())
+  code        String   @unique
+  name        String
+  program     String
+  description String   @default("")
+  teacherId   String
+  teacher     User     @relation("TeacherClasses", fields: [teacherId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  enrollments Enrollment[]
+  sessions    ClassSession[]
+}
+
+model Enrollment {
+  id        String      @id @default(cuid())
+  classId   String
+  userId    String
+  class     OnlineClass @relation(fields: [classId], references: [id], onDelete: Cascade)
+  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime    @default(now())
+
+  @@unique([classId, userId])
+}
+
+model ClassSession {
+  id        String        @id @default(cuid())
+  classId   String
+  class     OnlineClass   @relation(fields: [classId], references: [id], onDelete: Cascade)
+  title     String
+  startsAt  DateTime
+  endsAt    DateTime
+  status    SessionStatus @default(scheduled)
+  roomSlug  String
+  note      String?
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  materials  SessionMaterial[]
+  attendance Attendance[]
+}
+
+model SessionMaterial {
+  id        String       @id @default(cuid())
+  sessionId String
+  session   ClassSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  title     String
+  type      MaterialType
+  url       String
+}
+
+model Attendance {
+  id        String       @id @default(cuid())
+  sessionId String
+  userId    String
+  session   ClassSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  checkedAt DateTime     @default(now())
+
+  @@unique([sessionId, userId])
+}
+
+model AdmissionApplication {
+  id         String          @id @default(cuid())
+  refCode    String          @unique
+  fullName   String
+  idNumber   String
+  phone      String
+  email      String
+  education  String
+  level      String
+  program    String
+  status     AdmissionStatus @default(pending)
+  createdAt  DateTime        @default(now())
+  updatedAt  DateTime        @updatedAt
+}
