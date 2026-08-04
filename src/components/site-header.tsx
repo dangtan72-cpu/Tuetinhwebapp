@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { school } from "@/lib/data";
+import { getSchoolSettings } from "@/lib/cms";
 
 const nav = [
   { href: "/nganh-dao-tao", label: "Ngành đào tạo" },
@@ -11,7 +11,9 @@ const nav = [
   { href: "/lien-he", label: "Liên hệ" },
 ];
 
-export function SiteHeader() {
+export async function SiteHeader() {
+  const school = await getSchoolSettings();
+
   return (
     <header className="sticky top-0 z-50 border-b border-line/80 bg-surface/90 backdrop-blur-md">
       <div className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-4 px-4 sm:h-16 sm:px-6">

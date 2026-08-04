@@ -1,10 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
-import { news, programs, school } from "@/lib/data";
+import { programs } from "@/lib/data";
+import { getSchoolSettings, listPublishedNews } from "@/lib/cms";
+
+export const dynamic = 'force-dynamic';
 
 export const metadata = { title: "Tuyển sinh" };
 
-export default function AdmissionsPage() {
+export default async function AdmissionsPage() {
+  const school = await getSchoolSettings();
+  const news = await listPublishedNews();
   const notices = news.filter((n) => n.category === "Tuyển sinh");
 
   return (
@@ -12,7 +17,7 @@ export default function AdmissionsPage() {
       <div className="relative mb-10 h-48 overflow-hidden rounded-2xl sm:h-64">
         <Image
           src={school.admissionsImage}
-          alt="Tuyển sinh Tuệ Tĩnh Hà Nội"
+          alt={`Tuyển sinh ${school.shortName}`}
           fill
           className="object-cover"
           sizes="100vw"

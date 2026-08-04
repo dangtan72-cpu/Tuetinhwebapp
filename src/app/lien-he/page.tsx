@@ -1,8 +1,12 @@
-import { school } from "@/lib/data";
+import { getSchoolSettings } from "@/lib/cms";
+
+export const dynamic = 'force-dynamic';
 
 export const metadata = { title: "Liên hệ" };
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const school = await getSchoolSettings();
+
   return (
     <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
       <p className="text-sm font-medium uppercase tracking-[0.16em] text-accent">

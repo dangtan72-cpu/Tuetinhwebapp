@@ -1,9 +1,13 @@
 import Image from "next/image";
-import { news } from "@/lib/data";
+import { listPublishedNews } from "@/lib/cms";
+
+export const dynamic = 'force-dynamic';
 
 export const metadata = { title: "Tin tức" };
 
-export default function NewsPage() {
+export default async function NewsPage() {
+  const news = await listPublishedNews();
+
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
       <p className="text-sm font-medium uppercase tracking-[0.16em] text-accent">

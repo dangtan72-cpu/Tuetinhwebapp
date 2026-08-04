@@ -3,13 +3,16 @@ import Link from "next/link";
 import {
   audienceLinks,
   galleryHighlights,
-  news,
   programs,
-  school,
   whyChooseUs,
 } from "@/lib/data";
+import { getSchoolSettings, listPublishedNews } from "@/lib/cms";
 
-export default function HomePage() {
+export const dynamic = 'force-dynamic';
+
+export default async function HomePage() {
+  const school = await getSchoolSettings();
+  const news = await listPublishedNews();
   return (
     <>
       <section className="relative min-h-[78vh] overflow-hidden text-white">

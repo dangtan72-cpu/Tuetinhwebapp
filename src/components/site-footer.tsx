@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { school } from "@/lib/data";
+import { getSchoolSettings } from "@/lib/cms";
 
 const columns = [
   {
@@ -29,7 +29,9 @@ const columns = [
   },
 ];
 
-export function SiteFooter() {
+export async function SiteFooter() {
+  const school = await getSchoolSettings();
+
   return (
     <footer className="mt-auto border-t border-line bg-brand-deep text-white">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-[1.4fr_1fr_1fr_1fr]">

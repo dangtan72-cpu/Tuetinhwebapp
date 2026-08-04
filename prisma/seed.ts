@@ -20,6 +20,8 @@ async function main() {
   await prisma.enrollment.deleteMany();
   await prisma.onlineClass.deleteMany();
   await prisma.admissionApplication.deleteMany();
+  await prisma.newsArticle.deleteMany();
+  await prisma.siteSettings.deleteMany();
   await prisma.user.deleteMany();
 
   const passwordHash = hashPassword("demo1234");
@@ -161,10 +163,78 @@ async function main() {
     },
   });
 
+  await prisma.siteSettings.create({
+    data: {
+      id: "default",
+      name: "Trường Trung cấp Y Dược Tuệ Tĩnh Hà Nội",
+      shortName: "Tuệ Tĩnh Hà Nội",
+      tagline: "Đào tạo nguồn nhân lực y dược cổ truyền vì sức khỏe cộng đồng",
+      phone: "+84 24 3643 5458",
+      email: "daotao@yduoctuetinh.edu.vn",
+      address: "Hà Nội, Việt Nam",
+      facebook: "https://www.facebook.com/YDuocTueTinhHaNoi",
+      youtube: "http://www.youtube.com/@yduoctuetinhhanoi",
+      logoUrl: "/brand/logo.webp",
+      logoIconUrl: "/brand/logo-icon.png",
+      heroImageUrl: "/gallery/campus-1.webp",
+      aboutImageUrl: "/gallery/campus-2.webp",
+      admissionsImageUrl: "/gallery/admissions-banner.webp",
+      aboutText:
+        "Trường Trung cấp Y Dược Tuệ Tĩnh Hà Nội kế thừa tinh thần đào tạo y dược cổ truyền gắn với thực tiễn chăm sóc sức khỏe cộng đồng. Mục tiêu của trường không chỉ truyền đạt kiến thức mà còn rèn luyện tay nghề, đạo đức nghề và năng lực hành nghề.",
+    },
+  });
+
+  await prisma.newsArticle.createMany({
+    data: [
+      {
+        slug: "cau-chuyen-buoi-sang-thang-7",
+        title: "Câu chuyện về một buổi sáng tháng 7 đầy xúc động",
+        category: "Hoạt động",
+        excerpt:
+          "Không gian ấm cúng tại trường ghi lại khoảnh khắc gắn kết giữa thầy cô và sinh viên.",
+        imageUrl: "/gallery/news-1.webp",
+        published: true,
+        publishedAt: new Date("2026-07-26"),
+      },
+      {
+        slug: "ngay-hoi-viec-lam-nguoi-cao-tuoi",
+        title:
+          "Tham gia Ngày hội tư vấn, giới thiệu việc làm cho người cao tuổi 2026",
+        category: "Cộng đồng",
+        excerpt:
+          "Nhà trường đồng hành tư vấn sức khỏe và hướng nghiệp cho người cao tuổi tại Hà Nội.",
+        imageUrl: "/gallery/campus-extra-7348.webp",
+        published: true,
+        publishedAt: new Date("2026-07-20"),
+      },
+      {
+        slug: "lop-k36a1-thao-duoc",
+        title: "Lớp K36A1.2 và hành trình chạm vào thảo dược",
+        category: "Đào tạo",
+        excerpt:
+          "Sinh viên trải nghiệm nhận diện và sử dụng thảo dược qua buổi học thực tế.",
+        imageUrl: "/gallery/activity-thao-duoc.webp",
+        published: true,
+        publishedAt: new Date("2026-07-12"),
+      },
+      {
+        slug: "thong-bao-tuyen-sinh-2026-2027",
+        title: "Thông báo tuyển sinh năm học 2026–2027",
+        category: "Tuyển sinh",
+        excerpt:
+          "Mở đăng ký các mã ngành dài hạn và ngắn hạn cho năm học mới.",
+        imageUrl: "/gallery/admissions-banner.webp",
+        published: true,
+        publishedAt: new Date("2026-06-15"),
+      },
+    ],
+  });
+
   console.log("Seed OK:", {
     students: [student1.email, student2.email],
     teacher: teacher.email,
     classes: [class1.code, class2.code],
+    cms: true,
   });
 }
 

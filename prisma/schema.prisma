@@ -128,3 +128,37 @@ model AdmissionApplication {
   createdAt  DateTime        @default(now())
   updatedAt  DateTime        @updatedAt
 }
+
+model SiteSettings {
+  id               String   @id @default("default")
+  name             String
+  shortName        String
+  tagline          String
+  phone            String
+  email            String
+  address          String
+  facebook         String   @default("")
+  youtube          String   @default("")
+  logoUrl          String
+  logoIconUrl      String
+  heroImageUrl     String
+  aboutImageUrl    String
+  admissionsImageUrl String
+  aboutText        String   @default("")
+  updatedAt        DateTime @updatedAt
+}
+
+model NewsArticle {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  title     String
+  category  String
+  excerpt   String
+  body      String   @default("")
+  imageUrl  String
+  published Boolean  @default(true)
+  publishedAt DateTime @default(now())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+

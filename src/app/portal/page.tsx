@@ -53,6 +53,12 @@ export default async function PortalHomePage() {
           >
             Quản lý lớp giảng dạy
           </Link>
+          <Link
+            href="/portal/cms"
+            className="rounded-md border border-brand/30 px-4 py-2.5 text-sm font-medium text-brand-deep hover:bg-brand-soft"
+          >
+            CMS nội dung
+          </Link>
         </div>
       </div>
     );
