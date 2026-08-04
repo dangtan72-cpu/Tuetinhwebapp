@@ -1,3 +1,5 @@
+export type UserRole = "student" | "teacher";
+
 export type DemoUser = {
   id: string;
   email: string;
@@ -6,6 +8,7 @@ export type DemoUser = {
   program: string;
   className: string;
   cohort: string;
+  role: UserRole;
 };
 
 export const DEMO_PASSWORD = "demo1234";
@@ -19,6 +22,7 @@ export const demoUsers: DemoUser[] = [
     program: "Y học cổ truyền",
     className: "K36A1.2",
     cohort: "2024–2027",
+    role: "student",
   },
   {
     id: "2",
@@ -28,6 +32,17 @@ export const demoUsers: DemoUser[] = [
     program: "Điều dưỡng",
     className: "K35D1",
     cohort: "2024–2026",
+    role: "student",
+  },
+  {
+    id: "t1",
+    email: "gv001@tuetinh.edu",
+    studentId: "GV001",
+    fullName: "ThS. Nguyễn Minh Anh",
+    program: "Y học cổ truyền",
+    className: "Giảng viên",
+    cohort: "—",
+    role: "teacher",
   },
 ];
 

@@ -1,13 +1,6 @@
 import Link from "next/link";
 import type { DemoUser } from "@/lib/auth";
 
-const links = [
-  { href: "/portal", label: "Tổng quan" },
-  { href: "/portal/lich-hoc", label: "Lịch học" },
-  { href: "/portal/diem", label: "Kết quả học tập" },
-  { href: "/portal/ho-so", label: "Hồ sơ" },
-];
-
 export function PortalNav({
   user,
   pathname,
@@ -15,11 +8,26 @@ export function PortalNav({
   user: DemoUser;
   pathname: string;
 }) {
+  const links =
+    user.role === "teacher"
+      ? [
+          { href: "/portal", label: "Tổng quan" },
+          { href: "/portal/giang-day", label: "Lớp giảng dạy" },
+          { href: "/portal/ho-so", label: "Hồ sơ" },
+        ]
+      : [
+          { href: "/portal", label: "Tổng quan" },
+          { href: "/portal/lop-hoc", label: "Lớp học online" },
+          { href: "/portal/lich-hoc", label: "Lịch học" },
+          { href: "/portal/diem", label: "Kết quả học tập" },
+          { href: "/portal/ho-so", label: "Hồ sơ" },
+        ];
+
   return (
     <aside className="border-b border-line bg-surface md:border-b-0 md:border-r">
       <div className="px-4 py-5 sm:px-5">
         <p className="text-xs font-medium uppercase tracking-wider text-muted">
-          Cổng học sinh
+          {user.role === "teacher" ? "Cổng giảng viên" : "Cổng học sinh"}
         </p>
         <p className="mt-1 font-display text-xl font-semibold text-brand-deep">
           {user.fullName}

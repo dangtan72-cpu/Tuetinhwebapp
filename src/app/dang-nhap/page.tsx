@@ -23,23 +23,27 @@ export default async function LoginPage({
           Student Portal
         </p>
         <h1 className="font-display mt-3 text-3xl font-semibold text-brand-deep sm:text-4xl">
-          Đăng nhập cổng học sinh
+          Đăng nhập cổng học vụ
         </h1>
         <p className="mt-3 max-w-md text-muted">
-          Theo dõi lịch học, kết quả học tập và hồ sơ cá nhân. Tài khoản được
-          cấp sau khi nhập học.
+          Học sinh: lịch học, lớp online, điểm danh. Giảng viên: mở lớp và phòng
+          học Jitsi.
         </p>
-        <div className="mt-8 rounded-xl border border-line bg-surface p-5 text-sm text-muted">
-          <p className="font-medium text-ink">Tài khoản demo</p>
-          <p className="mt-2">
-            Email: <code className="text-brand-deep">sv001@tuetinh.edu</code>
-          </p>
-          <p>
-            MSSV: <code className="text-brand-deep">SV2024001</code>
-          </p>
-          <p>
-            Mật khẩu: <code className="text-brand-deep">{DEMO_PASSWORD}</code>
-          </p>
+        <div className="mt-8 space-y-4 rounded-xl border border-line bg-surface p-5 text-sm text-muted">
+          <div>
+            <p className="font-medium text-ink">Học sinh demo</p>
+            <p className="mt-1">
+              <code className="text-brand-deep">sv001@tuetinh.edu</code> /{" "}
+              <code className="text-brand-deep">{DEMO_PASSWORD}</code>
+            </p>
+          </div>
+          <div>
+            <p className="font-medium text-ink">Giảng viên demo</p>
+            <p className="mt-1">
+              <code className="text-brand-deep">gv001@tuetinh.edu</code> /{" "}
+              <code className="text-brand-deep">{DEMO_PASSWORD}</code>
+            </p>
+          </div>
         </div>
       </div>
 

@@ -1,13 +1,66 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import { formatSessionTime, sessionState } from "@/lib/classroom";
+import {
+  listClassesForStudent,
+  listClassesForTeacher,
+  listSessions,
+} from "@/lib/classroom-store";
 import { demoGrades, demoSchedule } from "@/lib/data";
 import { getSessionUser } from "@/lib/session";
-import { redirect } from "next/navigation";
 
-export const metadata = { title: "Cổng học sinh" };
+export const metadata = { title: "Cổng học vụ" };
 
 export default async function PortalHomePage() {
   const user = await getSessionUser();
   if (!user) redirect("/dang-nhap");
+
+  if (user.role === "teacher") {
+    const classes = listClassesForTeacher(user.id);
+    return (
+      <div>
+        <h1 className="font-display text-2xl font-semibold text-brand-deep sm:text-3xl">
+          Xin chào, {user.fullName}
+        </h1>
+        <p className="mt-1 text-muted">Cổng giảng viên · Lớp học online MVP</p>
+
+        <div className="mt-8 grid gap-4 sm:grid-cols-2">
+          <div className="rounded-xl border border-line bg-brand-soft/50 p-4">
+            <p className="text-xs uppercase tracking-wide text-muted">
+              Lớp đang dạy
+            </p>
+            <p className="mt-1 text-3xl font-semibold text-brand-deep">
+              {classes.length}
+            </p>
+          </div>
+          <div className="rounded-xl border border-line bg-paper p-4">
+            <p className="text-xs uppercase tracking-wide text-muted">
+              Tổng buổi học
+            </p>
+            <p className="mt-1 text-3xl font-semibold text-ink">
+              {classes.reduce((n, c) => n + listSessions(c.id).length, 0)}
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-8 flex flex-wrap gap-3">
+          <Link
+            href="/portal/giang-day"
+            className="rounded-md bg-brand px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-deep"
+          >
+            Quản lý lớp giảng dạy
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  const classes = listClassesForStudent(user.id);
+  const liveSessions = classes.flatMap((c) =>
+    listSessions(c.id)
+      .filter((s) => sessionState(s) === "live")
+      .map((s) => ({ class: c, session: s })),
+  );
 
   const today = demoSchedule.slice(0, 3);
   const gpa =
@@ -23,6 +76,33 @@ export default async function PortalHomePage() {
         {user.program} · {user.className} · Khóa {user.cohort}
       </p>
 
+      {liveSessions.length > 0 ? (
+        <div className="mt-6 rounded-xl border border-accent/30 bg-accent-soft p-5">
+          <p className="text-sm font-semibold text-accent">
+            Có buổi học online đang diễn ra
+          </p>
+          {liveSessions.map(({ class: c, session: s }) => (
+            <div
+              key={s.id}
+              className="mt-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between"
+            >
+              <div>
+                <p className="font-medium text-ink">{s.title}</p>
+                <p className="text-sm text-muted">
+                  {c.name} · {formatSessionTime(s.startsAt)}
+                </p>
+              </div>
+              <Link
+                href={`/portal/lop-hoc/${c.id}/buoi/${s.id}`}
+                className="rounded-md bg-accent px-4 py-2 text-sm font-semibold text-white"
+              >
+                Vào phòng học
+              </Link>
+            </div>
+          ))}
+        </div>
+      ) : null}
+
       <div className="mt-8 grid gap-4 sm:grid-cols-3">
         <div className="rounded-xl border border-line bg-brand-soft/50 p-4">
           <p className="text-xs uppercase tracking-wide text-muted">Điểm TB</p>
@@ -32,11 +112,9 @@ export default async function PortalHomePage() {
         </div>
         <div className="rounded-xl border border-line bg-paper p-4">
           <p className="text-xs uppercase tracking-wide text-muted">
-            Buổi học tuần này
+            Lớp online
           </p>
-          <p className="mt-1 text-3xl font-semibold text-ink">
-            {demoSchedule.length}
-          </p>
+          <p className="mt-1 text-3xl font-semibold text-ink">{classes.length}</p>
         </div>
         <div className="rounded-xl border border-line bg-paper p-4">
           <p className="text-xs uppercase tracking-wide text-muted">Học phần</p>
@@ -55,7 +133,10 @@ export default async function PortalHomePage() {
         </div>
         <ul className="mt-4 divide-y divide-line rounded-xl border border-line">
           {today.map((item) => (
-            <li key={item.id} className="flex flex-col gap-1 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+            <li
+              key={item.id}
+              className="flex flex-col gap-1 px-4 py-3 sm:flex-row sm:items-center sm:justify-between"
+            >
               <div>
                 <p className="font-medium text-ink">{item.subject}</p>
                 <p className="text-sm text-muted">
@@ -70,16 +151,16 @@ export default async function PortalHomePage() {
 
       <div className="mt-8 flex flex-wrap gap-3">
         <Link
-          href="/portal/diem"
+          href="/portal/lop-hoc"
           className="rounded-md bg-brand px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-deep"
         >
-          Xem kết quả học tập
+          Lớp học online
         </Link>
         <Link
-          href="/van-bang"
+          href="/portal/diem"
           className="rounded-md border border-line px-4 py-2.5 text-sm font-medium text-ink hover:bg-paper"
         >
-          Tra cứu văn bằng
+          Kết quả học tập
         </Link>
       </div>
     </div>
