@@ -49,9 +49,6 @@ export function ClassroomWhiteboard({
       ctx.lineJoin = "round";
       ctx.lineWidth = stroke.width;
       ctx.strokeStyle = stroke.eraser ? "#f7f4ef" : stroke.color;
-      ctx.globalCompositeOperation = stroke.eraser
-        ? "destination-out"
-        : "source-over";
       stroke.points.forEach(([x, y], i) => {
         const px = x * w;
         const py = y * h;
@@ -60,7 +57,6 @@ export function ClassroomWhiteboard({
       });
       ctx.stroke();
     }
-    ctx.globalCompositeOperation = "source-over";
   }, []);
 
   const mergeRemote = useCallback(
