@@ -34,6 +34,7 @@ Mở [http://localhost:3000](http://localhost:3000).
 - Cổng học sinh & giảng viên
 - **Lớp học online** (LiveKit hoặc Jitsi + bảng trắng + điểm danh + tài liệu)
 - **Bài tập / nộp bài / chấm điểm** (`/portal/bai-tap`)
+- **Tuyển sinh online**: đăng ký → thanh toán lệ phí → tra cứu → GV cấp MSSV
 - **Hồ sơ tuyển sinh** lưu PostgreSQL
 - **CMS nội dung** (`/portal/cms`): cài đặt trường (logo/ảnh/tagline) + CRUD tin tức
 
@@ -56,7 +57,17 @@ Bảng chính: `User`, `OnlineClass`, `Enrollment`, `ClassSession` (+ `whiteboar
 2. ~~Admin CMS nội dung / ảnh~~ ✅
 3. ~~Phòng học LiveKit + bảng trắng~~ ✅
 4. ~~Bài tập / nộp bài~~ ✅
-5. Upload file trực tiếp (thay link Drive) · role admin · deploy production
+5. ~~Thanh toán tuyển sinh + cấp MSSV~~ ✅
+6. Upload file trực tiếp · VNPay production · role admin · deploy
+
+## Tuyển sinh + thanh toán
+
+1. Thí sinh đăng ký tại `/tuyen-sinh/dang-ky` → nhận mã `TT-DK-...`
+2. Thanh toán tại `/tuyen-sinh/thanh-toan` (demo: `PAYMENT_PROVIDER=mock`)
+3. Tra cứu tại `/tuyen-sinh/tra-cuu` (mã hồ sơ + CCCD)
+4. GV duyệt tại `/portal/ho-so-tuyen-sinh` → **Cấp MSSV** (tạo tài khoản portal)
+
+VNPay thật: đặt `PAYMENT_PROVIDER=vnpay` và điền `VNPAY_*` trong `.env`.
 
 ## Stack
 

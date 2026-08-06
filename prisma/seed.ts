@@ -21,6 +21,7 @@ async function main() {
   await prisma.classSession.deleteMany();
   await prisma.enrollment.deleteMany();
   await prisma.onlineClass.deleteMany();
+  await prisma.payment.deleteMany();
   await prisma.admissionApplication.deleteMany();
   await prisma.newsArticle.deleteMany();
   await prisma.siteSettings.deleteMany();
@@ -209,6 +210,30 @@ async function main() {
       education: "Tốt nghiệp THPT",
       level: "Trung cấp",
       program: "Y học cổ truyền",
+      status: "paid",
+      payments: {
+        create: {
+          amount: 500_000,
+          orderCode: "TTDK20261001-DEMO01",
+          provider: "mock",
+          status: "success",
+          transactionId: "MOCK-SEED-001",
+          paidAt: new Date(),
+        },
+      },
+    },
+  });
+
+  await prisma.admissionApplication.create({
+    data: {
+      refCode: "TT-DK-2026-1002",
+      fullName: "Phạm Thu Hà",
+      idNumber: "009876543210",
+      phone: "0912345678",
+      email: "phamthuha@example.com",
+      education: "Tốt nghiệp THPT",
+      level: "Trung cấp",
+      program: "Điều dưỡng",
       status: "pending",
     },
   });

@@ -28,9 +28,17 @@ enum MaterialType {
 
 enum AdmissionStatus {
   pending
+  paid
   contacted
   accepted
   rejected
+}
+
+enum PaymentStatus {
+  pending
+  success
+  failed
+  cancelled
 }
 
 enum SubmissionStatus {
@@ -57,6 +65,7 @@ model User {
   attendance      Attendance[]
   assignments     Assignment[]   @relation("AssignmentAuthor")
   submissions     Submission[]
+  admissionApplication AdmissionApplication?
 }
 
 model OnlineClass {
@@ -125,18 +134,25 @@ model Attendance {
 }
 
 model AdmissionApplication {
-  id         String          @id @default(cuid())
-  refCode    String          @unique
-  fullName   String
-  idNumber   String
-  phone      String
-  email      String
-  education  String
-  level      String
-  program    String
-  status     AdmissionStatus @default(pending)
-  createdAt  DateTime        @default(now())
-  updatedAt  DateTime        @updatedAt
+  id              String          @id @default(cuid())
+  refCode         String          @unique
+  fullName        String
+  idNumber        String
+  phone           String
+  email           String
+  education       String
+  level           String
+  program         String
+  status          AdmissionStatus @default(pending)
+  admissionFee    Int             @default(500000)
+  userId          String?         @unique
+  user            User?           @relation(fields: [userId], references: [id])
+  issuedStudentId String?
+  adminNote       String?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  payments Payment[]
 }
 
 model SiteSettings {
@@ -205,5 +221,19 @@ model Submission {
   updatedAt    DateTime         @updatedAt
 
   @@unique([assignmentId, studentId])
+}
+
+model Payment {
+  id            String               @id @default(cuid())
+  applicationId String
+  application   AdmissionApplication @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  amount        Int
+  orderCode     String               @unique
+  provider      String               @default("mock")
+  status        PaymentStatus        @default(pending)
+  transactionId String?
+  paidAt        DateTime?
+  createdAt     DateTime             @default(now())
+  updatedAt     DateTime             @updatedAt
 }
 

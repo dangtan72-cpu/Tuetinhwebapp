@@ -211,20 +211,11 @@ export async function createAdmissionApplication(input: {
   level: string;
   program: string;
 }) {
-  const refCode = `TT-DK-${new Date().getFullYear()}-${Math.floor(
-    1000 + Math.random() * 9000,
-  )}`;
-  return prisma.admissionApplication.create({
-    data: {
-      refCode,
-      ...input,
-    },
-  });
+  const { createAdmissionApplication: create } = await import("@/lib/admissions");
+  return create(input);
 }
 
 export async function listAdmissionApplications() {
-  return prisma.admissionApplication.findMany({
-    orderBy: { createdAt: "desc" },
-    take: 50,
-  });
+  const { listAdmissionApplications: list } = await import("@/lib/admissions");
+  return list();
 }

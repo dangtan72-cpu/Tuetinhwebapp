@@ -95,13 +95,36 @@ export default async function AdmissionsPage() {
               Đăng ký xét tuyển online
             </h2>
             <p className="mt-2 text-sm text-white/75">
-              Điền form trong vài phút. Nhà trường sẽ liên hệ xác nhận hồ sơ.
+              Đăng ký → thanh toán lệ phí online → tra cứu hồ sơ → nhận MSSV
+              qua email.
+            </p>
+            <div className="mt-5 flex flex-col gap-2">
+              <Link
+                href="/tuyen-sinh/dang-ky"
+                className="inline-flex justify-center rounded-md bg-accent px-4 py-2.5 text-sm font-semibold text-white hover:brightness-95"
+              >
+                Bắt đầu đăng ký
+              </Link>
+              <Link
+                href="/tuyen-sinh/tra-cuu"
+                className="inline-flex justify-center rounded-md border border-white/30 px-4 py-2.5 text-sm font-medium text-white hover:bg-white/10"
+              >
+                Tra cứu hồ sơ
+              </Link>
+            </div>
+          </div>
+
+          <div className="rounded-2xl border border-line bg-surface p-6">
+            <h2 className="font-semibold text-ink">Thanh toán & hỗ trợ</h2>
+            <p className="mt-2 text-sm text-muted">
+              Lệ phí xét tuyển 500.000đ. Thanh toán bằng cổng demo hoặc VNPay
+              (khi cấu hình).
             </p>
             <Link
-              href="/tuyen-sinh/dang-ky"
-              className="mt-5 inline-flex rounded-md bg-accent px-4 py-2.5 text-sm font-semibold text-white hover:brightness-95"
+              href="/tuyen-sinh/thanh-toan"
+              className="mt-4 inline-flex text-sm font-medium text-brand"
             >
-              Bắt đầu đăng ký
+              Thanh toán online →
             </Link>
           </div>
 

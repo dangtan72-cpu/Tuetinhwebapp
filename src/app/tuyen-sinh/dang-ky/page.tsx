@@ -58,14 +58,23 @@ export default function ApplyPage() {
           <span className="font-semibold text-brand-deep">{refCode}</span>
         </p>
         <p className="mt-2 text-sm text-muted">
-          Hồ sơ đã lưu vào database. Nhà trường sẽ liên hệ xác nhận.
+          Bước tiếp theo: thanh toán lệ phí xét tuyển (500.000đ) và tra cứu trạng
+          thái hồ sơ.
         </p>
-        <a
-          href="/tuyen-sinh"
-          className="mt-8 inline-flex rounded-md bg-brand px-5 py-3 text-sm font-semibold text-white hover:bg-brand-deep"
-        >
-          Quay lại tuyển sinh
-        </a>
+        <div className="mt-8 flex flex-wrap justify-center gap-3">
+          <a
+            href={`/tuyen-sinh/thanh-toan?ref=${encodeURIComponent(refCode)}`}
+            className="rounded-md bg-accent px-5 py-3 text-sm font-semibold text-white hover:brightness-95"
+          >
+            Thanh toán online
+          </a>
+          <a
+            href={`/tuyen-sinh/tra-cuu?ref=${encodeURIComponent(refCode)}`}
+            className="rounded-md border border-line px-5 py-3 text-sm font-medium text-ink hover:bg-paper"
+          >
+            Tra cứu hồ sơ
+          </a>
+        </div>
       </div>
     );
   }
