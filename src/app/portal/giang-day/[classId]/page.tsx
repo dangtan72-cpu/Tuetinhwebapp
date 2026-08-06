@@ -34,6 +34,15 @@ export default async function TeacherClassDetailPage({
         {onlineClass.code} · {onlineClass.program}
       </p>
 
+      <div className="mt-4">
+        <Link
+          href={`/portal/giang-day/${classId}/bai-tap`}
+          className="rounded-md border border-brand/30 bg-surface px-4 py-2 text-sm font-medium text-brand-deep hover:bg-brand-soft"
+        >
+          Quản lý bài tập
+        </Link>
+      </div>
+
       <form
         action="/api/classroom/manage"
         method="POST"

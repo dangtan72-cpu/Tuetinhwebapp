@@ -13,6 +13,7 @@ export function PortalNav({
       ? [
           { href: "/portal", label: "Tổng quan" },
           { href: "/portal/giang-day", label: "Lớp giảng dạy" },
+          { href: "/portal/bai-tap", label: "Bài tập" },
           { href: "/portal/ho-so-tuyen-sinh", label: "Hồ sơ tuyển sinh" },
           { href: "/portal/cms", label: "CMS nội dung" },
           { href: "/portal/ho-so", label: "Hồ sơ" },
@@ -20,6 +21,7 @@ export function PortalNav({
       : [
           { href: "/portal", label: "Tổng quan" },
           { href: "/portal/lop-hoc", label: "Lớp học online" },
+          { href: "/portal/bai-tap", label: "Bài tập" },
           { href: "/portal/lich-hoc", label: "Lịch học" },
           { href: "/portal/diem", label: "Kết quả học tập" },
           { href: "/portal/ho-so", label: "Hồ sơ" },

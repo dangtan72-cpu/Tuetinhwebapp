@@ -14,6 +14,8 @@ function daysFromNow(days: number, hour: number, minute = 0): Date {
 }
 
 async function main() {
+  await prisma.submission.deleteMany();
+  await prisma.assignment.deleteMany();
   await prisma.attendance.deleteMany();
   await prisma.sessionMaterial.deleteMany();
   await prisma.classSession.deleteMany();
@@ -149,6 +151,54 @@ async function main() {
     },
   });
 
+  const assignment1 = await prisma.assignment.create({
+    data: {
+      classId: class1.id,
+      authorId: teacher.id,
+      title: "Bài tập 1: Tóm tắt Âm dương – Ngũ hành",
+      description:
+        "Viết đoạn ngắn (150–250 từ) giải thích mối quan hệ Âm–Dương và ứng dụng trong YHCT. Có thể đính kèm link file Word/PDF.",
+      attachmentUrl: "https://yduoctuetinhhanoi.edu.vn/tai-lieu",
+      maxScore: 10,
+      dueAt: daysFromNow(5, 23, 59),
+    },
+  });
+
+  await prisma.assignment.create({
+    data: {
+      classId: class1.id,
+      authorId: teacher.id,
+      title: "Bài tập 2: Sơ đồ Tạng phủ",
+      description:
+        "Vẽ hoặc mô tả sơ đồ ngũ tạng lục phủ và mối liên hệ kinh lạc. Nộp link ảnh/PDF.",
+      maxScore: 10,
+      dueAt: daysFromNow(10, 23, 59),
+    },
+  });
+
+  await prisma.assignment.create({
+    data: {
+      classId: class2.id,
+      authorId: teacher.id,
+      title: "Checklist an toàn trước khi châm",
+      description:
+        "Liệt kê ít nhất 8 bước kiểm tra an toàn kỹ thuật trước buổi thực hành.",
+      maxScore: 10,
+      dueAt: daysFromNow(3, 23, 59),
+    },
+  });
+
+  await prisma.submission.create({
+    data: {
+      assignmentId: assignment1.id,
+      studentId: student2.id,
+      content:
+        "Âm dương là hai mặt đối lập nhưng thống nhất… (bài demo đã nộp).",
+      fileUrl: null,
+      status: "submitted",
+    },
+  });
+
   await prisma.admissionApplication.create({
     data: {
       refCode: "TT-DK-2026-1001",
@@ -234,6 +284,7 @@ async function main() {
     students: [student1.email, student2.email],
     teacher: teacher.email,
     classes: [class1.code, class2.code],
+    assignments: 3,
     cms: true,
   });
 }

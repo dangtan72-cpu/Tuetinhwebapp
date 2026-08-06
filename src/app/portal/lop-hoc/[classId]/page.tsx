@@ -41,6 +41,15 @@ export default async function ClassDetailPage({
       <p className="mt-2 text-sm text-muted">{onlineClass.description}</p>
       <p className="mt-1 text-sm text-muted">GV: {onlineClass.teacherName}</p>
 
+      <div className="mt-4">
+        <Link
+          href="/portal/bai-tap"
+          className="rounded-md border border-brand/30 bg-surface px-4 py-2 text-sm font-medium text-brand-deep hover:bg-brand-soft"
+        >
+          Xem bài tập lớp
+        </Link>
+      </div>
+
       <h2 className="mt-8 text-lg font-semibold text-ink">Buổi học</h2>
       <ul className="mt-4 space-y-3">
         {sessions.map((s) => {

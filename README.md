@@ -33,6 +33,7 @@ Mở [http://localhost:3000](http://localhost:3000).
 - Marketing / tuyển sinh / tra cứu văn bằng
 - Cổng học sinh & giảng viên
 - **Lớp học online** (LiveKit hoặc Jitsi + bảng trắng + điểm danh + tài liệu)
+- **Bài tập / nộp bài / chấm điểm** (`/portal/bai-tap`)
 - **Hồ sơ tuyển sinh** lưu PostgreSQL
 - **CMS nội dung** (`/portal/cms`): cài đặt trường (logo/ảnh/tagline) + CRUD tin tức
 
@@ -47,14 +48,15 @@ Mở [http://localhost:3000](http://localhost:3000).
 
 ## Database (Prisma + PostgreSQL)
 
-Bảng chính: `User`, `OnlineClass`, `Enrollment`, `ClassSession` (+ `whiteboardData`), `SessionMaterial`, `Attendance`, `AdmissionApplication`, `SiteSettings`, `NewsArticle`
+Bảng chính: `User`, `OnlineClass`, `Enrollment`, `ClassSession` (+ `whiteboardData`), `SessionMaterial`, `Attendance`, `Assignment`, `Submission`, `AdmissionApplication`, `SiteSettings`, `NewsArticle`
 
 ## Lộ trình tiếp
 
 1. ~~Database thật~~ ✅
 2. ~~Admin CMS nội dung / ảnh~~ ✅
 3. ~~Phòng học LiveKit + bảng trắng~~ ✅
-4. Bài tập / nộp bài
+4. ~~Bài tập / nộp bài~~ ✅
+5. Upload file trực tiếp (thay link Drive) · role admin · deploy production
 
 ## Stack
 

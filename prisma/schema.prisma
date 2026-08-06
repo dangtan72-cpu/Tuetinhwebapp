@@ -33,6 +33,12 @@ enum AdmissionStatus {
   rejected
 }
 
+enum SubmissionStatus {
+  submitted
+  graded
+  returned
+}
+
 model User {
   id           String   @id @default(cuid())
   email        String   @unique
@@ -46,9 +52,11 @@ model User {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  teachingClasses OnlineClass[] @relation("TeacherClasses")
+  teachingClasses OnlineClass[]  @relation("TeacherClasses")
   enrollments     Enrollment[]
   attendance      Attendance[]
+  assignments     Assignment[]   @relation("AssignmentAuthor")
+  submissions     Submission[]
 }
 
 model OnlineClass {
@@ -64,6 +72,7 @@ model OnlineClass {
 
   enrollments Enrollment[]
   sessions    ClassSession[]
+  assignments Assignment[]
 }
 
 model Enrollment {
@@ -161,5 +170,40 @@ model NewsArticle {
   publishedAt DateTime @default(now())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Assignment {
+  id           String   @id @default(cuid())
+  classId      String
+  class        OnlineClass @relation(fields: [classId], references: [id], onDelete: Cascade)
+  authorId     String
+  author       User     @relation("AssignmentAuthor", fields: [authorId], references: [id])
+  title        String
+  description  String   @default("")
+  attachmentUrl String?
+  maxScore     Float    @default(10)
+  dueAt        DateTime
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  submissions Submission[]
+}
+
+model Submission {
+  id           String           @id @default(cuid())
+  assignmentId String
+  assignment   Assignment       @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+  studentId    String
+  student      User             @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  content      String           @default("")
+  fileUrl      String?
+  status       SubmissionStatus @default(submitted)
+  score        Float?
+  feedback     String?
+  submittedAt  DateTime         @default(now())
+  gradedAt     DateTime?
+  updatedAt    DateTime         @updatedAt
+
+  @@unique([assignmentId, studentId])
 }
 

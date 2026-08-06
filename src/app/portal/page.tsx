@@ -6,6 +6,10 @@ import {
   listClassesForTeacher,
   listSessions,
 } from "@/lib/classroom-store";
+import {
+  countPendingAssignmentsForStudent,
+  listAssignmentsForTeacher,
+} from "@/lib/assignments";
 import { demoGrades, demoSchedule } from "@/lib/data";
 import { getSessionUser } from "@/lib/session";
 
@@ -20,6 +24,7 @@ export default async function PortalHomePage() {
     const sessionCounts = await Promise.all(
       classes.map(async (c) => (await listSessions(c.id)).length),
     );
+    const assignments = await listAssignmentsForTeacher(user.id);
     return (
       <div>
         <h1 className="font-display text-2xl font-semibold text-brand-deep sm:text-3xl">
@@ -27,7 +32,7 @@ export default async function PortalHomePage() {
         </h1>
         <p className="mt-1 text-muted">Cổng giảng viên · Dữ liệu PostgreSQL</p>
 
-        <div className="mt-8 grid gap-4 sm:grid-cols-2">
+        <div className="mt-8 grid gap-4 sm:grid-cols-3">
           <div className="rounded-xl border border-line bg-brand-soft/50 p-4">
             <p className="text-xs uppercase tracking-wide text-muted">
               Lớp đang dạy
@@ -44,6 +49,12 @@ export default async function PortalHomePage() {
               {sessionCounts.reduce((a, b) => a + b, 0)}
             </p>
           </div>
+          <div className="rounded-xl border border-line bg-paper p-4">
+            <p className="text-xs uppercase tracking-wide text-muted">Bài tập</p>
+            <p className="mt-1 text-3xl font-semibold text-ink">
+              {assignments.length}
+            </p>
+          </div>
         </div>
 
         <div className="mt-8 flex flex-wrap gap-3">
@@ -52,6 +63,12 @@ export default async function PortalHomePage() {
             className="rounded-md bg-brand px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-deep"
           >
             Quản lý lớp giảng dạy
+          </Link>
+          <Link
+            href="/portal/bai-tap"
+            className="rounded-md border border-brand/30 px-4 py-2.5 text-sm font-medium text-brand-deep hover:bg-brand-soft"
+          >
+            Bài tập / chấm điểm
           </Link>
           <Link
             href="/portal/cms"
@@ -65,6 +82,7 @@ export default async function PortalHomePage() {
   }
 
   const classes = await listClassesForStudent(user.id);
+  const pendingAssignments = await countPendingAssignmentsForStudent(user.id);
   const liveSessions = (
     await Promise.all(
       classes.map(async (c) => {
@@ -131,9 +149,11 @@ export default async function PortalHomePage() {
           <p className="mt-1 text-3xl font-semibold text-ink">{classes.length}</p>
         </div>
         <div className="rounded-xl border border-line bg-paper p-4">
-          <p className="text-xs uppercase tracking-wide text-muted">Học phần</p>
+          <p className="text-xs uppercase tracking-wide text-muted">
+            Bài chưa nộp
+          </p>
           <p className="mt-1 text-3xl font-semibold text-ink">
-            {demoGrades.length}
+            {pendingAssignments}
           </p>
         </div>
       </div>
@@ -169,6 +189,12 @@ export default async function PortalHomePage() {
           className="rounded-md bg-brand px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-deep"
         >
           Lớp học online
+        </Link>
+        <Link
+          href="/portal/bai-tap"
+          className="rounded-md border border-brand/30 px-4 py-2.5 text-sm font-medium text-brand-deep hover:bg-brand-soft"
+        >
+          Bài tập
         </Link>
         <Link
           href="/portal/diem"
