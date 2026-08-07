@@ -69,16 +69,19 @@ Bảng chính: `User`, `OnlineClass`, `Enrollment`, `ClassSession` (+ `whiteboar
 
 VNPay thật: đặt `PAYMENT_PROVIDER=vnpay` và điền `VNPAY_*` trong `.env`.
 
-## Deploy production (Vercel)
+## Deploy production (Vercel) — phương án B
+
+**Giữ WordPress** tại `www.yduoctuetinh.com.vn` / `yduoctuetinh.com.vn`.  
+**App Tuệ Tĩnh** chạy subdomain: `https://portal.yduoctuetinh.com.vn`
 
 1. Tạo Postgres (Neon/Supabase) → lấy `DATABASE_URL`
-2. `vercel` project + set env:
+2. Deploy Vercel + set env:
    - `DATABASE_URL`
-   - `NEXT_PUBLIC_APP_URL=https://www.yduoctuetinh.com.vn`
+   - `NEXT_PUBLIC_APP_URL=https://portal.yduoctuetinh.com.vn`
    - `PAYMENT_PROVIDER=mock` (hoặc `vnpay` + key)
 3. Build chạy `prisma migrate deploy` (xem `vercel.json`)
-4. Trỏ DNS:
-   - `www` → CNAME `cname.vercel-dns.com`
-   - apex `@` → A `76.76.21.21` (hoặc theo hướng dẫn Vercel)
+4. DNS (tại nhà đăng ký domain / P.A Vietnam):
+   - Thêm **CNAME**: `portal` → `cname.vercel-dns.com`  
+     (hoặc đúng target Vercel hiện sau khi add domain)
 
-**Lưu ý:** domain hiện đang WordPress tại `180.93.1.227` — đổi DNS sẽ thay site cũ.
+WordPress trên `www` **không bị thay**.
