@@ -69,6 +69,16 @@ Bảng chính: `User`, `OnlineClass`, `Enrollment`, `ClassSession` (+ `whiteboar
 
 VNPay thật: đặt `PAYMENT_PROVIDER=vnpay` và điền `VNPAY_*` trong `.env`.
 
-## Stack
+## Deploy production (Vercel)
 
-Next.js 16 · Prisma 7 · PostgreSQL · Tailwind CSS v4 · LiveKit · Jitsi
+1. Tạo Postgres (Neon/Supabase) → lấy `DATABASE_URL`
+2. `vercel` project + set env:
+   - `DATABASE_URL`
+   - `NEXT_PUBLIC_APP_URL=https://www.yduoctuetinh.com.vn`
+   - `PAYMENT_PROVIDER=mock` (hoặc `vnpay` + key)
+3. Build chạy `prisma migrate deploy` (xem `vercel.json`)
+4. Trỏ DNS:
+   - `www` → CNAME `cname.vercel-dns.com`
+   - apex `@` → A `76.76.21.21` (hoặc theo hướng dẫn Vercel)
+
+**Lưu ý:** domain hiện đang WordPress tại `180.93.1.227` — đổi DNS sẽ thay site cũ.
