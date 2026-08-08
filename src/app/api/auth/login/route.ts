@@ -4,8 +4,8 @@ import { authenticateUser } from "@/lib/users";
 
 export async function POST(request: Request) {
   const form = await request.formData();
-  const login = String(form.get("login") ?? "");
-  const password = String(form.get("password") ?? "");
+  const login = String(form.get("login") ?? "").trim();
+  const password = String(form.get("password") ?? "").trim();
   const nextPath = String(form.get("next") ?? "/portal");
 
   const user = await authenticateUser(login, password);
@@ -20,12 +20,23 @@ export async function POST(request: Request) {
     nextPath.startsWith("/") && !nextPath.startsWith("//")
       ? nextPath
       : "/portal";
+  const reqUrl = new URL(request.url);
   const res = NextResponse.redirect(new URL(safeNext, request.url), 303);
+  const isHttps = reqUrl.protocol === "https:";
+  const host = reqUrl.hostname;
+  // Share cookie across apex + www in production
+  const cookieDomain =
+    host.endsWith("yduoctuetinhhanoi.com.vn")
+      ? ".yduoctuetinhhanoi.com.vn"
+      : undefined;
+
   res.cookies.set(AUTH_COOKIE, encodeSession(user.id), {
     httpOnly: true,
     sameSite: "lax",
     path: "/",
     maxAge: 60 * 60 * 24 * 7,
+    secure: isHttps,
+    ...(cookieDomain ? { domain: cookieDomain } : {}),
   });
   return res;
 }

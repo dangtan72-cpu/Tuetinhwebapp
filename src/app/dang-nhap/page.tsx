@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { DEMO_PASSWORD } from "@/lib/auth";
+import { DemoLoginFill } from "@/components/demo-login-fill";
 import { getSessionUser } from "@/lib/session";
 import { redirect } from "next/navigation";
 
@@ -26,16 +27,21 @@ export default async function LoginPage({
           Đăng nhập cổng học vụ
         </h1>
         <p className="mt-3 max-w-md text-muted">
-          Học sinh: lịch học, lớp online, bảng trắng, điểm danh. Giảng viên: mở
-          lớp và phòng LiveKit/Jitsi.
+          Dùng đúng link có <strong>www</strong>:{" "}
+          www.yduoctuetinhhanoi.com.vn/dang-nhap
         </p>
         <div className="mt-8 space-y-4 rounded-xl border border-line bg-surface p-5 text-sm text-muted">
           <div>
-            <p className="font-medium text-ink">Học sinh demo</p>
+            <p className="font-medium text-ink">Admin / AI Orchestrator</p>
             <p className="mt-1">
-              <code className="text-brand-deep">sv001@tuetinh.edu</code> /{" "}
+              <code className="text-brand-deep">admin@tuetinh.edu</code> /{" "}
               <code className="text-brand-deep">{DEMO_PASSWORD}</code>
             </p>
+            <DemoLoginFill
+              email="admin@tuetinh.edu"
+              password={DEMO_PASSWORD}
+              label="admin"
+            />
           </div>
           <div>
             <p className="font-medium text-ink">Giảng viên demo</p>
@@ -43,13 +49,23 @@ export default async function LoginPage({
               <code className="text-brand-deep">gv001@tuetinh.edu</code> /{" "}
               <code className="text-brand-deep">{DEMO_PASSWORD}</code>
             </p>
+            <DemoLoginFill
+              email="gv001@tuetinh.edu"
+              password={DEMO_PASSWORD}
+              label="GV"
+            />
           </div>
           <div>
-            <p className="font-medium text-ink">Admin / AI Orchestrator</p>
+            <p className="font-medium text-ink">Học sinh demo</p>
             <p className="mt-1">
-              <code className="text-brand-deep">admin@tuetinh.edu</code> /{" "}
+              <code className="text-brand-deep">sv001@tuetinh.edu</code> /{" "}
               <code className="text-brand-deep">{DEMO_PASSWORD}</code>
             </p>
+            <DemoLoginFill
+              email="sv001@tuetinh.edu"
+              password={DEMO_PASSWORD}
+              label="HS"
+            />
           </div>
         </div>
       </div>
@@ -60,7 +76,12 @@ export default async function LoginPage({
             {params.error}
           </p>
         ) : null}
-        <form action="/api/auth/login" method="POST" className="space-y-4">
+        <form
+          id="login-form"
+          action="/api/auth/login"
+          method="POST"
+          className="space-y-4"
+        >
           <input type="hidden" name="next" value={params.next || "/portal"} />
           <label className="block">
             <span className="text-sm font-medium text-ink">Email hoặc MSSV</span>
@@ -68,7 +89,10 @@ export default async function LoginPage({
               name="login"
               required
               autoComplete="username"
-              placeholder="sv001@tuetinh.edu"
+              autoCapitalize="none"
+              autoCorrect="off"
+              spellCheck={false}
+              placeholder="admin@tuetinh.edu"
               className="mt-1.5 w-full rounded-md border border-line bg-paper px-3 py-2.5 outline-none ring-brand/30 focus:ring-2"
             />
           </label>
