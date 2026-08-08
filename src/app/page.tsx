@@ -203,16 +203,17 @@ export default async function HomePage() {
           </div>
           <div className="mt-8 grid gap-5 md:grid-cols-2">
             {news.map((item) => (
-              <article
+              <Link
                 key={item.slug}
-                className="overflow-hidden rounded-xl border border-line bg-paper"
+                href={`/tin-tuc/${item.slug}`}
+                className="group overflow-hidden rounded-xl border border-line bg-paper transition hover:border-brand/40"
               >
                 <div className="relative aspect-[16/9]">
                   <Image
                     src={item.image}
                     alt=""
                     fill
-                    className="object-cover"
+                    className="object-cover transition duration-300 group-hover:scale-[1.02]"
                     sizes="(max-width:768px) 100vw, 50vw"
                   />
                 </div>
@@ -225,12 +226,15 @@ export default async function HomePage() {
                       {new Date(item.date).toLocaleDateString("vi-VN")}
                     </time>
                   </div>
-                  <h3 className="mt-3 text-lg font-semibold text-ink">
+                  <h3 className="mt-3 text-lg font-semibold text-ink group-hover:text-brand-deep">
                     {item.title}
                   </h3>
                   <p className="mt-2 text-sm text-muted">{item.excerpt}</p>
+                  <p className="mt-3 text-sm font-semibold text-brand">
+                    Đọc chi tiết →
+                  </p>
                 </div>
-              </article>
+              </Link>
             ))}
           </div>
         </div>

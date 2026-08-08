@@ -55,6 +55,7 @@ export type NewsItem = {
   date: string;
   category: string;
   excerpt: string;
+  body: string;
   image: string;
 };
 
@@ -850,6 +851,7 @@ export const news: NewsItem[] = [
     category: "Hoạt động",
     excerpt:
       "Không gian ấm cúng tại trường ghi lại khoảnh khắc gắn kết giữa thầy cô và sinh viên.",
+    body: "Trong một buổi sáng tháng 7, thầy cô và sinh viên Trường Trung cấp Y Dược Tuệ Tĩnh Hà Nội cùng chia sẻ khoảnh khắc gắn kết tại khuôn viên trường.\n\nKhông khí ấm cúng, gần gũi thể hiện tinh thần “Tấm Lòng Vàng” – quan tâm người học không chỉ trên lớp mà còn trong đời sống cộng đồng nhà trường.\n\nNhững hoạt động như vậy góp phần nuôi dưỡng đạo đức nghề và tình cảm nghề y ngay từ những ngày còn ngồi trên ghế nhà trường.",
     image: "/gallery/news-1.webp",
   },
   {
@@ -859,6 +861,7 @@ export const news: NewsItem[] = [
     category: "Cộng đồng",
     excerpt:
       "Nhà trường đồng hành tư vấn sức khỏe và hướng nghiệp cho người cao tuổi tại Hà Nội.",
+    body: "Trường Trung cấp Y Dược Tuệ Tĩnh Hà Nội tham gia Ngày hội tư vấn, giới thiệu việc làm cho người cao tuổi năm 2026 tại Hà Nội.\n\nTại gian hàng, nhà trường tư vấn sức khỏe YHCT, giới thiệu các chương trình ngắn hạn phù hợp và chia sẻ cơ hội hướng nghiệp trong lĩnh vực chăm sóc sức khỏe cộng đồng.\n\nHoạt động khẳng định cam kết đồng hành cùng cộng đồng, đưa kiến thức y dược cổ truyền đến gần hơn với người dân.",
     image: "/gallery/campus-extra-7348.webp",
   },
   {
@@ -868,6 +871,7 @@ export const news: NewsItem[] = [
     category: "Đào tạo",
     excerpt:
       "Sinh viên trải nghiệm nhận diện và sử dụng thảo dược qua buổi học thực tế.",
+    body: "Sinh viên lớp K36A1.2 có buổi học thực tế nhận diện và sử dụng thảo dược tại cơ sở / vườn thuốc đối tác của nhà trường.\n\nQua trải nghiệm trực tiếp, người học kết nối lý thuyết dược liệu với thực tiễn bào chế và ứng dụng YHCT.\n\nĐây là hoạt động thường xuyên trong chương trình đào tạo gắn thực tiễn của Tuệ Tĩnh Hà Nội.",
     image: "/gallery/activity-thao-duoc.webp",
   },
   {
@@ -877,6 +881,7 @@ export const news: NewsItem[] = [
     category: "Tuyển sinh",
     excerpt:
       "Mở đăng ký các mã ngành dài hạn và ngắn hạn cho năm học mới.",
+    body: "Trường Trung cấp Y Dược Tuệ Tĩnh Hà Nội thông báo tuyển sinh năm học 2026–2027 các mã ngành trung cấp (chính quy, vừa làm vừa học) và đào tạo ngắn hạn cấp chứng chỉ.\n\nThí sinh có thể xem chi tiết mã ngành, học phí ngắn hạn, hồ sơ và đăng ký xét tuyển trực tuyến trên cổng nhà trường.\n\nMọi thắc mắc xin liên hệ Phòng Tuyển sinh theo thông tin tại trang Liên hệ.",
     image: "/gallery/admissions-banner.webp",
   },
 ];

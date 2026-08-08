@@ -30,7 +30,9 @@ export type NewsArticleView = {
   date: string;
 };
 
-const defaultAboutText = `Trường Trung cấp Y Dược Tuệ Tĩnh Hà Nội kế thừa tinh thần đào tạo y dược cổ truyền gắn với thực tiễn chăm sóc sức khỏe cộng đồng. Mục tiêu của trường không chỉ truyền đạt kiến thức mà còn rèn luyện tay nghề, đạo đức nghề và năng lực hành nghề.`;
+const defaultAboutText = `Trường Trung cấp Y Dược Tuệ Tĩnh Hà Nội kế thừa tinh thần đào tạo y dược cổ truyền gắn với thực tiễn chăm sóc sức khỏe cộng đồng.
+Mục tiêu của trường không chỉ truyền đạt kiến thức mà còn rèn luyện tay nghề, đạo đức nghề và năng lực hành nghề.
+Trải qua hơn 35 năm xây dựng và phát triển, nhà trường đào tạo hệ trung cấp và các mã ngành ngắn hạn, gắn lý thuyết với thực hành tại lab, cơ sở dưỡng sinh và vườn thuốc nam.`;
 
 export async function getSchoolSettings(): Promise<SchoolSettingsView> {
   const row = await prisma.siteSettings.findUnique({ where: { id: "default" } });
@@ -141,7 +143,7 @@ export async function listPublishedNews(): Promise<NewsArticleView[]> {
       title: n.title,
       category: n.category,
       excerpt: n.excerpt,
-      body: "",
+      body: n.body,
       image: n.image,
       published: true,
       date: n.date,
@@ -159,7 +161,26 @@ export async function listAllNews(): Promise<NewsArticleView[]> {
 
 export async function getNewsBySlug(slug: string): Promise<NewsArticleView | null> {
   const row = await prisma.newsArticle.findUnique({ where: { slug } });
-  return row ? mapNews(row) : null;
+  const fallback = defaultNews.find((n) => n.slug === slug);
+  if (row) {
+    const mapped = mapNews(row);
+    if (!mapped.body.trim() && fallback?.body) {
+      return { ...mapped, body: fallback.body };
+    }
+    return mapped;
+  }
+  if (!fallback) return null;
+  return {
+    id: `fallback-${fallback.slug}`,
+    slug: fallback.slug,
+    title: fallback.title,
+    category: fallback.category,
+    excerpt: fallback.excerpt,
+    body: fallback.body,
+    image: fallback.image,
+    published: true,
+    date: fallback.date,
+  };
 }
 
 export async function getNewsById(id: string): Promise<NewsArticleView | null> {

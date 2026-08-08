@@ -269,7 +269,7 @@ async function main() {
       aboutImageUrl: "/gallery/campus-2.webp",
       admissionsImageUrl: "/gallery/admissions-banner.webp",
       aboutText:
-        "Trường Trung cấp Y Dược Tuệ Tĩnh Hà Nội kế thừa tinh thần đào tạo y dược cổ truyền gắn với thực tiễn chăm sóc sức khỏe cộng đồng. Mục tiêu của trường không chỉ truyền đạt kiến thức mà còn rèn luyện tay nghề, đạo đức nghề và năng lực hành nghề.",
+        "Trường Trung cấp Y Dược Tuệ Tĩnh Hà Nội kế thừa tinh thần đào tạo y dược cổ truyền gắn với thực tiễn chăm sóc sức khỏe cộng đồng.\nMục tiêu của trường không chỉ truyền đạt kiến thức mà còn rèn luyện tay nghề, đạo đức nghề và năng lực hành nghề.\nTrải qua hơn 35 năm xây dựng và phát triển, nhà trường đào tạo hệ trung cấp và các mã ngành ngắn hạn, gắn lý thuyết với thực hành tại lab, cơ sở dưỡng sinh và vườn thuốc nam.",
     },
   });
 
@@ -281,6 +281,7 @@ async function main() {
         category: "Hoạt động",
         excerpt:
           "Không gian ấm cúng tại trường ghi lại khoảnh khắc gắn kết giữa thầy cô và sinh viên.",
+        body: "Trong một buổi sáng tháng 7, thầy cô và sinh viên Trường Trung cấp Y Dược Tuệ Tĩnh Hà Nội cùng chia sẻ khoảnh khắc gắn kết tại khuôn viên trường.\n\nKhông khí ấm cúng thể hiện tinh thần “Tấm Lòng Vàng” – quan tâm người học không chỉ trên lớp mà còn trong đời sống cộng đồng nhà trường.",
         imageUrl: "/gallery/news-1.webp",
         published: true,
         publishedAt: new Date("2026-07-26"),
@@ -292,6 +293,7 @@ async function main() {
         category: "Cộng đồng",
         excerpt:
           "Nhà trường đồng hành tư vấn sức khỏe và hướng nghiệp cho người cao tuổi tại Hà Nội.",
+        body: "Trường Trung cấp Y Dược Tuệ Tĩnh Hà Nội tham gia Ngày hội tư vấn, giới thiệu việc làm cho người cao tuổi năm 2026 tại Hà Nội.\n\nTại gian hàng, nhà trường tư vấn sức khỏe YHCT, giới thiệu chương trình ngắn hạn phù hợp và chia sẻ cơ hội hướng nghiệp trong lĩnh vực chăm sóc sức khỏe cộng đồng.",
         imageUrl: "/gallery/campus-extra-7348.webp",
         published: true,
         publishedAt: new Date("2026-07-20"),
@@ -302,6 +304,7 @@ async function main() {
         category: "Đào tạo",
         excerpt:
           "Sinh viên trải nghiệm nhận diện và sử dụng thảo dược qua buổi học thực tế.",
+        body: "Sinh viên lớp K36A1.2 có buổi học thực tế nhận diện và sử dụng thảo dược tại cơ sở / vườn thuốc đối tác của nhà trường.\n\nQua trải nghiệm trực tiếp, người học kết nối lý thuyết dược liệu với thực tiễn bào chế và ứng dụng YHCT.",
         imageUrl: "/gallery/activity-thao-duoc.webp",
         published: true,
         publishedAt: new Date("2026-07-12"),
@@ -312,6 +315,7 @@ async function main() {
         category: "Tuyển sinh",
         excerpt:
           "Mở đăng ký các mã ngành dài hạn và ngắn hạn cho năm học mới.",
+        body: "Trường Trung cấp Y Dược Tuệ Tĩnh Hà Nội thông báo tuyển sinh năm học 2026–2027 các mã ngành trung cấp (chính quy, vừa làm vừa học) và đào tạo ngắn hạn cấp chứng chỉ.\n\nThí sinh xem chi tiết mã ngành, học phí ngắn hạn, hồ sơ và đăng ký xét tuyển trực tuyến trên cổng nhà trường.",
         imageUrl: "/gallery/admissions-banner.webp",
         published: true,
         publishedAt: new Date("2026-06-15"),

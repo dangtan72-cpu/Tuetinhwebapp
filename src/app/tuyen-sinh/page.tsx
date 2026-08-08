@@ -1,9 +1,17 @@
 import Image from "next/image";
 import Link from "next/link";
 import { programs } from "@/lib/data";
+import {
+  admissionsBenefits,
+  admissionsDocuments,
+  admissionsExtras,
+  admissionsProcess,
+  admissionsTracks,
+  shortTermFees,
+} from "@/lib/info-content";
 import { getSchoolSettings, listPublishedNews } from "@/lib/cms";
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 export const metadata = { title: "Tuyển sinh" };
 
@@ -11,6 +19,8 @@ export default async function AdmissionsPage() {
   const school = await getSchoolSettings();
   const news = await listPublishedNews();
   const notices = news.filter((n) => n.category === "Tuyển sinh");
+  const longTerm = programs.filter((p) => p.category === "trung-cap");
+  const shortTerm = programs.filter((p) => p.category === "ngan-han");
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
@@ -31,7 +41,7 @@ export default async function AdmissionsPage() {
         </div>
       </div>
 
-      <div className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr]">
+      <div className="grid gap-10 lg:grid-cols-[1.25fr_0.75fr]">
         <div>
           <p className="text-sm font-medium uppercase tracking-[0.16em] text-accent">
             Admissions
@@ -39,71 +49,200 @@ export default async function AdmissionsPage() {
           <h1 className="font-display mt-2 text-3xl font-semibold text-brand-deep sm:text-4xl">
             Thông tin tuyển sinh
           </h1>
-          <p className="mt-3 max-w-2xl text-muted">
-            Năm học 2026–2027: xét tuyển các hệ ngắn hạn, trung cấp, liên thông.
-            Đăng ký trực tuyến và theo dõi trạng hồ sơ trên cổng.
+          <p className="mt-3 max-w-2xl text-[15px] text-muted sm:text-base">
+            Trường Trung cấp Y Dược Tuệ Tĩnh Hà Nội tuyển sinh hệ trung cấp
+            (chính quy, vừa làm vừa học) và các mã ngành ngắn hạn cấp chứng chỉ.
+            Đăng ký trực tuyến, thanh toán lệ phí và tra cứu hồ sơ trên cổng.
           </p>
 
-          <div className="mt-8 grid gap-4 sm:grid-cols-2">
-            {[
-              {
-                title: "Đào tạo dài hạn",
-                body: "YHCT, Điều dưỡng, VLTL–PHCN theo lộ trình trung cấp.",
-              },
-              {
-                title: "Chứng chỉ ngắn hạn",
-                body: "Châm cứu, xoa bóp bấm huyệt, bào chế đông dược.",
-              },
-              {
-                title: "Hồ sơ xét tuyển",
-                body: "CCCD, học bạ/bằng tốt nghiệp, ảnh thẻ theo thông báo.",
-              },
-              {
-                title: "Hỗ trợ hướng nghiệp",
-                body: "Tư vấn ngành phù hợp và cơ hội việc làm sau tốt nghiệp.",
-              },
-            ].map((item) => (
-              <div
-                key={item.title}
-                className="rounded-xl border border-line bg-surface p-5"
-              >
-                <h2 className="font-semibold text-brand-deep">{item.title}</h2>
-                <p className="mt-2 text-sm text-muted">{item.body}</p>
-              </div>
-            ))}
-          </div>
+          <section className="mt-10">
+            <h2 className="font-display text-xl font-semibold text-ink">
+              Quy trình xét tuyển online
+            </h2>
+            <ol className="mt-5 space-y-4">
+              {admissionsProcess.map((item) => (
+                <li
+                  key={item.step}
+                  className="flex gap-4 border-t border-line pt-4"
+                >
+                  <span className="font-display text-lg font-semibold text-accent">
+                    {item.step}
+                  </span>
+                  <span>
+                    <span className="block font-medium text-ink">
+                      {item.title}
+                    </span>
+                    <span className="mt-1 block text-sm text-muted">
+                      {item.body}
+                    </span>
+                  </span>
+                </li>
+              ))}
+            </ol>
+          </section>
 
-          <div className="mt-10">
-            <h2 className="text-lg font-semibold text-ink">Ngành đang tuyển</h2>
+          <section className="mt-12">
+            <h2 className="font-display text-xl font-semibold text-ink">
+              Hệ đào tạo đang tuyển
+            </h2>
+            <ul className="mt-5 space-y-4">
+              {admissionsTracks.map((track) => (
+                <li key={track.title} className="border-t border-line pt-4">
+                  <h3 className="font-semibold text-brand-deep">
+                    {track.title}
+                  </h3>
+                  <p className="mt-1 text-sm text-muted">{track.body}</p>
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          <section className="mt-12">
+            <h2 className="font-display text-xl font-semibold text-ink">
+              Trung cấp – mã ngành
+            </h2>
             <ul className="mt-4 space-y-2">
-              {programs.map((p) => (
+              {longTerm.map((p) => (
                 <li key={p.slug}>
                   <Link
                     href={`/nganh-dao-tao/${p.slug}`}
-                    className="flex items-center justify-between gap-3 rounded-lg border border-line bg-paper px-4 py-3 text-sm transition hover:border-brand/40 hover:bg-brand-soft/40"
+                    className="flex items-center justify-between gap-3 border-b border-line py-3 text-sm transition hover:bg-brand-soft/30"
+                  >
+                    <span>
+                      <span className="font-medium text-ink">{p.name}</span>
+                      <span className="mt-0.5 block text-xs text-muted">
+                        Mã {p.code} · {p.duration} · {p.audience}
+                      </span>
+                    </span>
+                    <span className="shrink-0 font-semibold text-brand">
+                      Chi tiết →
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          <section className="mt-12">
+            <h2 className="font-display text-xl font-semibold text-ink">
+              Học phí mã ngành ngắn hạn
+            </h2>
+            <p className="mt-2 text-sm text-muted">
+              Áp dụng theo thông báo tuyển sinh ngắn hạn 2026–2027 của nhà
+              trường. Bấm tên ngành để xem chi tiết.
+            </p>
+            <div className="mt-4 overflow-x-auto">
+              <table className="w-full min-w-[520px] text-left text-sm">
+                <thead>
+                  <tr className="border-b border-line text-xs uppercase tracking-wide text-muted">
+                    <th className="py-2 pr-3 font-medium">Ngành</th>
+                    <th className="py-2 pr-3 font-medium">Thời gian</th>
+                    <th className="py-2 font-medium">Học phí</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {shortTermFees.map((row) => (
+                    <tr key={row.slug} className="border-b border-line/80">
+                      <td className="py-3 pr-3">
+                        <Link
+                          href={`/nganh-dao-tao/${row.slug}`}
+                          className="font-medium text-ink hover:text-brand"
+                        >
+                          {row.name}
+                        </Link>
+                      </td>
+                      <td className="py-3 pr-3 text-muted">{row.duration}</td>
+                      <td className="py-3 font-medium text-brand-deep">
+                        {row.fee}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section className="mt-12">
+            <h2 className="font-display text-xl font-semibold text-ink">
+              Hồ sơ cần chuẩn bị
+            </h2>
+            <ul className="mt-4 space-y-2 text-[15px] text-muted sm:text-base">
+              {admissionsDocuments.map((item) => (
+                <li key={item} className="flex gap-2">
+                  <span className="text-brand">•</span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+            <dl className="mt-6 grid gap-3 sm:grid-cols-2">
+              {admissionsExtras.map((item) => (
+                <div key={item.label} className="border-t border-line pt-3">
+                  <dt className="text-xs uppercase tracking-wide text-muted">
+                    {item.label}
+                  </dt>
+                  <dd className="mt-1 text-sm font-medium text-ink">
+                    {item.value}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+
+          <section className="mt-12">
+            <h2 className="font-display text-xl font-semibold text-ink">
+              Quyền lợi sau tốt nghiệp
+            </h2>
+            <ul className="mt-4 space-y-2 text-[15px] text-muted sm:text-base">
+              {admissionsBenefits.map((item) => (
+                <li key={item} className="flex gap-2">
+                  <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          <section className="mt-12">
+            <div className="flex items-end justify-between gap-4">
+              <h2 className="font-display text-xl font-semibold text-ink">
+                Tất cả mã ngành ngắn hạn
+              </h2>
+              <Link
+                href="/nganh-dao-tao"
+                className="text-sm font-medium text-brand"
+              >
+                Xem đầy đủ
+              </Link>
+            </div>
+            <ul className="mt-4 space-y-2">
+              {shortTerm.map((p) => (
+                <li key={p.slug}>
+                  <Link
+                    href={`/nganh-dao-tao/${p.slug}`}
+                    className="flex items-center justify-between gap-3 border-b border-line py-3 text-sm transition hover:bg-brand-soft/30"
                   >
                     <span>
                       <span className="font-medium text-ink">{p.name}</span>
                       <span className="mt-0.5 block text-xs text-muted">
                         Mã {p.code}
+                        {p.tuition ? ` · ${p.tuition}` : ""}
                       </span>
                     </span>
-                    <span className="shrink-0 text-muted">{p.level} →</span>
+                    <span className="shrink-0 text-muted">{p.duration} →</span>
                   </Link>
                 </li>
               ))}
             </ul>
-          </div>
+          </section>
         </div>
 
-        <aside className="space-y-6">
+        <aside className="space-y-6 lg:sticky lg:top-24 lg:self-start">
           <div className="rounded-2xl bg-brand-deep p-6 text-white">
             <h2 className="font-display text-2xl font-semibold">
               Đăng ký xét tuyển online
             </h2>
             <p className="mt-2 text-sm text-white/75">
-              Đăng ký → thanh toán lệ phí online → tra cứu hồ sơ → nhận MSSV
-              qua email.
+              Đăng ký → thanh toán lệ phí → tra cứu hồ sơ → nhận MSSV qua email.
             </p>
             <div className="mt-5 flex flex-col gap-2">
               <Link
@@ -118,32 +257,44 @@ export default async function AdmissionsPage() {
               >
                 Tra cứu hồ sơ
               </Link>
+              <Link
+                href="/tuyen-sinh/thanh-toan"
+                className="inline-flex justify-center rounded-md border border-white/30 px-4 py-2.5 text-sm font-medium text-white hover:bg-white/10"
+              >
+                Thanh toán lệ phí
+              </Link>
             </div>
           </div>
 
           <div className="rounded-2xl border border-line bg-surface p-6">
-            <h2 className="font-semibold text-ink">Thanh toán & hỗ trợ</h2>
+            <h2 className="font-semibold text-ink">Hỗ trợ tư vấn</h2>
             <p className="mt-2 text-sm text-muted">
-              Lệ phí xét tuyển 500.000đ. Thanh toán bằng cổng demo hoặc VNPay
-              (khi cấu hình).
+              Phòng Tuyển sinh tiếp nhận câu hỏi về mã ngành, hồ sơ và học phí.
             </p>
+            <p className="mt-3 text-sm font-medium text-ink">{school.phone}</p>
+            <p className="text-sm text-muted">{school.email}</p>
             <Link
-              href="/tuyen-sinh/thanh-toan"
+              href="/lien-he"
               className="mt-4 inline-flex text-sm font-medium text-brand"
             >
-              Thanh toán online →
+              Trang liên hệ →
             </Link>
           </div>
 
           <div className="rounded-2xl border border-line bg-surface p-6">
             <h2 className="font-semibold text-ink">Thông báo mới</h2>
             <ul className="mt-4 space-y-4">
-              {(notices.length ? notices : news.slice(0, 2)).map((n) => (
+              {(notices.length ? notices : news.slice(0, 3)).map((n) => (
                 <li key={n.slug}>
                   <p className="text-xs text-muted">
                     {new Date(n.date).toLocaleDateString("vi-VN")}
                   </p>
-                  <p className="mt-1 text-sm font-medium text-ink">{n.title}</p>
+                  <Link
+                    href={`/tin-tuc/${n.slug}`}
+                    className="mt-1 block text-sm font-medium text-ink hover:text-brand"
+                  >
+                    {n.title}
+                  </Link>
                 </li>
               ))}
             </ul>
