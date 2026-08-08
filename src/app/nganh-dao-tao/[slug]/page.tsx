@@ -88,6 +88,37 @@ export default async function ProgramDetailPage({
 
           <section className="mt-10">
             <h2 className="font-display text-xl font-semibold text-ink">
+              Các mục trong mã ngành
+            </h2>
+            <p className="mt-2 text-sm text-muted">
+              Bấm vào từng mục để xem nội dung chi tiết.
+            </p>
+            <ul className="mt-4 space-y-3">
+              {program.modules.map((m) => (
+                <li key={m.slug}>
+                  <Link
+                    href={`/nganh-dao-tao/${program.slug}/${m.slug}`}
+                    className="group flex items-start justify-between gap-4 rounded-xl border border-line bg-paper px-4 py-3 transition hover:border-brand/40 hover:bg-brand-soft/40"
+                  >
+                    <span>
+                      <span className="block font-medium text-ink group-hover:text-brand-deep">
+                        {m.title}
+                      </span>
+                      <span className="mt-1 block text-sm text-muted">
+                        {m.summary}
+                      </span>
+                    </span>
+                    <span className="shrink-0 text-sm font-semibold text-brand">
+                      Xem →
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          <section className="mt-10">
+            <h2 className="font-display text-xl font-semibold text-ink">
               Mục tiêu đào tạo
             </h2>
             <ul className="mt-3 space-y-2 text-[15px] text-muted sm:text-base">
@@ -173,12 +204,14 @@ export default async function ProgramDetailPage({
               </Link>
             </div>
             <ul className="mt-5 flex flex-wrap gap-2">
-              {program.highlights.map((h) => (
-                <li
-                  key={h}
-                  className="rounded-full bg-paper px-3 py-1 text-xs font-medium text-brand-deep"
-                >
-                  {h}
+              {program.modules.map((m) => (
+                <li key={m.slug}>
+                  <Link
+                    href={`/nganh-dao-tao/${program.slug}/${m.slug}`}
+                    className="inline-flex rounded-full bg-paper px-3 py-1 text-xs font-medium text-brand-deep transition hover:bg-brand hover:text-white"
+                  >
+                    {m.title}
+                  </Link>
                 </li>
               ))}
             </ul>

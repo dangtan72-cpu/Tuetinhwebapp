@@ -77,12 +77,14 @@ function ProgramGroup({
                 </p>
               ) : null}
               <ul className="mt-4 flex flex-wrap gap-2">
-                {p.highlights.map((h) => (
-                  <li
-                    key={h}
-                    className="rounded-full bg-brand-soft px-3 py-1 text-xs font-medium text-brand-deep"
-                  >
-                    {h}
+                {p.modules.map((m) => (
+                  <li key={m.slug}>
+                    <Link
+                      href={`/nganh-dao-tao/${p.slug}/${m.slug}`}
+                      className="inline-flex rounded-full bg-brand-soft px-3 py-1 text-xs font-medium text-brand-deep transition hover:bg-brand hover:text-white"
+                    >
+                      {m.title}
+                    </Link>
                   </li>
                 ))}
               </ul>

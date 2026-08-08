@@ -1,3 +1,14 @@
+/** Mục nhỏ trong một mã ngành (VD: Châm cứu, Bào chế đông dược…) */
+export type ProgramModule = {
+  slug: string;
+  title: string;
+  summary: string;
+  image?: string;
+  points: string[];
+  /** Liên kết sang mã ngành liên quan (nếu có) */
+  relatedProgramSlug?: string;
+};
+
 export type Program = {
   slug: string;
   /** Mã ngành (Bộ GDĐT / mã nhà trường) */
@@ -6,7 +17,8 @@ export type Program = {
   level: string;
   duration: string;
   summary: string;
-  highlights: string[];
+  /** Các mục nhỏ có thể mở chi tiết */
+  modules: ProgramModule[];
   image: string;
   category: "trung-cap" | "ngan-han";
   audience: string;
@@ -24,6 +36,17 @@ export function getProgramBySlug(slug: string): Program | undefined {
 export function getProgramByCode(code: string): Program | undefined {
   const key = code.trim().toLowerCase();
   return programs.find((p) => p.code.toLowerCase() === key);
+}
+
+export function getProgramModule(
+  programSlug: string,
+  moduleSlug: string,
+): { program: Program; module: ProgramModule } | null {
+  const program = getProgramBySlug(programSlug);
+  if (!program) return null;
+  const module = program.modules.find((m) => m.slug === moduleSlug);
+  if (!module) return null;
+  return { program, module };
 }
 
 export type NewsItem = {
@@ -95,7 +118,49 @@ export const programs: Program[] = [
     duration: "1,5–2 năm",
     summary:
       "Đào tạo y sĩ YHCT với nền tảng lý luận, chẩn trị và thực hành lâm sàng Đông y.",
-    highlights: ["Châm cứu", "Bào chế đông dược", "Thực tập cơ sở"],
+    modules: [
+      {
+        slug: "cham-cuu",
+        title: "Châm cứu",
+        summary:
+          "Học phần kỹ thuật châm cứu – cứu ngải trong chương trình Y sĩ YHCT.",
+        image: "/gallery/activity-cham-cuu.webp",
+        relatedProgramSlug: "ky-thuat-cham-cuu",
+        points: [
+          "Nhận diện huyệt vị và đường kinh cơ bản.",
+          "Thao tác châm – cứu an toàn, chống chỉ định.",
+          "Ứng dụng điều trị các chứng thường gặp theo YHCT.",
+          "Thực hành trên người bệnh mẫu và ca lâm sàng.",
+        ],
+      },
+      {
+        slug: "bao-che-dong-duoc",
+        title: "Bào chế đông dược",
+        summary:
+          "Nhận diện dược liệu, bào chế và bốc thuốc kê đơn trong đào tạo YHCT.",
+        image: "/gallery/activity-dong-duoc.webp",
+        relatedProgramSlug: "bao-che-dong-duoc",
+        points: [
+          "Nhận diện và bảo quản dược liệu thông dụng.",
+          "Kỹ thuật bào chế, cân thuốc, bốc thuốc theo kê đơn.",
+          "Thực tế tại vườn thuốc nam / xưởng bào chế.",
+          "An toàn dùng thuốc YHCT trong thực hành.",
+        ],
+      },
+      {
+        slug: "thuc-tap-co-so",
+        title: "Thực tập cơ sở",
+        summary:
+          "Thực tập lâm sàng tại cơ sở dưỡng sinh, phòng chẩn trị và đơn vị đối tác.",
+        image: "/gallery/campus-extra-7343.webp",
+        points: [
+          "Thực tập tại cơ sở dưỡng sinh Đông y và vườn thuốc nam.",
+          "Tiếp xúc ca lâm sàng dưới sự hướng dẫn của giảng viên.",
+          "Rèn kỹ năng giao tiếp, đạo đức nghề và hồ sơ bệnh án.",
+          "Đánh giá thực tập theo chuẩn chương trình trung cấp.",
+        ],
+      },
+    ],
     image: "/gallery/career-yhct.webp",
     category: "trung-cap",
     audience:
@@ -127,7 +192,41 @@ export const programs: Program[] = [
     duration: "1,5–2 năm",
     summary:
       "Đào tạo y sĩ đa khoa hệ trung cấp, sẵn sàng hỗ trợ khám chữa bệnh và chăm sóc ban đầu.",
-    highlights: ["Y khoa cơ bản", "Thực hành lâm sàng", "Liên thông"],
+    modules: [
+      {
+        slug: "y-khoa-co-ban",
+        title: "Y khoa cơ bản",
+        summary: "Nền tảng giải phẫu, sinh lý và bệnh học phục vụ thực hành y sĩ.",
+        image: "/gallery/campus-2.webp",
+        points: [
+          "Giải phẫu – sinh lý người.",
+          "Bệnh học nội – ngoại cơ bản.",
+          "Sơ cấp cứu và xử trí ban đầu.",
+        ],
+      },
+      {
+        slug: "thuc-hanh-lam-sang",
+        title: "Thực hành lâm sàng",
+        summary: "Thực tập tại bệnh viện, trạm y tế và phòng khám đối tác.",
+        image: "/gallery/campus-1.webp",
+        points: [
+          "Theo dõi và hỗ trợ chăm sóc người bệnh.",
+          "Thực hành kỹ năng lâm sàng dưới giám sát.",
+          "Ghi chép hồ sơ và phối hợp nhóm y tế.",
+        ],
+      },
+      {
+        slug: "lien-thong",
+        title: "Liên thông",
+        summary: "Lộ trình học tiếp CĐ/ĐH sau khi tốt nghiệp trung cấp.",
+        image: "/gallery/admissions-banner.webp",
+        points: [
+          "Điều kiện liên thông CĐ/ĐH Y khoa, Điều dưỡng.",
+          "Hỗ trợ tư vấn lộ trình học tiếp.",
+          "Chuẩn bị hồ sơ và chứng chỉ cần thiết.",
+        ],
+      },
+    ],
     image: "/gallery/campus-2.webp",
     category: "trung-cap",
     audience:
@@ -159,7 +258,41 @@ export const programs: Program[] = [
     duration: "24–36 tháng",
     summary:
       "Chương trình điều dưỡng gắn với chăm sóc toàn diện và kỹ năng thực hành lâm sàng.",
-    highlights: ["Chăm sóc lâm sàng", "Đạo đức nghề", "Thực tập bệnh viện"],
+    modules: [
+      {
+        slug: "cham-soc-lam-sang",
+        title: "Chăm sóc lâm sàng",
+        summary: "Quy trình điều dưỡng và chăm sóc người bệnh toàn diện.",
+        image: "/gallery/program-me-be.webp",
+        points: [
+          "Điều dưỡng cơ bản và kỹ thuật chăm sóc.",
+          "Chăm sóc người bệnh nội – ngoại.",
+          "Theo dõi dấu hiệu sống và xử trí ban đầu.",
+        ],
+      },
+      {
+        slug: "dao-duc-nghe",
+        title: "Đạo đức nghề",
+        summary: "Đạo đức, pháp luật và giao tiếp trong nghề điều dưỡng.",
+        image: "/gallery/campus-2.webp",
+        points: [
+          "Đạo đức và pháp luật nghề y.",
+          "Giao tiếp với người bệnh và người nhà.",
+          "Phối hợp nhóm trong cơ sở y tế.",
+        ],
+      },
+      {
+        slug: "thuc-tap-benh-vien",
+        title: "Thực tập bệnh viện",
+        summary: "Thực tập tại bệnh viện / cơ sở y tế đối tác của nhà trường.",
+        image: "/gallery/campus-1.webp",
+        points: [
+          "Thực tập theo ca tại khoa lâm sàng.",
+          "Áp dụng quy trình điều dưỡng thực tế.",
+          "Đánh giá năng lực cuối kỳ thực tập.",
+        ],
+      },
+    ],
     image: "/gallery/program-me-be.webp",
     category: "trung-cap",
     audience: "Tốt nghiệp THPT trở lên; ưu tiên thí sinh có định hướng ngành CSSK.",
@@ -190,7 +323,42 @@ export const programs: Program[] = [
     duration: "24–36 tháng",
     summary:
       "Vật lý trị liệu và phục hồi chức năng kết hợp kiến thức YHCT ứng dụng.",
-    highlights: ["VLTL", "PHCN", "Thực hành lâm sàng"],
+    modules: [
+      {
+        slug: "vltl",
+        title: "VLTL",
+        summary: "Kỹ thuật vật lý trị liệu cơ bản cho phục hồi vận động.",
+        image: "/gallery/picture4.webp",
+        relatedProgramSlug: "vltl-phcn-ngan-han",
+        points: [
+          "Nguyên lý và chỉ định VLTL.",
+          "Kỹ thuật điều trị các chứng thường gặp.",
+          "An toàn thiết bị và chống chỉ định.",
+        ],
+      },
+      {
+        slug: "phcn",
+        title: "PHCN",
+        summary: "Phục hồi chức năng vận động và sinh hoạt hàng ngày.",
+        image: "/gallery/campus-extra-7343.webp",
+        points: [
+          "Đánh giá chức năng vận động.",
+          "Bài tập phục hồi theo giai đoạn.",
+          "Hỗ trợ người bệnh tái hòa nhập.",
+        ],
+      },
+      {
+        slug: "thuc-hanh-lam-sang",
+        title: "Thực hành lâm sàng",
+        summary: "Thực tập tại phòng kỹ thuật và cơ sở PHCN.",
+        image: "/gallery/campus-1.webp",
+        points: [
+          "Thực hành trên người bệnh mẫu.",
+          "Theo dõi tiến triển phục hồi.",
+          "Báo cáo ca và nhận xét giảng viên.",
+        ],
+      },
+    ],
     image: "/gallery/picture4.webp",
     category: "trung-cap",
     audience: "Tốt nghiệp THPT trở lên, đủ sức khỏe học tập và thực hành.",
@@ -221,7 +389,41 @@ export const programs: Program[] = [
     duration: "03 tháng",
     summary:
       "Tập trung kỹ thuật châm cứu, an toàn thực hành và ứng dụng điều trị thường gặp.",
-    highlights: ["Thực hành huyệt", "An toàn kỹ thuật", "Ca lâm sàng"],
+    modules: [
+      {
+        slug: "thuc-hanh-huyet",
+        title: "Thực hành huyệt",
+        summary: "Định vị huyệt và thao tác thực hành trên người bệnh mẫu.",
+        image: "/gallery/activity-cham-cuu.webp",
+        points: [
+          "Hệ thống huyệt vị thường dùng.",
+          "Kỹ thuật định huyệt chính xác.",
+          "Thực hành lặp lại dưới giám sát.",
+        ],
+      },
+      {
+        slug: "an-toan-ky-thuat",
+        title: "An toàn kỹ thuật",
+        summary: "Nguyên tắc vô khuẩn, chống chỉ định và xử trí sự cố.",
+        image: "/gallery/campus-2.webp",
+        points: [
+          "Vệ sinh – vô khuẩn dụng cụ.",
+          "Chống chỉ định và thận trọng.",
+          "Xử trí phản ứng bất lợi khi thực hành.",
+        ],
+      },
+      {
+        slug: "ca-lam-sang",
+        title: "Ca lâm sàng",
+        summary: "Áp dụng châm cứu trên các chứng thường gặp.",
+        image: "/gallery/career-yhct.webp",
+        points: [
+          "Phân tích ca và chọn huyệt.",
+          "Thực hành điều trị mẫu.",
+          "Ghi nhận kết quả và nhận xét.",
+        ],
+      },
+    ],
     image: "/gallery/activity-cham-cuu.webp",
     category: "ngan-han",
     audience: "Tốt nghiệp THPT trở lên.",
@@ -252,7 +454,41 @@ export const programs: Program[] = [
     duration: "06 tháng",
     summary:
       "Đào tạo kỹ năng điều dưỡng sơ cấp phục vụ chăm sóc người bệnh và cộng đồng.",
-    highlights: ["Chăm sóc cơ bản", "Thực hành", "Chứng chỉ sơ cấp"],
+    modules: [
+      {
+        slug: "cham-soc-co-ban",
+        title: "Chăm sóc cơ bản",
+        summary: "Kỹ năng điều dưỡng sơ cấp trong chăm sóc hàng ngày.",
+        image: "/gallery/program-me-be.webp",
+        points: [
+          "Chăm sóc vệ sinh và dinh dưỡng người bệnh.",
+          "Theo dõi dấu hiệu cơ bản.",
+          "Hỗ trợ sinh hoạt tại nhà / cơ sở.",
+        ],
+      },
+      {
+        slug: "thuc-hanh",
+        title: "Thực hành",
+        summary: "Thực hành tại cơ sở và tình huống chăm sóc thực tế.",
+        image: "/gallery/campus-1.webp",
+        points: [
+          "Thực hành kỹ thuật điều dưỡng cơ bản.",
+          "Xử trí tình huống thường gặp.",
+          "Đánh giá tay nghề cuối khóa.",
+        ],
+      },
+      {
+        slug: "chung-chi-so-cap",
+        title: "Chứng chỉ sơ cấp",
+        summary: "Điều kiện cấp và giá trị chứng chỉ điều dưỡng sơ cấp.",
+        image: "/gallery/admissions-banner.webp",
+        points: [
+          "Điều kiện hoàn thành chương trình.",
+          "Cấp chứng chỉ sơ cấp theo quy định.",
+          "Lộ trình học tiếp trung cấp Điều dưỡng.",
+        ],
+      },
+    ],
     image: "/gallery/program-me-be.webp",
     category: "ngan-han",
     audience: "Tốt nghiệp THPT trở lên.",
@@ -283,7 +519,41 @@ export const programs: Program[] = [
     duration: "06 tháng",
     summary:
       "Nhận diện dược liệu, bào chế và bảo quản thuốc YHCT theo quy trình chuẩn.",
-    highlights: ["Dược liệu", "Bào chế", "Thực tế vườn thuốc"],
+    modules: [
+      {
+        slug: "duoc-lieu",
+        title: "Dược liệu",
+        summary: "Nhận diện, phân loại và bảo quản dược liệu thông dụng.",
+        image: "/gallery/activity-thao-duoc.webp",
+        points: [
+          "Nhận diện dược liệu thường dùng.",
+          "Bảo quản và kiểm tra chất lượng.",
+          "An toàn khi tiếp xúc và sơ chế.",
+        ],
+      },
+      {
+        slug: "bao-che",
+        title: "Bào chế",
+        summary: "Kỹ thuật bào chế và bốc thuốc theo kê đơn.",
+        image: "/gallery/activity-dong-duoc.webp",
+        points: [
+          "Cân thuốc, phối hợp vị thuốc.",
+          "Bào chế dạng thuốc cơ bản.",
+          "Tuân thủ quy trình và vệ sinh.",
+        ],
+      },
+      {
+        slug: "thuc-te-vuon-thuoc",
+        title: "Thực tế vườn thuốc",
+        summary: "Học thực tế tại vườn thuốc nam và xưởng bào chế.",
+        image: "/gallery/campus-extra-7343.webp",
+        points: [
+          "Tham quan – thực tế vườn thuốc nam.",
+          "Quan sát quy trình sản xuất đông dược.",
+          "Ghi chép và báo cáo trải nghiệm.",
+        ],
+      },
+    ],
     image: "/gallery/activity-dong-duoc.webp",
     category: "ngan-han",
     audience:
@@ -315,7 +585,42 @@ export const programs: Program[] = [
     duration: "Dưới 03 tháng",
     summary:
       "Phương pháp trị liệu bằng tay, phục hồi chức năng và chăm sóc sức khỏe cộng đồng.",
-    highlights: ["Kỹ thuật bấm huyệt", "PHCN", "Hướng nghiệp"],
+    modules: [
+      {
+        slug: "ky-thuat-bam-huyet",
+        title: "Kỹ thuật bấm huyệt",
+        summary: "Xoa bóp – bấm huyệt cơ bản cho CSSK không dùng thuốc.",
+        image: "/gallery/program-xoa-bop.webp",
+        points: [
+          "Huyệt vị và đường kinh thường dùng.",
+          "Kỹ thuật xoa bóp – bấm huyệt an toàn.",
+          "Chỉ định và chống chỉ định.",
+        ],
+      },
+      {
+        slug: "phcn",
+        title: "PHCN",
+        summary: "Ứng dụng hỗ trợ phục hồi chức năng cộng đồng.",
+        image: "/gallery/picture4.webp",
+        relatedProgramSlug: "ky-thuat-vltl-phcn",
+        points: [
+          "Hỗ trợ giảm đau, thư giãn cơ.",
+          "Phối hợp với bài tập vận động nhẹ.",
+          "Chăm sóc sức khỏe cộng đồng.",
+        ],
+      },
+      {
+        slug: "huong-nghiep",
+        title: "Hướng nghiệp",
+        summary: "Lộ trình việc làm và học tiếp sau chứng chỉ ngắn hạn.",
+        image: "/gallery/admissions-banner.webp",
+        points: [
+          "Cơ hội làm việc tại dưỡng sinh, spa trị liệu.",
+          "Bổ sung kỹ năng cho nhân viên CSSK.",
+          "Học tiếp các mã ngành YHCT / PHCN.",
+        ],
+      },
+    ],
     image: "/gallery/program-xoa-bop.webp",
     category: "ngan-han",
     audience: "Từ 15 tuổi trở lên và đủ sức khỏe học tập.",
@@ -346,7 +651,41 @@ export const programs: Program[] = [
     duration: "Dưới 03 tháng",
     summary:
       "Kỹ thuật tác động cột sống hỗ trợ điều trị đau lưng, đau cổ vai gáy và phục hồi vận động.",
-    highlights: ["Cột sống", "Giảm đau", "Thực hành"],
+    modules: [
+      {
+        slug: "cot-song",
+        title: "Cột sống",
+        summary: "Giải phẫu cột sống và nguyên tắc tác động an toàn.",
+        image: "/gallery/picture4.webp",
+        points: [
+          "Cấu trúc cột sống cơ bản.",
+          "Đánh giá tư thế – vận động.",
+          "Nguyên tắc an toàn khi tác động.",
+        ],
+      },
+      {
+        slug: "giam-dau",
+        title: "Giảm đau",
+        summary: "Ứng dụng hỗ trợ các chứng đau lưng, cổ vai gáy.",
+        image: "/gallery/career-yhct.webp",
+        points: [
+          "Nhận diện chứng đau thường gặp.",
+          "Kỹ thuật hỗ trợ giảm đau không dùng thuốc.",
+          "Tư vấn vận động và sinh hoạt.",
+        ],
+      },
+      {
+        slug: "thuc-hanh",
+        title: "Thực hành",
+        summary: "Thực hành kỹ thuật trên người bệnh mẫu.",
+        image: "/gallery/campus-1.webp",
+        points: [
+          "Thực hành thao tác cơ bản.",
+          "Giám sát và sửa sai kỹ thuật.",
+          "Đánh giá cuối khóa.",
+        ],
+      },
+    ],
     image: "/gallery/picture4.webp",
     category: "ngan-han",
     audience: "Từ 15 tuổi trở lên và đủ sức khỏe học tập.",
@@ -377,7 +716,42 @@ export const programs: Program[] = [
     duration: "Dưới 03 tháng",
     summary:
       "Chương trình ngắn hạn vật lý trị liệu – phục hồi chức năng phục vụ chăm sóc sức khỏe cộng đồng.",
-    highlights: ["VLTL", "PHCN", "Chứng chỉ ngắn hạn"],
+    modules: [
+      {
+        slug: "vltl",
+        title: "VLTL",
+        summary: "Kỹ thuật VLTL cơ bản trong chương trình ngắn hạn.",
+        image: "/gallery/picture4.webp",
+        relatedProgramSlug: "ky-thuat-vltl-phcn",
+        points: [
+          "Nguyên lý VLTL ứng dụng cộng đồng.",
+          "Kỹ thuật điều trị thường gặp.",
+          "An toàn thực hành.",
+        ],
+      },
+      {
+        slug: "phcn",
+        title: "PHCN",
+        summary: "Phục hồi chức năng hỗ trợ người bệnh và người cao tuổi.",
+        image: "/gallery/campus-extra-7343.webp",
+        points: [
+          "Bài tập phục hồi cơ bản.",
+          "Hỗ trợ sinh hoạt hàng ngày.",
+          "Theo dõi tiến triển đơn giản.",
+        ],
+      },
+      {
+        slug: "chung-chi-ngan-han",
+        title: "Chứng chỉ ngắn hạn",
+        summary: "Điều kiện cấp chứng chỉ chương trình thường xuyên.",
+        image: "/gallery/admissions-banner.webp",
+        points: [
+          "Hoàn thành lý thuyết và thực hành.",
+          "Cấp chứng chỉ theo quy định nhà trường.",
+          "Lộ trình học tiếp trung cấp VLTL – PHCN.",
+        ],
+      },
+    ],
     image: "/gallery/campus-extra-7343.webp",
     category: "ngan-han",
     audience:
@@ -409,7 +783,41 @@ export const programs: Program[] = [
     duration: "Dưới 03 tháng",
     summary:
       "Đào tạo kỹ năng chăm sóc sản phụ và trẻ sơ sinh giai đoạn hậu sản.",
-    highlights: ["Mẹ & bé", "Hậu sản", "Thực hành"],
+    modules: [
+      {
+        slug: "me-va-be",
+        title: "Mẹ & bé",
+        summary: "Chăm sóc toàn diện sản phụ và trẻ sơ sinh.",
+        image: "/gallery/program-me-be.webp",
+        points: [
+          "Chăm sóc sản phụ sau sinh.",
+          "Chăm sóc trẻ sơ sinh an toàn.",
+          "Hỗ trợ nuôi con bằng sữa mẹ.",
+        ],
+      },
+      {
+        slug: "hau-san",
+        title: "Hậu sản",
+        summary: "Quy trình chăm sóc giai đoạn hậu sản tại nhà / cơ sở.",
+        image: "/gallery/campus-2.webp",
+        points: [
+          "Theo dõi hồi phục sau sinh.",
+          "Dinh dưỡng mẹ và bé.",
+          "Nhận biết dấu hiệu cần đưa đi khám.",
+        ],
+      },
+      {
+        slug: "thuc-hanh",
+        title: "Thực hành",
+        summary: "Thực hành kỹ năng chăm sóc mẹ bé trên tình huống mẫu.",
+        image: "/gallery/campus-1.webp",
+        points: [
+          "Thực hành kỹ năng cơ bản.",
+          "Xử trí tình huống thường gặp.",
+          "Đánh giá cuối khóa và cấp chứng chỉ.",
+        ],
+      },
+    ],
     image: "/gallery/program-me-be.webp",
     category: "ngan-han",
     audience: "Từ 15 tuổi trở lên và đủ sức khỏe học tập.",
