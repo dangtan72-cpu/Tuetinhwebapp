@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getSchoolSettings } from "@/lib/cms";
 import { getSessionUser } from "@/lib/session";
+import { isStaff } from "@/lib/auth";
 
 export const metadata = { title: "Cài đặt trường" };
 
@@ -12,7 +13,7 @@ export default async function CmsSettingsPage({
 }) {
   const user = await getSessionUser();
   if (!user) redirect("/dang-nhap");
-  if (user.role !== "teacher") redirect("/portal");
+  if (!isStaff(user)) redirect("/portal");
 
   const school = await getSchoolSettings();
   const params = await searchParams;

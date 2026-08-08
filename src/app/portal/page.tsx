@@ -19,6 +19,39 @@ export default async function PortalHomePage() {
   const user = await getSessionUser();
   if (!user) redirect("/dang-nhap");
 
+  if (user.role === "admin") {
+    return (
+      <div>
+        <h1 className="font-display text-2xl font-semibold text-brand-deep sm:text-3xl">
+          Xin chào, {user.fullName}
+        </h1>
+        <p className="mt-1 text-muted">
+          Cổng quản trị · AI Orchestrator quản lý nội dung & tài khoản
+        </p>
+        <div className="mt-8 flex flex-wrap gap-3">
+          <Link
+            href="/portal/ai-admin"
+            className="rounded-md bg-brand px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-deep"
+          >
+            Mở AI Orchestrator
+          </Link>
+          <Link
+            href="/portal/cms"
+            className="rounded-md border border-brand/30 px-4 py-2.5 text-sm font-medium text-brand-deep hover:bg-brand-soft"
+          >
+            CMS thủ công
+          </Link>
+          <Link
+            href="/portal/ho-so-tuyen-sinh"
+            className="rounded-md border border-line px-4 py-2.5 text-sm font-medium text-ink hover:bg-paper"
+          >
+            Hồ sơ tuyển sinh
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
   if (user.role === "teacher") {
     const classes = await listClassesForTeacher(user.id);
     const sessionCounts = await Promise.all(

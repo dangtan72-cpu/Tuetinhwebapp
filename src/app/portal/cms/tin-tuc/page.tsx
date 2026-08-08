@@ -2,13 +2,14 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { listAllNews } from "@/lib/cms";
 import { getSessionUser } from "@/lib/session";
+import { isStaff } from "@/lib/auth";
 
 export const metadata = { title: "CMS tin tức" };
 
 export default async function CmsNewsPage() {
   const user = await getSessionUser();
   if (!user) redirect("/dang-nhap");
-  if (user.role !== "teacher") redirect("/portal");
+  if (!isStaff(user)) redirect("/portal");
 
   const articles = await listAllNews();
 

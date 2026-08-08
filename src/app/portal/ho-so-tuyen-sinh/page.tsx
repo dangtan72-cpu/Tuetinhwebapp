@@ -6,13 +6,14 @@ import {
   listAdmissionApplications,
 } from "@/lib/admissions";
 import { getSessionUser } from "@/lib/session";
+import { isStaff } from "@/lib/auth";
 
 export const metadata = { title: "Hồ sơ tuyển sinh" };
 
 export default async function AdmissionsAdminPage() {
   const user = await getSessionUser();
   if (!user) redirect("/dang-nhap");
-  if (user.role !== "teacher") redirect("/portal");
+  if (!isStaff(user)) redirect("/portal");
 
   const apps = await listAdmissionApplications();
 

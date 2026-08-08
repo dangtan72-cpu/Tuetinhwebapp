@@ -44,6 +44,13 @@ export default async function LoginPage({
               <code className="text-brand-deep">{DEMO_PASSWORD}</code>
             </p>
           </div>
+          <div>
+            <p className="font-medium text-ink">Admin / AI Orchestrator</p>
+            <p className="mt-1">
+              <code className="text-brand-deep">admin@tuetinh.edu</code> /{" "}
+              <code className="text-brand-deep">{DEMO_PASSWORD}</code>
+            </p>
+          </div>
         </div>
       </div>
 

@@ -14,6 +14,7 @@ function daysFromNow(days: number, hour: number, minute = 0): Date {
 }
 
 async function main() {
+  await prisma.adminActionLog.deleteMany();
   await prisma.submission.deleteMany();
   await prisma.assignment.deleteMany();
   await prisma.attendance.deleteMany();
@@ -65,6 +66,19 @@ async function main() {
       className: "Giảng viên",
       cohort: "—",
       role: "teacher",
+    },
+  });
+
+  const admin = await prisma.user.create({
+    data: {
+      email: "admin@tuetinh.edu",
+      studentId: "AD001",
+      passwordHash,
+      fullName: "Quản trị hệ thống",
+      program: "—",
+      className: "Admin",
+      cohort: "—",
+      role: "admin",
     },
   });
 
@@ -308,6 +322,7 @@ async function main() {
   console.log("Seed OK:", {
     students: [student1.email, student2.email],
     teacher: teacher.email,
+    admin: admin.email,
     classes: [class1.code, class2.code],
     assignments: 3,
     cms: true,

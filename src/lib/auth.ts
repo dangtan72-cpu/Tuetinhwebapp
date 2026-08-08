@@ -1,4 +1,4 @@
-export type UserRole = "student" | "teacher";
+export type UserRole = "student" | "teacher" | "admin";
 
 export type DemoUser = {
   id: string;
@@ -10,6 +10,15 @@ export type DemoUser = {
   cohort: string;
   role: UserRole;
 };
+
+/** CMS / tuyển sinh / AI orchestrator */
+export function isStaff(user: { role: UserRole } | null | undefined): boolean {
+  return user?.role === "teacher" || user?.role === "admin";
+}
+
+export function isAdmin(user: { role: UserRole } | null | undefined): boolean {
+  return user?.role === "admin";
+}
 
 export const DEMO_PASSWORD = "demo1234";
 export const AUTH_COOKIE = "tuetinh_session";

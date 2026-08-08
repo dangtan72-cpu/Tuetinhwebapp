@@ -27,6 +27,7 @@ Mở [http://localhost:3000](http://localhost:3000).
 |------------|---------------------|------------|
 | Học sinh   | `sv001@tuetinh.edu` | `demo1234` |
 | Giảng viên | `gv001@tuetinh.edu` | `demo1234` |
+| Admin      | `admin@tuetinh.edu` | `demo1234` |
 
 ## Modules
 
@@ -37,6 +38,7 @@ Mở [http://localhost:3000](http://localhost:3000).
 - **Tuyển sinh online**: đăng ký → thanh toán lệ phí → tra cứu → GV cấp MSSV
 - **Hồ sơ tuyển sinh** lưu PostgreSQL
 - **CMS nội dung** (`/portal/cms`): cài đặt trường (logo/ảnh/tagline) + CRUD tin tức
+- **AI Orchestrator** (`/portal/ai-admin`, role admin): chat điều khiển nội dung / tài khoản / đăng tin / hồ sơ (không sửa UI)
 
 ## Phòng học LiveKit + bảng trắng
 
@@ -58,7 +60,15 @@ Bảng chính: `User`, `OnlineClass`, `Enrollment`, `ClassSession` (+ `whiteboar
 3. ~~Phòng học LiveKit + bảng trắng~~ ✅
 4. ~~Bài tập / nộp bài~~ ✅
 5. ~~Thanh toán tuyển sinh + cấp MSSV~~ ✅
-6. Upload file trực tiếp · VNPay production · role admin · deploy
+6. ~~AI Orchestrator admin~~ ✅
+7. Upload file trực tiếp · VNPay production · OpenAI key production
+
+## AI Orchestrator
+
+1. Login `admin@tuetinh.edu` / `demo1234`
+2. Mở `/portal/ai-admin`
+3. Chat lệnh tiếng Việt (hoặc JSON tool call)
+4. (Tuỳ chọn) set `OPENAI_API_KEY` trên Vercel để hiểu câu tự nhiên hơn
 
 ## Tuyển sinh + thanh toán
 

@@ -12,6 +12,7 @@ datasource db {
 enum Role {
   student
   teacher
+  admin
 }
 
 enum SessionStatus {
@@ -66,6 +67,17 @@ model User {
   assignments     Assignment[]   @relation("AssignmentAuthor")
   submissions     Submission[]
   admissionApplication AdmissionApplication?
+  adminLogs       AdminActionLog[]
+}
+
+model AdminActionLog {
+  id         String   @id @default(cuid())
+  actorId    String
+  actor      User     @relation(fields: [actorId], references: [id], onDelete: Cascade)
+  action     String
+  summary    String
+  payload    Json?
+  createdAt  DateTime @default(now())
 }
 
 model OnlineClass {

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { getNewsById } from "@/lib/cms";
 import { getSessionUser } from "@/lib/session";
+import { isStaff } from "@/lib/auth";
 
 export default async function CmsNewsEditPage({
   params,
@@ -12,7 +13,7 @@ export default async function CmsNewsEditPage({
 }) {
   const user = await getSessionUser();
   if (!user) redirect("/dang-nhap");
-  if (user.role !== "teacher") redirect("/portal");
+  if (!isStaff(user)) redirect("/portal");
 
   const { id } = await params;
   const article = await getNewsById(id);

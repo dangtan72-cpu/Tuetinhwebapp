@@ -3,11 +3,12 @@ import {
   acceptAdmissionApplication,
   updateAdmissionStatus,
 } from "@/lib/admissions";
+import { isStaff } from "@/lib/auth";
 import { getSessionUser } from "@/lib/session";
 
 export async function POST(request: Request) {
   const user = await getSessionUser();
-  if (!user || user.role !== "teacher") {
+  if (!isStaff(user)) {
     return NextResponse.json({ error: "Chỉ giảng viên / cán bộ" }, { status: 403 });
   }
 

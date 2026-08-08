@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
+import { isStaff } from "@/lib/auth";
 import { createNews, deleteNews, updateNews } from "@/lib/cms";
 import { getSessionUser } from "@/lib/session";
 
 export async function POST(request: Request) {
   const user = await getSessionUser();
-  if (!user || user.role !== "teacher") {
+  if (!isStaff(user)) {
     return NextResponse.json({ error: "Chỉ giảng viên/admin" }, { status: 403 });
   }
 

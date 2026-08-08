@@ -9,29 +9,44 @@ export function PortalNav({
   pathname: string;
 }) {
   const links =
-    user.role === "teacher"
+    user.role === "admin"
       ? [
           { href: "/portal", label: "Tổng quan" },
-          { href: "/portal/giang-day", label: "Lớp giảng dạy" },
-          { href: "/portal/bai-tap", label: "Bài tập" },
-          { href: "/portal/ho-so-tuyen-sinh", label: "Hồ sơ tuyển sinh" },
+          { href: "/portal/ai-admin", label: "AI Orchestrator" },
           { href: "/portal/cms", label: "CMS nội dung" },
+          { href: "/portal/ho-so-tuyen-sinh", label: "Hồ sơ tuyển sinh" },
           { href: "/portal/ho-so", label: "Hồ sơ" },
         ]
-      : [
-          { href: "/portal", label: "Tổng quan" },
-          { href: "/portal/lop-hoc", label: "Lớp học online" },
-          { href: "/portal/bai-tap", label: "Bài tập" },
-          { href: "/portal/lich-hoc", label: "Lịch học" },
-          { href: "/portal/diem", label: "Kết quả học tập" },
-          { href: "/portal/ho-so", label: "Hồ sơ" },
-        ];
+      : user.role === "teacher"
+        ? [
+            { href: "/portal", label: "Tổng quan" },
+            { href: "/portal/giang-day", label: "Lớp giảng dạy" },
+            { href: "/portal/bai-tap", label: "Bài tập" },
+            { href: "/portal/ho-so-tuyen-sinh", label: "Hồ sơ tuyển sinh" },
+            { href: "/portal/cms", label: "CMS nội dung" },
+            { href: "/portal/ho-so", label: "Hồ sơ" },
+          ]
+        : [
+            { href: "/portal", label: "Tổng quan" },
+            { href: "/portal/lop-hoc", label: "Lớp học online" },
+            { href: "/portal/bai-tap", label: "Bài tập" },
+            { href: "/portal/lich-hoc", label: "Lịch học" },
+            { href: "/portal/diem", label: "Kết quả học tập" },
+            { href: "/portal/ho-so", label: "Hồ sơ" },
+          ];
+
+  const roleLabel =
+    user.role === "admin"
+      ? "Cổng quản trị"
+      : user.role === "teacher"
+        ? "Cổng giảng viên"
+        : "Cổng học sinh";
 
   return (
     <aside className="border-b border-line bg-surface md:border-b-0 md:border-r">
       <div className="px-4 py-5 sm:px-5">
         <p className="text-xs font-medium uppercase tracking-wider text-muted">
-          {user.role === "teacher" ? "Cổng giảng viên" : "Cổng học sinh"}
+          {roleLabel}
         </p>
         <p className="mt-1 font-display text-xl font-semibold text-brand-deep">
           {user.fullName}
