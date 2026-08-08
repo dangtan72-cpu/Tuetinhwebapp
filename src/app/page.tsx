@@ -111,29 +111,33 @@ export default async function HomePage() {
         </div>
         <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
           {programs.slice(0, 6).map((p) => (
-            <article
+            <Link
               key={p.slug}
-              className="overflow-hidden rounded-xl border border-line bg-surface"
+              href={`/nganh-dao-tao/${p.slug}`}
+              className="group overflow-hidden rounded-xl border border-line bg-surface transition hover:border-brand/40"
             >
               <div className="relative aspect-[16/10]">
                 <Image
                   src={p.image}
                   alt={p.name}
                   fill
-                  className="object-cover"
+                  className="object-cover transition duration-300 group-hover:scale-[1.02]"
                   sizes="(max-width:768px) 100vw, 33vw"
                 />
               </div>
               <div className="p-5">
                 <p className="text-xs font-medium uppercase tracking-wide text-accent">
-                  {p.level}
+                  Mã {p.code} · {p.level}
                 </p>
-                <h3 className="font-display mt-2 text-xl font-semibold text-ink">
+                <h3 className="font-display mt-2 text-xl font-semibold text-ink group-hover:text-brand-deep">
                   {p.name}
                 </h3>
                 <p className="mt-2 text-sm text-muted">{p.summary}</p>
+                <p className="mt-3 text-sm font-semibold text-brand">
+                  Xem chi tiết →
+                </p>
               </div>
-            </article>
+            </Link>
           ))}
         </div>
       </section>

@@ -1,12 +1,18 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
-import { programs } from "@/lib/data";
+import { Suspense, useState, type FormEvent } from "react";
+import { useSearchParams } from "next/navigation";
+import { getProgramBySlug, programs } from "@/lib/data";
 
 const levels = ["Ngắn hạn", "Trung cấp", "Cao đẳng", "Đại học / Liên thông"];
 const educations = ["Tốt nghiệp THPT", "Trung cấp", "CĐ/ĐH", "Khác"];
 
-export default function ApplyPage() {
+function ApplyForm() {
+  const searchParams = useSearchParams();
+  const slug = searchParams.get("nganh") || "";
+  const preselected =
+    getProgramBySlug(slug)?.name || programs[0]?.name || "";
+
   const [submitted, setSubmitted] = useState(false);
   const [refCode, setRefCode] = useState("");
   const [error, setError] = useState("");
@@ -173,10 +179,14 @@ export default function ApplyPage() {
               <span className="text-sm font-medium">Ngành tuyển sinh</span>
               <select
                 name="program"
+                defaultValue={preselected}
+                key={preselected}
                 className="mt-1.5 w-full rounded-md border border-line bg-paper px-3 py-2.5 outline-none ring-brand/30 focus:ring-2"
               >
                 {programs.map((p) => (
-                  <option key={p.slug}>{p.name}</option>
+                  <option key={p.slug} value={p.name}>
+                    {p.code} — {p.name}
+                  </option>
                 ))}
               </select>
             </label>
@@ -192,5 +202,13 @@ export default function ApplyPage() {
         </button>
       </form>
     </div>
+  );
+}
+
+export default function ApplyPage() {
+  return (
+    <Suspense>
+      <ApplyForm />
+    </Suspense>
   );
 }

@@ -1,12 +1,30 @@
 export type Program = {
   slug: string;
+  /** Mã ngành (Bộ GDĐT / mã nhà trường) */
+  code: string;
   name: string;
   level: string;
   duration: string;
   summary: string;
   highlights: string[];
   image: string;
+  category: "trung-cap" | "ngan-han";
+  audience: string;
+  tuition?: string;
+  objectives: string[];
+  curriculum: string[];
+  careers: string[];
+  documents: string[];
 };
+
+export function getProgramBySlug(slug: string): Program | undefined {
+  return programs.find((p) => p.slug === slug);
+}
+
+export function getProgramByCode(code: string): Program | undefined {
+  const key = code.trim().toLowerCase();
+  return programs.find((p) => p.code.toLowerCase() === key);
+}
 
 export type NewsItem = {
   slug: string;
@@ -60,19 +78,82 @@ export const school = {
   admissionsImage: "/gallery/admissions-banner.webp",
 };
 
+const commonDocuments = [
+  "Đơn xin học (theo mẫu nhà trường)",
+  "Sơ yếu lý lịch (theo mẫu nhà trường)",
+  "CCCD photo công chứng",
+  "Bằng cấp liên quan photo công chứng (theo yêu cầu từng mã ngành)",
+  "04 ảnh 3×4 chụp trong vòng 6 tháng",
+];
+
 export const programs: Program[] = [
   {
     slug: "y-hoc-co-truyen",
-    name: "Y học cổ truyền",
-    level: "Trung cấp / Ngắn hạn",
-    duration: "12–36 tháng",
+    code: "5720102",
+    name: "Y sĩ Y học cổ truyền",
+    level: "Trung cấp",
+    duration: "1,5–2 năm",
     summary:
       "Đào tạo y sĩ YHCT với nền tảng lý luận, chẩn trị và thực hành lâm sàng Đông y.",
     highlights: ["Châm cứu", "Bào chế đông dược", "Thực tập cơ sở"],
     image: "/gallery/career-yhct.webp",
+    category: "trung-cap",
+    audience:
+      "Học sinh đã tốt nghiệp THPT hoặc tương đương; hoặc đã tốt nghiệp TC/CĐ/ĐH trở lên.",
+    objectives: [
+      "Nắm lý luận YHCT cơ bản và phương pháp chẩn trị Đông y.",
+      "Thực hành châm cứu, xoa bóp, bào chế và kê đơn thuốc nam an toàn.",
+      "Tham gia chăm sóc sức khỏe cộng đồng và liên thông lên CĐ/ĐH.",
+    ],
+    curriculum: [
+      "Lý luận YHCT cơ bản",
+      "Chẩn đoán học Đông y",
+      "Kỹ thuật châm cứu – cứu ngải",
+      "Dược liệu & bào chế đông dược",
+      "Thực tập lâm sàng / cơ sở dưỡng sinh",
+    ],
+    careers: [
+      "Cơ sở y tế công lập và tư nhân",
+      "Phòng chẩn trị YHCT, dưỡng sinh",
+      "Học liên thông CĐ, ĐH YHCT",
+    ],
+    documents: commonDocuments,
+  },
+  {
+    slug: "y-si-da-khoa",
+    code: "5720101",
+    name: "Y sĩ đa khoa",
+    level: "Trung cấp",
+    duration: "1,5–2 năm",
+    summary:
+      "Đào tạo y sĩ đa khoa hệ trung cấp, sẵn sàng hỗ trợ khám chữa bệnh và chăm sóc ban đầu.",
+    highlights: ["Y khoa cơ bản", "Thực hành lâm sàng", "Liên thông"],
+    image: "/gallery/campus-2.webp",
+    category: "trung-cap",
+    audience:
+      "Học sinh đã tốt nghiệp THPT hoặc tương đương; hoặc đã tốt nghiệp TC/CĐ/ĐH trở lên.",
+    objectives: [
+      "Trang bị kiến thức y khoa cơ bản và kỹ năng thực hành.",
+      "Hỗ trợ khám chữa bệnh, sơ cấp cứu và chăm sóc người bệnh.",
+      "Tạo lộ trình liên thông lên cao đẳng, đại học.",
+    ],
+    curriculum: [
+      "Giải phẫu – Sinh lý",
+      "Bệnh học nội – ngoại cơ bản",
+      "Kỹ năng điều dưỡng & sơ cấp cứu",
+      "Đạo đức nghề y",
+      "Thực tập bệnh viện / trạm y tế",
+    ],
+    careers: [
+      "Trạm y tế, phòng khám, bệnh viện",
+      "Hỗ trợ khám chữa bệnh cộng đồng",
+      "Liên thông CĐ/ĐH Y khoa, Điều dưỡng",
+    ],
+    documents: commonDocuments,
   },
   {
     slug: "dieu-duong",
+    code: "5720301",
     name: "Điều dưỡng",
     level: "Trung cấp / Liên thông",
     duration: "24–36 tháng",
@@ -80,39 +161,30 @@ export const programs: Program[] = [
       "Chương trình điều dưỡng gắn với chăm sóc toàn diện và kỹ năng thực hành lâm sàng.",
     highlights: ["Chăm sóc lâm sàng", "Đạo đức nghề", "Thực tập bệnh viện"],
     image: "/gallery/program-me-be.webp",
-  },
-  {
-    slug: "ky-thuat-cham-cuu",
-    name: "Kỹ thuật châm cứu",
-    level: "Chứng chỉ ngắn hạn",
-    duration: "3–6 tháng",
-    summary:
-      "Tập trung kỹ thuật châm cứu, an toàn thực hành và ứng dụng điều trị thường gặp.",
-    highlights: ["Thực hành huyệt", "An toàn kỹ thuật", "Ca lâm sàng"],
-    image: "/gallery/activity-cham-cuu.webp",
-  },
-  {
-    slug: "xoa-bop-bam-huyet",
-    name: "Xoa bóp bấm huyệt",
-    level: "Chứng chỉ ngắn hạn",
-    duration: "3–6 tháng",
-    summary:
-      "Phương pháp trị liệu bằng tay, phục hồi chức năng và chăm sóc sức khỏe cộng đồng.",
-    highlights: ["Kỹ thuật bấm huyệt", "PHCN", "Hướng nghiệp"],
-    image: "/gallery/program-xoa-bop.webp",
-  },
-  {
-    slug: "bao-che-dong-duoc",
-    name: "Bào chế đông dược",
-    level: "Ngắn hạn / Trung cấp",
-    duration: "6–24 tháng",
-    summary:
-      "Nhận diện dược liệu, bào chế và bảo quản thuốc YHCT theo quy trình chuẩn.",
-    highlights: ["Dược liệu", "Bào chế", "Thực tế vườn thuốc"],
-    image: "/gallery/activity-dong-duoc.webp",
+    category: "trung-cap",
+    audience: "Tốt nghiệp THPT trở lên; ưu tiên thí sinh có định hướng ngành CSSK.",
+    objectives: [
+      "Thực hiện quy trình điều dưỡng và chăm sóc toàn diện.",
+      "Giao tiếp, đạo đức nghề và phối hợp nhóm y tế.",
+      "Thực tập tại bệnh viện, sẵn sàng làm việc sau tốt nghiệp.",
+    ],
+    curriculum: [
+      "Điều dưỡng cơ bản",
+      "Chăm sóc người bệnh nội – ngoại",
+      "Dược lý điều dưỡng",
+      "Đạo đức và pháp luật nghề",
+      "Thực tập lâm sàng",
+    ],
+    careers: [
+      "Điều dưỡng viên tại bệnh viện, phòng khám",
+      "Chăm sóc sức khỏe cộng đồng",
+      "Liên thông CĐ/ĐH Điều dưỡng",
+    ],
+    documents: commonDocuments,
   },
   {
     slug: "ky-thuat-vltl-phcn",
+    code: "5720603",
     name: "Kỹ thuật VLTL – PHCN",
     level: "Trung cấp",
     duration: "24–36 tháng",
@@ -120,6 +192,245 @@ export const programs: Program[] = [
       "Vật lý trị liệu và phục hồi chức năng kết hợp kiến thức YHCT ứng dụng.",
     highlights: ["VLTL", "PHCN", "Thực hành lâm sàng"],
     image: "/gallery/picture4.webp",
+    category: "trung-cap",
+    audience: "Tốt nghiệp THPT trở lên, đủ sức khỏe học tập và thực hành.",
+    objectives: [
+      "Áp dụng kỹ thuật VLTL – PHCN cho các nhóm bệnh thường gặp.",
+      "Phối hợp YHCT và vật lý trị liệu trong chăm sóc người bệnh.",
+      "Thực hành an toàn tại phòng kỹ thuật và cơ sở lâm sàng.",
+    ],
+    curriculum: [
+      "Giải phẫu vận động",
+      "Kỹ thuật VLTL cơ bản",
+      "Phục hồi chức năng",
+      "Tác động cột sống / xoa bóp hỗ trợ",
+      "Thực tập lâm sàng",
+    ],
+    careers: [
+      "Kỹ thuật viên VLTL – PHCN",
+      "Cơ sở phục hồi chức năng, dưỡng sinh",
+      "Liên thông chuyên ngành PHCN",
+    ],
+    documents: commonDocuments,
+  },
+  {
+    slug: "ky-thuat-cham-cuu",
+    code: "TT-CC-01",
+    name: "Kỹ thuật châm cứu (KTV Châm cứu)",
+    level: "Sơ cấp / Ngắn hạn",
+    duration: "03 tháng",
+    summary:
+      "Tập trung kỹ thuật châm cứu, an toàn thực hành và ứng dụng điều trị thường gặp.",
+    highlights: ["Thực hành huyệt", "An toàn kỹ thuật", "Ca lâm sàng"],
+    image: "/gallery/activity-cham-cuu.webp",
+    category: "ngan-han",
+    audience: "Tốt nghiệp THPT trở lên.",
+    tuition: "5.200.000đ",
+    objectives: [
+      "Nhận diện huyệt vị và thao tác châm cứu an toàn.",
+      "Ứng dụng điều trị các chứng thường gặp theo YHCT.",
+      "Nhận chứng chỉ sơ cấp kỹ thuật châm cứu.",
+    ],
+    curriculum: [
+      "Lý thuyết huyệt vị cơ bản",
+      "Kỹ thuật châm – cứu ngải",
+      "An toàn và chống chỉ định",
+      "Thực hành ca lâm sàng",
+    ],
+    careers: [
+      "Hỗ trợ trị liệu tại phòng YHCT",
+      "Bổ sung kỹ năng cho nhân viên CSSK",
+      "Học tiếp các mã ngành YHCT khác",
+    ],
+    documents: commonDocuments,
+  },
+  {
+    slug: "dieu-duong-so-cap",
+    code: "TT-CC-02",
+    name: "Điều dưỡng sơ cấp",
+    level: "Sơ cấp / Ngắn hạn",
+    duration: "06 tháng",
+    summary:
+      "Đào tạo kỹ năng điều dưỡng sơ cấp phục vụ chăm sóc người bệnh và cộng đồng.",
+    highlights: ["Chăm sóc cơ bản", "Thực hành", "Chứng chỉ sơ cấp"],
+    image: "/gallery/program-me-be.webp",
+    category: "ngan-han",
+    audience: "Tốt nghiệp THPT trở lên.",
+    tuition: "6.200.000đ",
+    objectives: [
+      "Thực hiện chăm sóc điều dưỡng cơ bản an toàn.",
+      "Hỗ trợ người bệnh tại cơ sở y tế và tại nhà.",
+      "Nhận chứng chỉ điều dưỡng sơ cấp.",
+    ],
+    curriculum: [
+      "Điều dưỡng cơ bản",
+      "Chăm sóc người bệnh thường gặp",
+      "Vệ sinh – chống nhiễm khuẩn",
+      "Thực hành tại cơ sở",
+    ],
+    careers: [
+      "Hỗ trợ điều dưỡng tại phòng khám, bệnh viện",
+      "Chăm sóc người cao tuổi / tại nhà",
+      "Học tiếp trung cấp Điều dưỡng",
+    ],
+    documents: commonDocuments,
+  },
+  {
+    slug: "bao-che-dong-duoc",
+    code: "TT-CC-03",
+    name: "Bào chế đông dược (bốc thuốc kê đơn)",
+    level: "Sơ cấp / Ngắn hạn",
+    duration: "06 tháng",
+    summary:
+      "Nhận diện dược liệu, bào chế và bảo quản thuốc YHCT theo quy trình chuẩn.",
+    highlights: ["Dược liệu", "Bào chế", "Thực tế vườn thuốc"],
+    image: "/gallery/activity-dong-duoc.webp",
+    category: "ngan-han",
+    audience:
+      "Tốt nghiệp THPT trở lên hoặc có chứng chỉ thuộc nhóm ngành CSSK.",
+    tuition: "5.500.000đ",
+    objectives: [
+      "Nhận diện và bảo quản dược liệu thông dụng.",
+      "Bào chế, cân thuốc, bốc thuốc theo kê đơn.",
+      "Thực tế tại vườn thuốc / xưởng bào chế.",
+    ],
+    curriculum: [
+      "Dược liệu học cơ bản",
+      "Kỹ thuật bào chế đông dược",
+      "Bốc thuốc kê đơn",
+      "Thực tế vườn thuốc nam",
+    ],
+    careers: [
+      "Nhà thuốc YHCT, phòng chẩn trị",
+      "Cơ sở bào chế đông dược",
+      "Học tiếp chuyên sâu YHCT / dược liệu",
+    ],
+    documents: commonDocuments,
+  },
+  {
+    slug: "xoa-bop-bam-huyet",
+    code: "TT-CC-04",
+    name: "Xoa bóp bấm huyệt (CSSK không dùng thuốc)",
+    level: "Thường xuyên / Ngắn hạn",
+    duration: "Dưới 03 tháng",
+    summary:
+      "Phương pháp trị liệu bằng tay, phục hồi chức năng và chăm sóc sức khỏe cộng đồng.",
+    highlights: ["Kỹ thuật bấm huyệt", "PHCN", "Hướng nghiệp"],
+    image: "/gallery/program-xoa-bop.webp",
+    category: "ngan-han",
+    audience: "Từ 15 tuổi trở lên và đủ sức khỏe học tập.",
+    tuition: "3.700.000đ",
+    objectives: [
+      "Thành thạo kỹ thuật xoa bóp – bấm huyệt cơ bản.",
+      "Hỗ trợ giảm đau, thư giãn và CSSK cộng đồng.",
+      "Nhận chứng chỉ chương trình thường xuyên.",
+    ],
+    curriculum: [
+      "Huyệt vị và đường kinh cơ bản",
+      "Kỹ thuật xoa bóp – bấm huyệt",
+      "Chỉ định và chống chỉ định",
+      "Thực hành trên người bệnh mẫu",
+    ],
+    careers: [
+      "Cơ sở dưỡng sinh, spa trị liệu",
+      "Hỗ trợ PHCN cộng đồng",
+      "Bổ sung kỹ năng cho nhân viên CSSK",
+    ],
+    documents: commonDocuments,
+  },
+  {
+    slug: "tac-dong-cot-song",
+    code: "TT-CC-05",
+    name: "Tác động cột sống (CSSK không dùng thuốc)",
+    level: "Thường xuyên / Ngắn hạn",
+    duration: "Dưới 03 tháng",
+    summary:
+      "Kỹ thuật tác động cột sống hỗ trợ điều trị đau lưng, đau cổ vai gáy và phục hồi vận động.",
+    highlights: ["Cột sống", "Giảm đau", "Thực hành"],
+    image: "/gallery/picture4.webp",
+    category: "ngan-han",
+    audience: "Từ 15 tuổi trở lên và đủ sức khỏe học tập.",
+    tuition: "4.700.000đ",
+    objectives: [
+      "Hiểu cấu trúc cột sống và nguyên tắc an toàn.",
+      "Thực hành kỹ thuật tác động cột sống cơ bản.",
+      "Ứng dụng hỗ trợ các chứng đau thường gặp.",
+    ],
+    curriculum: [
+      "Giải phẫu cột sống cơ bản",
+      "Kỹ thuật tác động an toàn",
+      "Đánh giá tư thế – vận động",
+      "Thực hành lâm sàng mẫu",
+    ],
+    careers: [
+      "Cơ sở VLTL – PHCN, dưỡng sinh",
+      "Hỗ trợ trị liệu đau cơ xương khớp",
+      "Học tiếp VLTL – PHCN",
+    ],
+    documents: commonDocuments,
+  },
+  {
+    slug: "vltl-phcn-ngan-han",
+    code: "TT-CC-06",
+    name: "VLTL – PHCN (CSSK không dùng thuốc)",
+    level: "Thường xuyên / Ngắn hạn",
+    duration: "Dưới 03 tháng",
+    summary:
+      "Chương trình ngắn hạn vật lý trị liệu – phục hồi chức năng phục vụ chăm sóc sức khỏe cộng đồng.",
+    highlights: ["VLTL", "PHCN", "Chứng chỉ ngắn hạn"],
+    image: "/gallery/campus-extra-7343.webp",
+    category: "ngan-han",
+    audience:
+      "Tốt nghiệp THPT trở lên, có chứng chỉ thuộc nhóm ngành CSSK.",
+    tuition: "5.200.000đ",
+    objectives: [
+      "Áp dụng kỹ thuật VLTL – PHCN cơ bản an toàn.",
+      "Hỗ trợ phục hồi vận động cho người bệnh.",
+      "Bổ sung chứng chỉ ngắn hạn nhóm CSSK.",
+    ],
+    curriculum: [
+      "Nguyên lý VLTL – PHCN",
+      "Kỹ thuật điều trị thường gặp",
+      "An toàn thực hành",
+      "Thực hành tại phòng kỹ thuật",
+    ],
+    careers: [
+      "Hỗ trợ kỹ thuật tại cơ sở PHCN",
+      "Chăm sóc sức khỏe cộng đồng",
+      "Học tiếp trung cấp VLTL – PHCN",
+    ],
+    documents: commonDocuments,
+  },
+  {
+    slug: "cham-soc-me-be",
+    code: "TT-CC-07",
+    name: "Chăm sóc mẹ và bé sau sinh",
+    level: "Thường xuyên / Ngắn hạn",
+    duration: "Dưới 03 tháng",
+    summary:
+      "Đào tạo kỹ năng chăm sóc sản phụ và trẻ sơ sinh giai đoạn hậu sản.",
+    highlights: ["Mẹ & bé", "Hậu sản", "Thực hành"],
+    image: "/gallery/program-me-be.webp",
+    category: "ngan-han",
+    audience: "Từ 15 tuổi trở lên và đủ sức khỏe học tập.",
+    tuition: "4.200.000đ",
+    objectives: [
+      "Chăm sóc sản phụ sau sinh đúng quy trình.",
+      "Hỗ trợ chăm sóc trẻ sơ sinh an toàn.",
+      "Nhận chứng chỉ chương trình thường xuyên.",
+    ],
+    curriculum: [
+      "Chăm sóc hậu sản",
+      "Chăm sóc trẻ sơ sinh",
+      "Dinh dưỡng mẹ và bé",
+      "Thực hành kỹ năng cơ bản",
+    ],
+    careers: [
+      "Chăm sóc mẹ bé tại nhà / cơ sở dịch vụ",
+      "Hỗ trợ tại phòng khám sản",
+      "Bổ sung kỹ năng CSSK gia đình",
+    ],
+    documents: commonDocuments,
   },
 ];
 

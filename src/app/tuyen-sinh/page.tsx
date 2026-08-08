@@ -77,12 +77,19 @@ export default async function AdmissionsPage() {
             <h2 className="text-lg font-semibold text-ink">Ngành đang tuyển</h2>
             <ul className="mt-4 space-y-2">
               {programs.map((p) => (
-                <li
-                  key={p.slug}
-                  className="flex items-center justify-between gap-3 rounded-lg border border-line bg-paper px-4 py-3 text-sm"
-                >
-                  <span className="font-medium text-ink">{p.name}</span>
-                  <span className="text-muted">{p.level}</span>
+                <li key={p.slug}>
+                  <Link
+                    href={`/nganh-dao-tao/${p.slug}`}
+                    className="flex items-center justify-between gap-3 rounded-lg border border-line bg-paper px-4 py-3 text-sm transition hover:border-brand/40 hover:bg-brand-soft/40"
+                  >
+                    <span>
+                      <span className="font-medium text-ink">{p.name}</span>
+                      <span className="mt-0.5 block text-xs text-muted">
+                        Mã {p.code}
+                      </span>
+                    </span>
+                    <span className="shrink-0 text-muted">{p.level} →</span>
+                  </Link>
                 </li>
               ))}
             </ul>
