@@ -6,7 +6,7 @@ async function main() {
     name: "Trường Trung cấp Y Dược Tuệ Tĩnh Hà Nội – TamvangHub",
     shortName: "Tuệ Tĩnh · TamvangHub",
     tagline:
-      "Cổng tuyển sinh TamvangHub – đào tạo y dược cổ truyền vì sức khỏe cộng đồng",
+      "TamvangHub - Cổng tuyển sinh của Trường trung cấp y dược Tuệ Tĩnh Hà Nội.",
     phone: "Mr. Việt 0987000743 / Mr. Kiên 0988991688",
     address: "Số 12 Phố Hoàng Cầu, phường Ô Chợ Dừa, Hà Nội",
   };

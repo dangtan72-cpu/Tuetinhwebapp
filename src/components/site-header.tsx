@@ -30,8 +30,8 @@ export async function SiteHeader() {
             <span className="font-display block truncate text-base font-semibold leading-tight text-brand-deep sm:text-lg">
               {school.shortName}
             </span>
-            <span className="hidden text-xs text-muted sm:block">
-              Cổng tuyển sinh TamvangHub
+            <span className="hidden truncate text-xs text-muted sm:block">
+              TamvangHub - Cổng tuyển sinh
             </span>
           </span>
         </Link>

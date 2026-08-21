@@ -19,7 +19,8 @@ export default async function ContactPage() {
         Liên hệ
       </h1>
       <p className="mt-2 max-w-2xl text-sm text-muted sm:text-[15px]">
-        Cổng tuyển sinh TamvangHub — tư vấn mã ngành và hồ sơ xét tuyển.
+        TamvangHub - Cổng tuyển sinh của Trường trung cấp y dược Tuệ Tĩnh Hà
+        Nội.
       </p>
 
       <div className="mt-8 grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:gap-10">
