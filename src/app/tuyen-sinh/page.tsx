@@ -269,9 +269,11 @@ export default async function AdmissionsPage() {
           <div className="rounded-2xl border border-line bg-surface p-6">
             <h2 className="font-semibold text-ink">Hỗ trợ tư vấn</h2>
             <p className="mt-2 text-sm text-muted">
-              Phòng Tuyển sinh tiếp nhận câu hỏi về mã ngành, hồ sơ và học phí.
+              Cổng tuyển sinh TamvangHub – liên hệ Mr. Việt hoặc Mr. Kiên để
+              tư vấn mã ngành, hồ sơ và học phí.
             </p>
             <p className="mt-3 text-sm font-medium text-ink">{school.phone}</p>
+            <p className="text-sm text-muted">{school.address}</p>
             <p className="text-sm text-muted">{school.email}</p>
             <Link
               href="/lien-he"

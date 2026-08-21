@@ -87,12 +87,12 @@ export type CertificateRecord = {
 };
 
 export const school = {
-  name: "Trường Trung cấp Y Dược Tuệ Tĩnh Hà Nội",
-  shortName: "Tuệ Tĩnh Hà Nội",
-  tagline: "Đào tạo nguồn nhân lực y dược cổ truyền vì sức khỏe cộng đồng",
-  phone: "+84 24 3643 5458",
+  name: "Trường Trung cấp Y Dược Tuệ Tĩnh Hà Nội – TamvangHub",
+  shortName: "Tuệ Tĩnh · TamvangHub",
+  tagline: "Cổng tuyển sinh TamvangHub – đào tạo y dược cổ truyền vì sức khỏe cộng đồng",
+  phone: "Mr. Việt 0987000743 / Mr. Kiên 0988991688",
   email: "daotao@yduoctuetinh.edu.vn",
-  address: "Hà Nội, Việt Nam",
+  address: "Số 12 Phố Hoàng Cầu, phường Ô Chợ Dừa, Hà Nội",
   facebook: "https://www.facebook.com/YDuocTueTinhHaNoi",
   youtube: "http://www.youtube.com/@yduoctuetinhhanoi",
   logo: "/brand/logo.webp",
@@ -101,6 +101,12 @@ export const school = {
   aboutImage: "/gallery/campus-2.webp",
   admissionsImage: "/gallery/admissions-banner.webp",
 };
+
+/** Số điện thoại liên hệ tuyển sinh (hiển thị có nhãn) */
+export const schoolPhones = [
+  { label: "Mr. Việt", number: "0987000743" },
+  { label: "Mr. Kiên", number: "0988991688" },
+] as const;
 
 const commonDocuments = [
   "Đơn xin học (theo mẫu nhà trường)",

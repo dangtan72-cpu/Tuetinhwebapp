@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { schoolPhones } from "@/lib/data";
 import { contactDepartments, contactHours } from "@/lib/info-content";
 import { getSchoolSettings } from "@/lib/cms";
 
@@ -18,8 +19,9 @@ export default async function ContactPage() {
         Liên hệ
       </h1>
       <p className="mt-3 max-w-2xl text-[15px] text-muted sm:text-base">
-        Phòng Tuyển sinh và Phòng Đào tạo tiếp nhận tư vấn mã ngành, hồ sơ xét
-        tuyển và hỗ trợ học vụ.
+        Cổng tuyển sinh TamvangHub tại Trường Trung cấp Y Dược Tuệ Tĩnh Hà Nội.
+        Liên hệ Mr. Việt hoặc Mr. Kiên để được tư vấn mã ngành và hồ sơ xét
+        tuyển.
       </p>
 
       <div className="mt-10 grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
@@ -37,15 +39,26 @@ export default async function ContactPage() {
               </div>
               <div className="border-t border-line pt-4">
                 <dt className="text-xs uppercase tracking-wide text-muted">
+                  Địa chỉ
+                </dt>
+                <dd className="mt-1 font-medium text-ink">{school.address}</dd>
+              </div>
+              <div className="border-t border-line pt-4">
+                <dt className="text-xs uppercase tracking-wide text-muted">
                   Điện thoại
                 </dt>
-                <dd className="mt-1">
-                  <a
-                    href={`tel:${school.phone.replace(/\s+/g, "")}`}
-                    className="font-medium text-brand hover:text-brand-deep"
-                  >
-                    {school.phone}
-                  </a>
+                <dd className="mt-2 space-y-2">
+                  {schoolPhones.map((p) => (
+                    <p key={p.number}>
+                      <span className="text-muted">{p.label}: </span>
+                      <a
+                        href={`tel:${p.number}`}
+                        className="font-medium text-brand hover:text-brand-deep"
+                      >
+                        {p.number}
+                      </a>
+                    </p>
+                  ))}
                 </dd>
               </div>
               <div className="border-t border-line pt-4">
@@ -60,12 +73,6 @@ export default async function ContactPage() {
                     {school.email}
                   </a>
                 </dd>
-              </div>
-              <div className="border-t border-line pt-4">
-                <dt className="text-xs uppercase tracking-wide text-muted">
-                  Địa chỉ
-                </dt>
-                <dd className="mt-1 font-medium text-ink">{school.address}</dd>
               </div>
               <div className="border-t border-line pt-4">
                 <dt className="text-xs uppercase tracking-wide text-muted">
@@ -131,28 +138,25 @@ export default async function ContactPage() {
               Cần tư vấn tuyển sinh?
             </h2>
             <p className="mt-2 text-sm text-white/75">
-              Xem thông tin mã ngành hoặc gửi hồ sơ đăng ký online ngay trên
-              cổng.
+              Gọi Mr. Việt hoặc Mr. Kiên, hoặc gửi hồ sơ đăng ký online trên
+              cổng TamvangHub.
             </p>
             <div className="mt-5 flex flex-col gap-2">
-              <Link
-                href="/tuyen-sinh"
-                className="inline-flex justify-center rounded-md bg-accent px-4 py-2.5 text-sm font-semibold text-white hover:brightness-95"
-              >
-                Thông tin tuyển sinh
-              </Link>
+              {schoolPhones.map((p) => (
+                <a
+                  key={p.number}
+                  href={`tel:${p.number}`}
+                  className="inline-flex justify-center rounded-md border border-white/30 px-4 py-2.5 text-sm font-medium text-white hover:bg-white/10"
+                >
+                  Gọi {p.label}: {p.number}
+                </a>
+              ))}
               <Link
                 href="/tuyen-sinh/dang-ky"
-                className="inline-flex justify-center rounded-md border border-white/30 px-4 py-2.5 text-sm font-medium text-white hover:bg-white/10"
+                className="inline-flex justify-center rounded-md bg-accent px-4 py-2.5 text-sm font-semibold text-white hover:brightness-95"
               >
                 Đăng ký xét tuyển
               </Link>
-              <a
-                href={`mailto:${school.email}?subject=Tu%20van%20tuyen%20sinh`}
-                className="inline-flex justify-center rounded-md border border-white/30 px-4 py-2.5 text-sm font-medium text-white hover:bg-white/10"
-              >
-                Gửi email tư vấn
-              </a>
             </div>
           </div>
         </aside>

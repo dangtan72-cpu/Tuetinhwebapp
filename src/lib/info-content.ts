@@ -148,8 +148,8 @@ export const aboutMilestones = [
 
 export const contactDepartments = [
   {
-    name: "Phòng Tuyển sinh",
-    role: "Tư vấn mã ngành, hồ sơ xét tuyển, học phí ngắn hạn",
+    name: "Tuyển sinh TamvangHub",
+    role: "Tư vấn mã ngành, hồ sơ xét tuyển — Mr. Việt / Mr. Kiên",
   },
   {
     name: "Phòng Đào tạo",

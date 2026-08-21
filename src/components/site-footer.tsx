@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { schoolPhones } from "@/lib/data";
 import { getSchoolSettings } from "@/lib/cms";
 
 const columns = [
@@ -50,7 +51,14 @@ export async function SiteFooter() {
           <p className="mt-4 text-sm text-white/65">{school.tagline}</p>
           <div className="mt-5 space-y-1 text-sm text-white/80">
             <p>{school.address}</p>
-            <p>{school.phone}</p>
+            {schoolPhones.map((p) => (
+              <p key={p.number}>
+                {p.label}:{" "}
+                <a href={`tel:${p.number}`} className="hover:text-white">
+                  {p.number}
+                </a>
+              </p>
+            ))}
             <p>{school.email}</p>
           </div>
         </div>
@@ -76,7 +84,7 @@ export async function SiteFooter() {
         ))}
       </div>
       <div className="border-t border-white/10 py-4 text-center text-xs text-white/50">
-        © {new Date().getFullYear()} {school.name}. Demo webapp cổng trường.
+        © {new Date().getFullYear()} {school.name}. Cổng tuyển sinh TamvangHub.
       </div>
     </footer>
   );
