@@ -13,13 +13,12 @@ export default function ProgramsPage() {
       <p className="text-sm font-medium uppercase tracking-[0.16em] text-accent">
         Courses
       </p>
-      <h1 className="font-display mt-2 text-3xl font-semibold text-brand-deep sm:text-4xl">
+      <h1 className="font-display mt-2 text-2xl font-semibold text-brand-deep sm:text-3xl">
         Ngành đào tạo
       </h1>
-      <p className="mt-3 max-w-2xl text-muted">
+      <p className="mt-2 max-w-2xl text-sm text-muted sm:text-[15px]">
         Chọn mã ngành để xem chi tiết đối tượng, thời gian, học phí và hồ sơ
-        đăng ký. Chương trình trung cấp và chứng chỉ ngắn hạn tại Trường Trung
-        cấp Y Dược Tuệ Tĩnh Hà Nội.
+        đăng ký.
       </p>
 
       <ProgramGroup title="Trung cấp (hệ chính quy)" items={longTerm} />

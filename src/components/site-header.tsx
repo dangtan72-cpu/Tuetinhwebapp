@@ -26,12 +26,12 @@ export async function SiteHeader() {
             className="h-9 w-auto object-contain sm:h-10"
             priority
           />
-          <span className="min-w-0">
+            <span className="min-w-0">
             <span className="font-display block truncate text-base font-semibold leading-tight text-brand-deep sm:text-lg">
               {school.shortName}
             </span>
             <span className="hidden text-xs text-muted sm:block">
-              Y Dược · Đào tạo · Cổng học vụ
+              Cổng tuyển sinh TamvangHub
             </span>
           </span>
         </Link>

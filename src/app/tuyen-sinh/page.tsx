@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { ContactLines } from "@/components/contact-lines";
 import { programs } from "@/lib/data";
 import {
   admissionsBenefits,
@@ -24,7 +25,7 @@ export default async function AdmissionsPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
-      <div className="relative mb-10 h-48 overflow-hidden rounded-2xl sm:h-64">
+      <div className="relative mb-8 h-40 overflow-hidden rounded-xl sm:h-52">
         <Image
           src={school.admissionsImage}
           alt={`Tuyển sinh ${school.shortName}`}
@@ -34,8 +35,8 @@ export default async function AdmissionsPage() {
           priority
         />
         <div className="absolute inset-0 bg-brand-deep/45" />
-        <div className="absolute inset-0 flex items-end p-6">
-          <p className="font-display text-2xl font-semibold text-white sm:text-3xl">
+        <div className="absolute inset-0 flex items-end p-5 sm:p-6">
+          <p className="font-display text-xl font-semibold text-white sm:text-2xl">
             Tuyển sinh năm học 2026–2027
           </p>
         </div>
@@ -46,13 +47,13 @@ export default async function AdmissionsPage() {
           <p className="text-sm font-medium uppercase tracking-[0.16em] text-accent">
             Admissions
           </p>
-          <h1 className="font-display mt-2 text-3xl font-semibold text-brand-deep sm:text-4xl">
+          <h1 className="font-display mt-2 text-2xl font-semibold text-brand-deep sm:text-3xl">
             Thông tin tuyển sinh
           </h1>
-          <p className="mt-3 max-w-2xl text-[15px] text-muted sm:text-base">
-            Trường Trung cấp Y Dược Tuệ Tĩnh Hà Nội tuyển sinh hệ trung cấp
-            (chính quy, vừa làm vừa học) và các mã ngành ngắn hạn cấp chứng chỉ.
-            Đăng ký trực tuyến, thanh toán lệ phí và tra cứu hồ sơ trên cổng.
+          <p className="mt-2 max-w-2xl text-sm text-muted sm:text-[15px]">
+            Trường Trung cấp Y Dược Tuệ Tĩnh Hà Nội – TamvangHub tuyển sinh hệ
+            trung cấp và các mã ngành ngắn hạn. Đăng ký, thanh toán và tra cứu
+            hồ sơ trên cổng.
           </p>
 
           <section className="mt-10">
@@ -266,18 +267,21 @@ export default async function AdmissionsPage() {
             </div>
           </div>
 
-          <div className="rounded-2xl border border-line bg-surface p-6">
-            <h2 className="font-semibold text-ink">Hỗ trợ tư vấn</h2>
-            <p className="mt-2 text-sm text-muted">
-              Cổng tuyển sinh TamvangHub – liên hệ Mr. Việt hoặc Mr. Kiên để
-              tư vấn mã ngành, hồ sơ và học phí.
+          <div className="rounded-xl border border-line bg-surface p-5">
+            <h2 className="text-sm font-semibold text-ink">Hỗ trợ tư vấn</h2>
+            <p className="mt-1.5 text-sm text-muted">
+              TamvangHub — Mr. Việt / Mr. Kiên tư vấn mã ngành và hồ sơ.
             </p>
-            <p className="mt-3 text-sm font-medium text-ink">{school.phone}</p>
-            <p className="text-sm text-muted">{school.address}</p>
-            <p className="text-sm text-muted">{school.email}</p>
+            <div className="mt-3">
+              <ContactLines
+                address={school.address}
+                email={school.email}
+                tone="light"
+              />
+            </div>
             <Link
               href="/lien-he"
-              className="mt-4 inline-flex text-sm font-medium text-brand"
+              className="mt-3 inline-flex text-sm font-medium text-brand"
             >
               Trang liên hệ →
             </Link>

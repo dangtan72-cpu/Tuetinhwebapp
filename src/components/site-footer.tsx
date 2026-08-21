@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { schoolPhones } from "@/lib/data";
+import { ContactLines } from "@/components/contact-lines";
 import { getSchoolSettings } from "@/lib/cms";
 
 const columns = [
@@ -8,7 +8,7 @@ const columns = [
     title: "Đào tạo",
     links: [
       { href: "/nganh-dao-tao", label: "Ngành đào tạo" },
-      { href: "/tuyen-sinh", label: "Thông tin tuyển sinh" },
+      { href: "/tuyen-sinh", label: "Tuyển sinh" },
       { href: "/tuyen-sinh/dang-ky", label: "Đăng ký xét tuyển" },
     ],
   },
@@ -21,7 +21,7 @@ const columns = [
     ],
   },
   {
-    title: "Nhà trường",
+    title: "Thông tin",
     links: [
       { href: "/gioi-thieu", label: "Giới thiệu" },
       { href: "/tin-tuc", label: "Tin tức" },
@@ -35,56 +35,54 @@ export async function SiteFooter() {
 
   return (
     <footer className="mt-auto border-t border-line bg-brand-deep text-white">
-      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
-        <div>
-          <Image
-            src={school.logo}
-            alt={`Logo ${school.shortName}`}
-            width={160}
-            height={120}
-            className="h-14 w-auto rounded-md bg-white/95 object-contain p-1.5"
-          />
-          <p className="font-display mt-4 text-2xl font-semibold">
-            {school.shortName}
-          </p>
-          <p className="mt-2 max-w-sm text-[15px] text-white/75">{school.name}</p>
-          <p className="mt-4 text-sm text-white/65">{school.tagline}</p>
-          <div className="mt-5 space-y-1 text-sm text-white/80">
-            <p>{school.address}</p>
-            {schoolPhones.map((p) => (
-              <p key={p.number}>
-                {p.label}:{" "}
-                <a href={`tel:${p.number}`} className="hover:text-white">
-                  {p.number}
-                </a>
-              </p>
-            ))}
-            <p>{school.email}</p>
+      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
+        <div className="grid gap-8 lg:grid-cols-[1.2fr_1fr_1fr_1fr] lg:gap-10">
+          <div className="min-w-0">
+            <div className="flex items-center gap-3">
+              <Image
+                src={school.logo}
+                alt={`Logo ${school.shortName}`}
+                width={120}
+                height={90}
+                className="h-11 w-auto rounded-md bg-white/95 object-contain p-1"
+              />
+              <div className="min-w-0">
+                <p className="font-display text-lg font-semibold leading-tight sm:text-xl">
+                  {school.shortName}
+                </p>
+                <p className="mt-0.5 text-xs text-white/65">
+                  Cổng tuyển sinh TamvangHub
+                </p>
+              </div>
+            </div>
+            <div className="mt-4">
+              <ContactLines address={school.address} email={school.email} />
+            </div>
           </div>
-        </div>
 
-        {columns.map((col) => (
-          <div key={col.title}>
-            <p className="text-sm font-semibold tracking-wide text-white/90">
-              {col.title}
-            </p>
-            <ul className="mt-3 space-y-2">
-              {col.links.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-white/70 transition hover:text-white"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
+          {columns.map((col) => (
+            <div key={col.title}>
+              <p className="text-xs font-semibold uppercase tracking-wide text-white/80">
+                {col.title}
+              </p>
+              <ul className="mt-3 space-y-1.5">
+                {col.links.map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      className="text-sm text-white/70 transition hover:text-white"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
       </div>
-      <div className="border-t border-white/10 py-4 text-center text-xs text-white/50">
-        © {new Date().getFullYear()} {school.name}. Cổng tuyển sinh TamvangHub.
+      <div className="border-t border-white/10 py-3 text-center text-xs text-white/45">
+        © {new Date().getFullYear()} Tuệ Tĩnh Hà Nội – TamvangHub
       </div>
     </footer>
   );

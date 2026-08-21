@@ -15,7 +15,7 @@ export default async function HomePage() {
   const news = await listPublishedNews();
   return (
     <>
-      <section className="relative min-h-[78vh] overflow-hidden text-white">
+      <section className="relative min-h-[70vh] overflow-hidden text-white">
         <Image
           src={school.heroImage}
           alt="Khuôn viên Trường Trung cấp Y Dược Tuệ Tĩnh Hà Nội"
@@ -27,36 +27,33 @@ export default async function HomePage() {
         <div className="absolute inset-0 bg-gradient-to-r from-brand-deep/92 via-brand-deep/72 to-brand-deep/35" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_20%_20%,rgba(255,255,255,0.12),transparent_45%)]" />
 
-        <div className="relative mx-auto flex min-h-[78vh] max-w-7xl flex-col justify-end px-4 pb-14 pt-24 sm:px-6 sm:pb-20">
-          <div className="reveal mb-5 inline-flex items-center gap-3">
+        <div className="relative mx-auto flex min-h-[70vh] max-w-7xl flex-col justify-end px-4 pb-12 pt-20 sm:px-6 sm:pb-16">
+          <div className="reveal mb-4 inline-flex items-center gap-3">
             <Image
               src={school.logo}
               alt=""
-              width={72}
-              height={54}
-              className="h-12 w-auto rounded bg-white/95 object-contain p-1 sm:h-14"
+              width={64}
+              height={48}
+              className="h-11 w-auto rounded bg-white/95 object-contain p-1 sm:h-12"
               priority
             />
           </div>
-          <p className="reveal reveal-delay-1 font-display text-3xl font-semibold leading-tight sm:text-5xl lg:text-6xl">
+          <p className="reveal reveal-delay-1 font-display text-3xl font-semibold leading-[1.15] sm:text-4xl lg:text-5xl">
             {school.shortName}
           </p>
-          <h1 className="reveal reveal-delay-2 mt-3 max-w-2xl text-lg font-medium text-white/90 sm:text-2xl">
-            {school.name}
-          </h1>
-          <p className="reveal reveal-delay-2 mt-4 max-w-xl text-base text-white/80 sm:text-lg">
+          <p className="reveal reveal-delay-2 mt-3 max-w-xl text-[15px] text-white/85 sm:text-base">
             {school.tagline}
           </p>
-          <div className="reveal reveal-delay-3 mt-8 flex flex-wrap gap-3">
+          <div className="reveal reveal-delay-3 mt-7 flex flex-wrap gap-3">
             <Link
               href="/tuyen-sinh/dang-ky"
-              className="rounded-md bg-accent px-5 py-3 text-sm font-semibold text-white transition hover:brightness-95"
+              className="rounded-md bg-accent px-5 py-2.5 text-sm font-semibold text-white transition hover:brightness-95"
             >
               Đăng ký xét tuyển
             </Link>
             <Link
               href="/nganh-dao-tao"
-              className="rounded-md border border-white/40 bg-white/10 px-5 py-3 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/20"
+              className="rounded-md border border-white/40 bg-white/10 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/20"
             >
               Khám phá ngành học
             </Link>

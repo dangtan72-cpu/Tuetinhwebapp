@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { schoolPhones } from "@/lib/data";
+import { ContactCtaPhones, ContactLines } from "@/components/contact-lines";
 import { contactDepartments, contactHours } from "@/lib/info-content";
 import { getSchoolSettings } from "@/lib/cms";
 
@@ -11,104 +11,62 @@ export default async function ContactPage() {
   const school = await getSchoolSettings();
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
-      <p className="text-sm font-medium uppercase tracking-[0.16em] text-accent">
+    <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-12">
+      <p className="text-xs font-medium uppercase tracking-[0.16em] text-accent">
         Contact
       </p>
-      <h1 className="font-display mt-2 text-3xl font-semibold text-brand-deep sm:text-4xl">
+      <h1 className="font-display mt-2 text-2xl font-semibold text-brand-deep sm:text-3xl">
         Liên hệ
       </h1>
-      <p className="mt-3 max-w-2xl text-[15px] text-muted sm:text-base">
-        Cổng tuyển sinh TamvangHub tại Trường Trung cấp Y Dược Tuệ Tĩnh Hà Nội.
-        Liên hệ Mr. Việt hoặc Mr. Kiên để được tư vấn mã ngành và hồ sơ xét
-        tuyển.
+      <p className="mt-2 max-w-2xl text-sm text-muted sm:text-[15px]">
+        Cổng tuyển sinh TamvangHub — tư vấn mã ngành và hồ sơ xét tuyển.
       </p>
 
-      <div className="mt-10 grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
-        <div className="space-y-10">
-          <section>
-            <h2 className="font-display text-xl font-semibold text-ink">
+      <div className="mt-8 grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:gap-10">
+        <div className="space-y-8">
+          <section className="rounded-xl border border-line bg-surface p-5 sm:p-6">
+            <h2 className="text-sm font-semibold uppercase tracking-wide text-muted">
               Thông tin liên hệ
             </h2>
-            <dl className="mt-5 space-y-5">
-              <div className="border-t border-line pt-4">
-                <dt className="text-xs uppercase tracking-wide text-muted">
-                  Đơn vị
-                </dt>
-                <dd className="mt-1 font-medium text-ink">{school.name}</dd>
-              </div>
-              <div className="border-t border-line pt-4">
-                <dt className="text-xs uppercase tracking-wide text-muted">
-                  Địa chỉ
-                </dt>
-                <dd className="mt-1 font-medium text-ink">{school.address}</dd>
-              </div>
-              <div className="border-t border-line pt-4">
-                <dt className="text-xs uppercase tracking-wide text-muted">
-                  Điện thoại
-                </dt>
-                <dd className="mt-2 space-y-2">
-                  {schoolPhones.map((p) => (
-                    <p key={p.number}>
-                      <span className="text-muted">{p.label}: </span>
-                      <a
-                        href={`tel:${p.number}`}
-                        className="font-medium text-brand hover:text-brand-deep"
-                      >
-                        {p.number}
-                      </a>
-                    </p>
-                  ))}
-                </dd>
-              </div>
-              <div className="border-t border-line pt-4">
-                <dt className="text-xs uppercase tracking-wide text-muted">
-                  Email
-                </dt>
-                <dd className="mt-1">
-                  <a
-                    href={`mailto:${school.email}`}
-                    className="break-all font-medium text-brand hover:text-brand-deep"
-                  >
-                    {school.email}
-                  </a>
-                </dd>
-              </div>
-              <div className="border-t border-line pt-4">
-                <dt className="text-xs uppercase tracking-wide text-muted">
-                  Mạng xã hội
-                </dt>
-                <dd className="mt-2 flex flex-wrap gap-3 text-sm">
-                  <a
-                    href={school.facebook}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="font-medium text-brand hover:text-brand-deep"
-                  >
-                    Facebook →
-                  </a>
-                  <a
-                    href={school.youtube}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="font-medium text-brand hover:text-brand-deep"
-                  >
-                    YouTube →
-                  </a>
-                </dd>
-              </div>
-            </dl>
+            <p className="mt-3 text-base font-medium text-ink sm:text-lg">
+              {school.name}
+            </p>
+            <div className="mt-4">
+              <ContactLines
+                address={school.address}
+                email={school.email}
+                tone="light"
+              />
+            </div>
+            <div className="mt-4 flex flex-wrap gap-4 border-t border-line pt-4 text-sm">
+              <a
+                href={school.facebook}
+                target="_blank"
+                rel="noreferrer"
+                className="font-medium text-brand hover:text-brand-deep"
+              >
+                Facebook →
+              </a>
+              <a
+                href={school.youtube}
+                target="_blank"
+                rel="noreferrer"
+                className="font-medium text-brand hover:text-brand-deep"
+              >
+                YouTube →
+              </a>
+            </div>
           </section>
 
           <section>
-            <h2 className="font-display text-xl font-semibold text-ink">
+            <h2 className="text-sm font-semibold uppercase tracking-wide text-muted">
               Giờ làm việc
             </h2>
-            <ul className="mt-4 space-y-3">
+            <ul className="mt-3 space-y-2">
               {contactHours.map((row) => (
                 <li
                   key={row.day}
-                  className="flex justify-between gap-4 border-t border-line pt-3 text-sm"
+                  className="flex justify-between gap-4 border-b border-line/80 py-2 text-sm"
                 >
                   <span className="text-muted">{row.day}</span>
                   <span className="font-medium text-ink">{row.time}</span>
@@ -118,46 +76,37 @@ export default async function ContactPage() {
           </section>
         </div>
 
-        <aside className="space-y-6">
-          <div className="rounded-2xl border border-line bg-surface p-6">
-            <h2 className="font-display text-xl font-semibold text-ink">
+        <aside className="space-y-5">
+          <div className="rounded-xl border border-line bg-surface p-5 sm:p-6">
+            <h2 className="text-sm font-semibold uppercase tracking-wide text-muted">
               Bộ phận tiếp nhận
             </h2>
-            <ul className="mt-5 space-y-4">
+            <ul className="mt-3 space-y-3">
               {contactDepartments.map((dept) => (
-                <li key={dept.name} className="border-t border-line pt-4">
-                  <p className="font-medium text-brand-deep">{dept.name}</p>
-                  <p className="mt-1 text-sm text-muted">{dept.role}</p>
+                <li key={dept.name} className="border-t border-line pt-3 first:border-0 first:pt-0">
+                  <p className="text-sm font-semibold text-brand-deep">
+                    {dept.name}
+                  </p>
+                  <p className="mt-0.5 text-sm text-muted">{dept.role}</p>
                 </li>
               ))}
             </ul>
           </div>
 
-          <div className="rounded-2xl bg-brand-deep p-6 text-white">
-            <h2 className="font-display text-xl font-semibold">
-              Cần tư vấn tuyển sinh?
+          <div className="rounded-xl bg-brand-deep p-5 text-white sm:p-6">
+            <h2 className="font-display text-lg font-semibold sm:text-xl">
+              Tư vấn tuyển sinh
             </h2>
-            <p className="mt-2 text-sm text-white/75">
-              Gọi Mr. Việt hoặc Mr. Kiên, hoặc gửi hồ sơ đăng ký online trên
-              cổng TamvangHub.
+            <p className="mt-1.5 text-sm text-white/75">
+              Gọi trực tiếp hoặc đăng ký online trên cổng.
             </p>
-            <div className="mt-5 flex flex-col gap-2">
-              {schoolPhones.map((p) => (
-                <a
-                  key={p.number}
-                  href={`tel:${p.number}`}
-                  className="inline-flex justify-center rounded-md border border-white/30 px-4 py-2.5 text-sm font-medium text-white hover:bg-white/10"
-                >
-                  Gọi {p.label}: {p.number}
-                </a>
-              ))}
-              <Link
-                href="/tuyen-sinh/dang-ky"
-                className="inline-flex justify-center rounded-md bg-accent px-4 py-2.5 text-sm font-semibold text-white hover:brightness-95"
-              >
-                Đăng ký xét tuyển
-              </Link>
-            </div>
+            <ContactCtaPhones className="mt-4" />
+            <Link
+              href="/tuyen-sinh"
+              className="mt-3 inline-flex text-sm font-medium text-white/80 hover:text-white"
+            >
+              Xem thông tin tuyển sinh →
+            </Link>
           </div>
         </aside>
       </div>
