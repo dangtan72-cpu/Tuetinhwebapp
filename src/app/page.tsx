@@ -8,14 +8,16 @@ import {
 } from "@/lib/data";
 import { getSchoolSettings, listPublishedNews } from "@/lib/cms";
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
   const school = await getSchoolSettings();
-  const news = await listPublishedNews();
+  const news = await listPublishedNews().then((items) => items.slice(0, 3));
+
   return (
     <>
-      <section className="relative min-h-[72vh] overflow-hidden text-white">
+      {/* Hero — full-bleed, brand + 1 line + CTA */}
+      <section className="relative isolate min-h-[min(88vh,820px)] overflow-hidden text-white">
         <Image
           src={school.heroImage}
           alt="Khuôn viên Trường Trung cấp Y Dược Tuệ Tĩnh Hà Nội"
@@ -24,69 +26,66 @@ export default async function HomePage() {
           className="object-cover object-center"
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-brand-deep/92 via-brand-deep/72 to-brand-deep/35" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_20%_20%,rgba(255,255,255,0.12),transparent_45%)]" />
+        <div className="absolute inset-0 bg-gradient-to-r from-brand-deep/90 via-brand-deep/70 to-brand-deep/25" />
+        <div className="absolute inset-0 bg-gradient-to-t from-brand-deep/50 via-transparent to-transparent" />
 
-        <div className="relative mx-auto flex min-h-[72vh] max-w-7xl flex-col justify-end px-4 pb-12 pt-20 sm:px-6 sm:pb-16">
-          <div className="reveal mb-4 inline-flex items-center gap-3">
-            <Image
-              src={school.logo}
-              alt=""
-              width={64}
-              height={48}
-              className="h-11 w-auto rounded bg-white/95 object-contain p-1 sm:h-12"
-              priority
-            />
-          </div>
-          <h1
-            className="reveal reveal-delay-1 font-display font-semibold leading-none tracking-tight text-white"
-            style={{ fontSize: "clamp(1.05rem, 3.2vw, 2.75rem)" }}
-          >
-            <span className="inline-block max-w-full whitespace-nowrap">
-              {school.name}
-            </span>
-          </h1>
-          <p className="reveal reveal-delay-2 mt-3 max-w-xl text-[15px] text-white/85 sm:text-base">
-            {school.tagline}
-          </p>
-          <div className="reveal reveal-delay-3 mt-7 flex flex-wrap gap-3">
-            <Link
-              href="/tuyen-sinh/dang-ky"
-              className="rounded-md bg-accent px-5 py-2.5 text-sm font-semibold text-white transition hover:brightness-95"
-            >
-              Đăng ký xét tuyển
-            </Link>
-            <Link
-              href="/nganh-dao-tao"
-              className="rounded-md border border-white/40 bg-white/10 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/20"
-            >
-              Khám phá ngành học
-            </Link>
+        <div className="relative mx-auto flex min-h-[min(88vh,820px)] max-w-7xl items-end px-4 pb-16 pt-28 sm:px-6 sm:pb-20 lg:items-center lg:pb-0 lg:pt-8">
+          <div className="max-w-2xl">
+            <p className="reveal text-xs font-semibold uppercase tracking-[0.18em] text-white/70">
+              Admissions Portal
+            </p>
+            <h1 className="reveal reveal-delay-1 font-display mt-3 text-4xl font-semibold leading-[1.12] tracking-tight sm:text-5xl lg:text-[3.25rem]">
+              {school.shortName}
+            </h1>
+            <p className="reveal reveal-delay-2 mt-4 max-w-lg text-[15px] leading-relaxed text-white/85 sm:text-base">
+              {school.tagline}
+            </p>
+            <div className="reveal reveal-delay-3 mt-8 flex flex-wrap gap-3">
+              <Link
+                href="/tuyen-sinh/dang-ky"
+                className="inline-flex items-center rounded-md bg-accent px-5 py-2.5 text-sm font-semibold text-white transition hover:brightness-95"
+              >
+                Đăng ký xét tuyển
+              </Link>
+              <Link
+                href="/nganh-dao-tao"
+                className="inline-flex items-center rounded-md border border-white/35 bg-white/10 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-white/20"
+              >
+                Xem ngành học
+              </Link>
+            </div>
           </div>
         </div>
       </section>
 
+      {/* Quick paths — compact, not card-heavy */}
       <section className="border-b border-line bg-surface">
-        <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
-          <h2 className="font-display text-2xl font-semibold text-brand-deep sm:text-3xl">
-            Bạn đang tìm gì?
-          </h2>
-          <p className="mt-1 text-muted">
-            Lối vào nhanh theo đối tượng — như cổng trường hiện đại.
-          </p>
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-12">
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+            <div>
+              <h2 className="font-display text-2xl font-semibold text-brand-deep">
+                Bắt đầu tại đây
+              </h2>
+              <p className="mt-1 text-sm text-muted sm:text-[15px]">
+                Lối vào nhanh theo nhu cầu của bạn.
+              </p>
+            </div>
+          </div>
+          <div className="mt-8 grid gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
             {audienceLinks.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="group rounded-xl border border-line bg-paper p-5 transition hover:-translate-y-0.5 hover:border-brand/40 hover:shadow-md"
+                className="group bg-surface px-5 py-5 transition hover:bg-brand-soft/50"
               >
-                <p className="font-semibold text-brand-deep group-hover:text-brand">
+                <p className="text-sm font-semibold text-brand-deep group-hover:text-brand">
                   {item.title}
                 </p>
-                <p className="mt-2 text-sm text-muted">{item.description}</p>
-                <span className="mt-4 inline-block text-sm font-medium text-accent">
-                  Vào ngay →
+                <p className="mt-1.5 text-sm leading-snug text-muted">
+                  {item.description}
+                </p>
+                <span className="mt-3 inline-block text-sm font-medium text-accent">
+                  Tiếp tục →
                 </span>
               </Link>
             ))}
@@ -94,78 +93,82 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
+      {/* Programs */}
+      <section className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-16">
         <div className="flex items-end justify-between gap-4">
           <div>
-            <h2 className="font-display text-2xl font-semibold text-brand-deep sm:text-3xl">
-              Ngành đào tạo nổi bật
+            <h2 className="font-display text-2xl font-semibold text-brand-deep sm:text-[1.75rem]">
+              Ngành đào tạo
             </h2>
-            <p className="mt-1 text-muted">
-              Chương trình dài hạn và chứng chỉ ngắn hạn.
+            <p className="mt-1 text-sm text-muted sm:text-[15px]">
+              Trung cấp và chứng chỉ ngắn hạn.
             </p>
           </div>
           <Link
             href="/nganh-dao-tao"
-            className="hidden text-sm font-medium text-brand sm:inline"
+            className="shrink-0 text-sm font-semibold text-brand hover:text-brand-deep"
           >
-            Xem tất cả
+            Tất cả ngành →
           </Link>
         </div>
-        <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+        <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {programs.slice(0, 6).map((p) => (
             <Link
               key={p.slug}
               href={`/nganh-dao-tao/${p.slug}`}
-              className="group overflow-hidden rounded-xl border border-line bg-surface transition hover:border-brand/40"
+              className="group block"
             >
-              <div className="relative aspect-[16/10]">
+              <div className="relative aspect-[16/10] overflow-hidden rounded-lg">
                 <Image
                   src={p.image}
                   alt={p.name}
                   fill
-                  className="object-cover transition duration-300 group-hover:scale-[1.02]"
+                  className="object-cover transition duration-500 group-hover:scale-[1.03]"
                   sizes="(max-width:768px) 100vw, 33vw"
                 />
               </div>
-              <div className="p-5">
-                <p className="text-xs font-medium uppercase tracking-wide text-accent">
-                  Mã {p.code} · {p.level}
-                </p>
-                <h3 className="font-display mt-2 text-xl font-semibold text-ink group-hover:text-brand-deep">
-                  {p.name}
-                </h3>
-                <p className="mt-2 text-sm text-muted">{p.summary}</p>
-                <p className="mt-3 text-sm font-semibold text-brand">
-                  Xem chi tiết →
-                </p>
-              </div>
+              <p className="mt-3 text-xs font-medium uppercase tracking-wide text-accent">
+                Mã {p.code}
+              </p>
+              <h3 className="font-display mt-1 text-lg font-semibold text-ink group-hover:text-brand-deep">
+                {p.name}
+              </h3>
+              <p className="mt-1 line-clamp-2 text-sm text-muted">{p.summary}</p>
             </Link>
           ))}
         </div>
       </section>
 
-      <section className="bg-brand-soft/60">
-        <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
-          <h2 className="font-display text-2xl font-semibold text-brand-deep sm:text-3xl">
-            Hình ảnh nhà trường
-          </h2>
-          <p className="mt-1 text-muted">
-            Không gian học tập và hoạt động thực tiễn của sinh viên.
-          </p>
-          <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            {galleryHighlights.map((item, i) => (
+      {/* Campus */}
+      <section className="bg-brand-deep text-white">
+        <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-2 lg:items-center lg:py-16">
+          <div>
+            <h2 className="font-display text-2xl font-semibold sm:text-[1.75rem]">
+              Không gian học tập
+            </h2>
+            <p className="mt-3 max-w-md text-[15px] text-white/75">
+              Thực hành tại lab, cơ sở dưỡng sinh và vườn thuốc nam — gắn đào tạo
+              với thực tiễn nghề nghiệp.
+            </p>
+            <Link
+              href="/gioi-thieu"
+              className="mt-6 inline-flex text-sm font-semibold text-white underline-offset-4 hover:underline"
+            >
+              Tìm hiểu nhà trường →
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 gap-2 sm:gap-3">
+            {galleryHighlights.slice(0, 4).map((item) => (
               <div
                 key={item.src}
-                className={`relative overflow-hidden rounded-xl ${
-                  i === 0 ? "sm:col-span-2 sm:row-span-2 min-h-[220px]" : "min-h-[160px]"
-                }`}
+                className="relative aspect-[4/3] overflow-hidden rounded-lg"
               >
                 <Image
                   src={item.src}
                   alt={item.alt}
                   fill
-                  className="object-cover transition duration-700 hover:scale-105"
-                  sizes="(max-width:768px) 100vw, 40vw"
+                  className="object-cover"
+                  sizes="(max-width:768px) 50vw, 25vw"
                 />
               </div>
             ))}
@@ -173,97 +176,94 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
-        <h2 className="font-display text-2xl font-semibold text-brand-deep sm:text-3xl">
+      {/* Why */}
+      <section className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-16">
+        <h2 className="font-display text-2xl font-semibold text-brand-deep sm:text-[1.75rem]">
           Vì sao chọn Tuệ Tĩnh?
         </h2>
-        <p className="mt-1 max-w-2xl text-muted">
-          Một hành trình học tập rõ ràng — từ nhập học đến hành nghề.
-        </p>
-        <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {whyChooseUs.map((item) => (
-            <div key={item.title} className="rounded-xl bg-surface p-5 shadow-sm">
-              <h3 className="font-semibold text-brand-deep">{item.title}</h3>
-              <p className="mt-2 text-sm text-muted">{item.body}</p>
+        <div className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          {whyChooseUs.map((item, i) => (
+            <div key={item.title} className="border-t border-line pt-4">
+              <p className="text-xs font-semibold text-accent">
+                0{i + 1}
+              </p>
+              <h3 className="mt-2 text-base font-semibold text-ink">
+                {item.title}
+              </h3>
+              <p className="mt-1.5 text-sm text-muted">{item.body}</p>
             </div>
           ))}
         </div>
       </section>
 
+      {/* News */}
       <section className="border-t border-line bg-surface">
-        <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
+        <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-16">
           <div className="flex items-end justify-between gap-4">
             <div>
-              <h2 className="font-display text-2xl font-semibold text-brand-deep sm:text-3xl">
-                Tin hoạt động
+              <h2 className="font-display text-2xl font-semibold text-brand-deep sm:text-[1.75rem]">
+                Tin tức & thông báo
               </h2>
-              <p className="mt-1 text-muted">Cập nhật từ nhà trường.</p>
+              <p className="mt-1 text-sm text-muted">Cập nhật mới nhất.</p>
             </div>
-            <Link href="/tin-tuc" className="text-sm font-medium text-brand">
-              Xem tất cả
+            <Link
+              href="/tin-tuc"
+              className="text-sm font-semibold text-brand hover:text-brand-deep"
+            >
+              Xem tất cả →
             </Link>
           </div>
-          <div className="mt-8 grid gap-5 md:grid-cols-2">
+          <div className="mt-8 grid gap-8 md:grid-cols-3">
             {news.map((item) => (
-              <Link
-                key={item.slug}
-                href={`/tin-tuc/${item.slug}`}
-                className="group overflow-hidden rounded-xl border border-line bg-paper transition hover:border-brand/40"
-              >
-                <div className="relative aspect-[16/9]">
+              <Link key={item.slug} href={`/tin-tuc/${item.slug}`} className="group block">
+                <div className="relative aspect-[16/10] overflow-hidden rounded-lg">
                   <Image
                     src={item.image}
                     alt=""
                     fill
-                    className="object-cover transition duration-300 group-hover:scale-[1.02]"
-                    sizes="(max-width:768px) 100vw, 50vw"
+                    className="object-cover transition duration-500 group-hover:scale-[1.03]"
+                    sizes="(max-width:768px) 100vw, 33vw"
                   />
                 </div>
-                <div className="p-5">
-                  <div className="flex items-center gap-3 text-xs text-muted">
-                    <span className="rounded-full bg-brand-soft px-2.5 py-1 font-medium text-brand-deep">
-                      {item.category}
-                    </span>
-                    <time dateTime={item.date}>
-                      {new Date(item.date).toLocaleDateString("vi-VN")}
-                    </time>
-                  </div>
-                  <h3 className="mt-3 text-lg font-semibold text-ink group-hover:text-brand-deep">
-                    {item.title}
-                  </h3>
-                  <p className="mt-2 text-sm text-muted">{item.excerpt}</p>
-                  <p className="mt-3 text-sm font-semibold text-brand">
-                    Đọc chi tiết →
-                  </p>
-                </div>
+                <p className="mt-3 text-xs text-muted">
+                  <time dateTime={item.date}>
+                    {new Date(item.date).toLocaleDateString("vi-VN")}
+                  </time>
+                  <span className="mx-1.5">·</span>
+                  {item.category}
+                </p>
+                <h3 className="mt-1 text-base font-semibold text-ink group-hover:text-brand-deep">
+                  {item.title}
+                </h3>
               </Link>
             ))}
           </div>
         </div>
       </section>
 
+      {/* Closing CTA */}
       <section className="border-t border-line bg-paper">
         <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-6 px-4 py-12 sm:flex-row sm:items-center sm:px-6">
           <div>
-            <h2 className="font-display text-2xl font-semibold text-brand-deep">
-              Sẵn sàng bắt đầu?
+            <h2 className="font-display text-xl font-semibold text-brand-deep sm:text-2xl">
+              Sẵn sàng đăng ký?
             </h2>
-            <p className="mt-1 text-muted">
-              Đăng ký xét tuyển hoặc đăng nhập cổng học sinh ngay hôm nay.
+            <p className="mt-1 text-sm text-muted">
+              Nộp hồ sơ online hoặc đăng nhập cổng học vụ.
             </p>
           </div>
           <div className="flex flex-wrap gap-3">
             <Link
               href="/tuyen-sinh/dang-ky"
-              className="rounded-md bg-brand px-5 py-3 text-sm font-semibold text-white hover:bg-brand-deep"
+              className="rounded-md bg-brand px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-deep"
             >
               Đăng ký xét tuyển
             </Link>
             <Link
               href="/dang-nhap"
-              className="rounded-md border border-brand/30 px-5 py-3 text-sm font-semibold text-brand-deep hover:bg-brand-soft"
+              className="rounded-md border border-line bg-surface px-5 py-2.5 text-sm font-semibold text-brand-deep hover:bg-brand-soft"
             >
-              Đăng nhập học sinh
+              Đăng nhập
             </Link>
           </div>
         </div>

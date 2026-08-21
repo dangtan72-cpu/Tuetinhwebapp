@@ -20,11 +20,11 @@ const display = Fraunces({
 
 export const metadata: Metadata = {
   title: {
-    default: "Tuệ Tĩnh Hà Nội | Cổng đào tạo & học vụ",
-    template: "%s | Tuệ Tĩnh Hà Nội",
+    default: "Tuệ Tĩnh · TamvangHub | Cổng tuyển sinh",
+    template: "%s | Tuệ Tĩnh · TamvangHub",
   },
   description:
-    "Cổng thông tin Trường Trung cấp Y Dược Tuệ Tĩnh Hà Nội: tuyển sinh, ngành đào tạo, lịch học và tra cứu văn bằng.",
+    "TamvangHub - Cổng tuyển sinh của Trường Trung cấp Y Dược Tuệ Tĩnh Hà Nội: ngành học, đăng ký xét tuyển, tin tức và cổng học vụ.",
   icons: {
     icon: "/favicon.png",
     apple: "/brand/logo-icon.png",
