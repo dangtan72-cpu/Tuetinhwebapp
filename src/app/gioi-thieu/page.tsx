@@ -18,13 +18,11 @@ export default async function AboutPage() {
           <p className="text-sm font-medium uppercase tracking-[0.16em] text-accent">
             About
           </p>
-          <h1 className="font-display mt-2 text-3xl font-semibold text-brand-deep sm:text-4xl">
+          <h1 className="font-display mt-2 text-2xl font-semibold text-brand-deep sm:text-3xl">
             Giới thiệu nhà trường
           </h1>
-          <p className="mt-3 text-[15px] text-muted sm:text-base">
-            {school.name}
-          </p>
-          <div className="mt-8 space-y-5 text-[15px] leading-relaxed text-ink/90 sm:text-base">
+          <p className="mt-2 text-sm text-muted">{school.name}</p>
+          <div className="mt-6 space-y-4 text-[15px] leading-relaxed text-ink/90">
             {paragraphs.map((para) => (
               <p key={para.slice(0, 24)}>{para}</p>
             ))}
