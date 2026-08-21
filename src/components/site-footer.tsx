@@ -8,7 +8,7 @@ const columns = [
     title: "Đào tạo",
     links: [
       { href: "/nganh-dao-tao", label: "Ngành đào tạo" },
-      { href: "/tuyen-sinh", label: "Tuyển sinh" },
+      { href: "/tuyen-sinh", label: "Thông tin tuyển sinh" },
       { href: "/tuyen-sinh/dang-ky", label: "Đăng ký xét tuyển" },
     ],
   },
@@ -21,7 +21,7 @@ const columns = [
     ],
   },
   {
-    title: "Thông tin",
+    title: "Nhà trường",
     links: [
       { href: "/gioi-thieu", label: "Giới thiệu" },
       { href: "/tin-tuc", label: "Tin tức" },
@@ -36,36 +36,38 @@ export async function SiteFooter() {
   return (
     <footer className="mt-auto border-t border-line bg-brand-deep text-white">
       <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
-        <div className="grid gap-8 lg:grid-cols-[1.2fr_1fr_1fr_1fr] lg:gap-10">
-          <div className="min-w-0">
-            <div className="flex items-center gap-3">
-              <Image
-                src={school.logo}
-                alt={`Logo ${school.shortName}`}
-                width={120}
-                height={90}
-                className="h-11 w-auto rounded-md bg-white/95 object-contain p-1"
-              />
-              <div className="min-w-0">
-                <p className="font-display text-lg font-semibold leading-tight sm:text-xl">
-                  {school.shortName}
-                </p>
-                <p className="mt-0.5 text-xs text-white/65">
-                  Cổng tuyển sinh TamvangHub
-                </p>
-              </div>
-            </div>
-            <div className="mt-4">
+        {/* Hàng thương hiệu + liên hệ full width để tên & địa chỉ giữ 1 dòng */}
+        <div className="flex flex-col gap-4 border-b border-white/10 pb-8 sm:flex-row sm:items-start sm:gap-6">
+          <Image
+            src={school.logo}
+            alt={`Logo ${school.shortName}`}
+            width={140}
+            height={105}
+            className="h-12 w-auto shrink-0 rounded-md bg-white/95 object-contain p-1"
+          />
+          <div className="min-w-0 flex-1">
+            <p
+              className="font-display font-semibold leading-none tracking-tight text-white"
+              style={{ fontSize: "clamp(0.95rem, 2.1vw, 1.35rem)" }}
+            >
+              <span className="inline-block max-w-full whitespace-nowrap">
+                {school.name}
+              </span>
+            </p>
+            <p className="mt-2 text-sm text-white/65">{school.tagline}</p>
+            <div className="mt-3">
               <ContactLines address={school.address} email={school.email} />
             </div>
           </div>
+        </div>
 
+        <div className="mt-8 grid gap-8 sm:grid-cols-3">
           {columns.map((col) => (
             <div key={col.title}>
-              <p className="text-xs font-semibold uppercase tracking-wide text-white/80">
+              <p className="text-sm font-semibold tracking-wide text-white/90">
                 {col.title}
               </p>
-              <ul className="mt-3 space-y-1.5">
+              <ul className="mt-3 space-y-2">
                 {col.links.map((link) => (
                   <li key={link.href}>
                     <Link
@@ -81,8 +83,9 @@ export async function SiteFooter() {
           ))}
         </div>
       </div>
-      <div className="border-t border-white/10 py-3 text-center text-xs text-white/45">
-        © {new Date().getFullYear()} Tuệ Tĩnh Hà Nội – TamvangHub
+      <div className="border-t border-white/10 py-3 text-center text-xs text-white/50">
+        © {new Date().getFullYear()} {school.shortName}. Cổng tuyển sinh
+        TamvangHub.
       </div>
     </footer>
   );

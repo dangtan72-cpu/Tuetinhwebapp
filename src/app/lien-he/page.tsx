@@ -28,8 +28,13 @@ export default async function ContactPage() {
             <h2 className="text-sm font-semibold uppercase tracking-wide text-muted">
               Thông tin liên hệ
             </h2>
-            <p className="mt-3 text-base font-medium text-ink sm:text-lg">
-              {school.name}
+            <p
+              className="mt-3 font-medium leading-none text-ink"
+              style={{ fontSize: "clamp(0.95rem, 1.8vw, 1.125rem)" }}
+            >
+              <span className="inline-block max-w-full whitespace-nowrap">
+                {school.name}
+              </span>
             </p>
             <div className="mt-4">
               <ContactLines

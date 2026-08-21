@@ -1,44 +1,46 @@
 import Link from "next/link";
 import { schoolPhones } from "@/lib/data";
 
-/** Khối địa chỉ / SĐT gọn — tránh xuống nhiều dòng không cần thiết */
+/** Địa chỉ / SĐT — mỗi thông tin một dòng */
 export function ContactLines({
   address,
   email,
   tone = "dark",
+  showLabels = true,
 }: {
   address: string;
   email: string;
   tone?: "dark" | "light";
+  showLabels?: boolean;
 }) {
-  const muted = tone === "dark" ? "text-white/70" : "text-muted";
   const strong = tone === "dark" ? "text-white/90" : "text-ink";
+  const label = tone === "dark" ? "text-white/60" : "text-muted";
   const link =
     tone === "dark"
       ? "text-white/90 underline-offset-2 hover:underline"
       : "text-brand hover:text-brand-deep";
 
   return (
-    <div className={`space-y-1.5 text-sm leading-snug ${muted}`}>
-      <p className={strong}>
-        <span className="opacity-70">Địa chỉ: </span>
+    <div className={`space-y-1 text-sm leading-normal ${strong}`}>
+      <p className="whitespace-nowrap overflow-x-auto">
+        {showLabels ? <span className={label}>Địa chỉ: </span> : null}
         {address}
       </p>
-      <p className={strong}>
-        <span className="opacity-70">Tel: </span>
+      <p className="whitespace-nowrap overflow-x-auto">
+        {showLabels ? <span className={label}>Tel: </span> : null}
         {schoolPhones.map((p, i) => (
           <span key={p.number}>
-            {i > 0 ? <span className="opacity-50"> / </span> : null}
-            <span className="opacity-80">{p.label} </span>
+            {i > 0 ? " / " : null}
+            {p.label}{" "}
             <a href={`tel:${p.number}`} className={link}>
               {p.number}
             </a>
           </span>
         ))}
       </p>
-      <p className={strong}>
-        <span className="opacity-70">Email: </span>
-        <a href={`mailto:${email}`} className={`${link} break-all`}>
+      <p className="whitespace-nowrap overflow-x-auto">
+        {showLabels ? <span className={label}>Email: </span> : null}
+        <a href={`mailto:${email}`} className={link}>
           {email}
         </a>
       </p>

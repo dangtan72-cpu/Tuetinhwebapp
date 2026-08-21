@@ -15,7 +15,7 @@ export default async function HomePage() {
   const news = await listPublishedNews();
   return (
     <>
-      <section className="relative min-h-[70vh] overflow-hidden text-white">
+      <section className="relative min-h-[72vh] overflow-hidden text-white">
         <Image
           src={school.heroImage}
           alt="Khuôn viên Trường Trung cấp Y Dược Tuệ Tĩnh Hà Nội"
@@ -27,7 +27,7 @@ export default async function HomePage() {
         <div className="absolute inset-0 bg-gradient-to-r from-brand-deep/92 via-brand-deep/72 to-brand-deep/35" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_20%_20%,rgba(255,255,255,0.12),transparent_45%)]" />
 
-        <div className="relative mx-auto flex min-h-[70vh] max-w-7xl flex-col justify-end px-4 pb-12 pt-20 sm:px-6 sm:pb-16">
+        <div className="relative mx-auto flex min-h-[72vh] max-w-7xl flex-col justify-end px-4 pb-12 pt-20 sm:px-6 sm:pb-16">
           <div className="reveal mb-4 inline-flex items-center gap-3">
             <Image
               src={school.logo}
@@ -38,9 +38,14 @@ export default async function HomePage() {
               priority
             />
           </div>
-          <p className="reveal reveal-delay-1 font-display text-3xl font-semibold leading-[1.15] sm:text-4xl lg:text-5xl">
-            {school.shortName}
-          </p>
+          <h1
+            className="reveal reveal-delay-1 font-display font-semibold leading-none tracking-tight text-white"
+            style={{ fontSize: "clamp(1.05rem, 3.2vw, 2.75rem)" }}
+          >
+            <span className="inline-block max-w-full whitespace-nowrap">
+              {school.name}
+            </span>
+          </h1>
           <p className="reveal reveal-delay-2 mt-3 max-w-xl text-[15px] text-white/85 sm:text-base">
             {school.tagline}
           </p>
